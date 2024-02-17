@@ -13,7 +13,12 @@ namespace WebApp
             builder.Services.AddAuthorization();
 
             builder.Services.AddDbContext<AppDbContext>();
+            #region repository
+                
+            #endregion
+            #region service
 
+            #endregion 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

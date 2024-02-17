@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Repository.Entities;
+using Service.IServices;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -12,11 +13,11 @@ using static System.Net.WebRequestMethods;
 
 namespace Service.Services
 {
-    public class AccountRepository
+    public class AccountService : IAccountService
     {
         private readonly IConfiguration _configuration;
         
-        public AccountRepository(IConfiguration configuration)
+        public AccountService(IConfiguration configuration)
         {
             _configuration = configuration;
         }
