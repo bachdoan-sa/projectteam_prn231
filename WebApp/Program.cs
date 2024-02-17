@@ -1,5 +1,11 @@
 
+using Invedia.DI;
+using Repository.Base.Interface;
 using Repository.Infaustructure;
+using Repository.Repository;
+using Repository.Repository.IRepository;
+using Service.IServices;
+using Service.Services;
 
 namespace WebApp
 {
@@ -11,14 +17,9 @@ namespace WebApp
             
             // Add services to the container.
             builder.Services.AddAuthorization();
-
+            builder.Services.AddDI();
             builder.Services.AddDbContext<AppDbContext>();
-            #region repository
-                
-            #endregion
-            #region service
-
-            #endregion 
+            builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -33,7 +34,9 @@ namespace WebApp
             }
 
             app.UseHttpsRedirection();
-
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Orchid v1"));
+            app.UseAuthorization();
+            app.MapControllers();
             app.UseAuthorization();
 
            

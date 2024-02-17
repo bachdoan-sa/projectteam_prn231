@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Repository.Base.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Infaustructure
 {
-    public sealed partial class AppDbContext : DbContext
+    public sealed partial class AppDbContext : DbContext,IDbContext
     {
         private readonly IConfiguration _configuration;
         public AppDbContext(IConfiguration configuration)

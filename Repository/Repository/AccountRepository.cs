@@ -1,4 +1,5 @@
-﻿using Repository.Base;
+﻿using Invedia.DI.Attributes;
+using Repository.Base;
 using Repository.Base.Interface;
 using Repository.Entities;
 using Repository.Repository.IRepository;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace Repository.Repository
 {
+    [ScopedDependency(ServiceType = typeof(IAccountRepository))]
     public class AccountRepository : Repository<Account>, IAccountRepository
     {
         public AccountRepository(IDbContext dbContext) : base(dbContext)

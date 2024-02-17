@@ -1,6 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Invedia.DI.Attributes;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Repository.Entities;
+using Repository.Repository.IRepository;
 using Service.IServices;
 using System;
 using System.Collections.Generic;
@@ -13,14 +16,29 @@ using static System.Net.WebRequestMethods;
 
 namespace Service.Services
 {
+    [ScopedDependency(ServiceType = typeof(IAccountService))]
     public class AccountService : IAccountService
     {
         private readonly IConfiguration _configuration;
+        private readonly IAccountRepository _repository;
         
-        public AccountService(IConfiguration configuration)
+        public AccountService(IConfiguration configuration, IAccountRepository repository)
         {
             _configuration = configuration;
+            _repository = repository;
+
         }
+        public Task<List<Account>> GetAccounts()
+        {
+            /* ví dụ: _repository.Get(_ => _.UserName.Contains("a"),false,_=>_.Orchids)
+                _ => _.UserName.Contains("a") là query options
+                false là có lấy những đối tượng bị xóa luôn ko
+                _=>_.Orchids là bao gồm các bảng nào 'include options'
+             */
+            var list = _repository.Get().ToListAsync();
+            return list;
+        }
+
         #region Private Methods
         private string CreatePasswordHash(string password, out byte[] passwordSalt)
         {
@@ -98,6 +116,8 @@ namespace Service.Services
             var otpCode = new Random().Next(100000, 999999).ToString();
             return otpCode;
         }
+
+        
         #endregion
     }
 }

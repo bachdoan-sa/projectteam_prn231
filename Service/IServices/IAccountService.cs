@@ -15,5 +15,6 @@ namespace Service.IServices
     public interface IAccountService 
     { 
         //Add method here :v
+        public Task<List<Account>> GetAccounts();
     }
 }
