@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Repository.Entities;
+using WebApp.Repository.Entities;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Net.WebRequestMethods;
 
-namespace Service.IServices
+namespace WebApp.Service.IServices
 {
     public interface IAccountService 
     { 

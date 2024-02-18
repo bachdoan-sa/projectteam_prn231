@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repository.Entities.BaseEntity
+namespace WebApp.Repository.Entities.BaseEntity
 {
     public abstract class BaseEntityModel
     {

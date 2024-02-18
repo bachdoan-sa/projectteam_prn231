@@ -23,7 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Service\Service.csproj" />
+    <ProjectReference Include="..\Service\WebApp.Service.csproj" />
   </ItemGroup>
+
+
 
 </Project>

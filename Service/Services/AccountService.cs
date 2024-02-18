@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Repository.Entities;
-using Repository.Repository.IRepository;
-using Service.IServices;
+using WebApp.Repository.Entities;
+using WebApp.Repository.Repositories.IRepositories;
+using WebApp.Service.IServices;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -14,7 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Net.WebRequestMethods;
 
-namespace Service.Services
+namespace WebApp.Service.Services
 {
     [ScopedDependency(ServiceType = typeof(IAccountService))]
     public class AccountService : IAccountService

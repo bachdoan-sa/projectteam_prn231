@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Repository.Infaustructure;
+using WebApp.Repository.Infaustructure;
 
 #nullable disable
 
-namespace Repository.Migrations
+namespace WebApp.Repository.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20240216081238_Init")]

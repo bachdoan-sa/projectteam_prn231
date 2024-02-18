@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{C6C52030-DE3F-4F44-B606-9DDACEA3B791}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp.Repository", "Repository\WebApp.Repository.csproj", "{C6C52030-DE3F-4F44-B606-9DDACEA3B791}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{4286A5AF-BBDA-4878-909A-9820EC53CF3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp.Service", "Service\WebApp.Service.csproj", "{4286A5AF-BBDA-4878-909A-9820EC53CF3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "WebApp\WebApp.csproj", "{B2957D55-8A2C-497B-B01B-07E79458C4E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp", "WebApp\WebApp.csproj", "{B2957D55-8A2C-497B-B01B-07E79458C4E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{7F8AC333-C4E3-4522-9174-2EB1EF80EF2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp.Core", "Core\WebApp.Core.csproj", "{7F8AC333-C4E3-4522-9174-2EB1EF80EF2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

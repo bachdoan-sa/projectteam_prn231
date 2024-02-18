@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
-using Repository.Base.Interface;
-using Repository.Entities.BaseEntity;
+using WebApp.Repository.Base.Interface;
+using WebApp.Repository.Entities.BaseEntity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repository.Base
+namespace WebApp.Repository.Base
 {
     public abstract class Repository<T> : BaseRepository<T> where T : BaseEntityModel, new()
     {

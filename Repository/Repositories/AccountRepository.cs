@@ -1,15 +1,15 @@
 ﻿using Invedia.DI.Attributes;
-using Repository.Base;
-using Repository.Base.Interface;
-using Repository.Entities;
-using Repository.Repository.IRepository;
+using WebApp.Repository.Base;
+using WebApp.Repository.Base.Interface;
+using WebApp.Repository.Entities;
+using WebApp.Repository.Repositories.IRepositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repository.Repository
+namespace WebApp.Repository.Repositories
 {
     [ScopedDependency(ServiceType = typeof(IAccountRepository))]
     public class AccountRepository : Repository<Account>, IAccountRepository

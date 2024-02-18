@@ -1,4 +1,4 @@
-﻿using Repository.Entities.BaseEntity;
+﻿using WebApp.Repository.Entities.BaseEntity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
 
-namespace Repository.Entities
+namespace WebApp.Repository.Entities
 {
     public class OrderDetail : BaseEntityModel
     {

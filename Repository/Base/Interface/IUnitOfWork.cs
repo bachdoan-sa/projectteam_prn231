@@ -1,4 +1,4 @@
-﻿namespace Repository.Base.Interface
+﻿namespace WebApp.Repository.Base.Interface
 {
     public interface IUnitOfWork : IDisposable
     {

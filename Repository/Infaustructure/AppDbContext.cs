@@ -1,14 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Repository.Base.Interface;
+using WebApp.Repository.Base.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Invedia.DI.Attributes;
 
-namespace Repository.Infaustructure
+namespace WebApp.Repository.Infaustructure
 {
+    [ScopedDependency(ServiceType = typeof(IDbContext))]
     public sealed partial class AppDbContext : DbContext,IDbContext
     {
         private readonly IConfiguration _configuration;

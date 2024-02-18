@@ -4,8 +4,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using Repository.Entities.BaseEntity;
-namespace Repository.Base.Interface
+using WebApp.Repository.Entities.BaseEntity;
+namespace WebApp.Repository.Base.Interface
 {
     public interface IBaseRepository<T> where T : BaseEntityModel, new()
     {

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace Repository.Base.Interface
+namespace WebApp.Repository.Base.Interface
 {
     public interface IDbContext : IDisposable, IInfrastructure<IServiceProvider>
     {
