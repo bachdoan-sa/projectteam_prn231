@@ -8,6 +8,7 @@ namespace WebApp
 {
     public class Program
     {
+        //sponor this project @nero-thanh =))
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
