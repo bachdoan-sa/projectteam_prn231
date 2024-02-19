@@ -13,19 +13,21 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Net.WebRequestMethods;
+using WebApp.Repository;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WebApp.Service.Services
 {
     [ScopedDependency(ServiceType = typeof(IAccountService))]
-    public class AccountService : IAccountService
+    public class AccountService : WebApp.Repository.Base.Service,IAccountService
     {
         private readonly IConfiguration _configuration;
-        private readonly IAccountRepository _repository;
+        private readonly IAccountRepository _accountRepository;
         
-        public AccountService(IConfiguration configuration, IAccountRepository repository)
+        public AccountService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
-            _configuration = configuration;
-            _repository = repository;
+            _configuration = serviceProvider.GetRequiredService<IConfiguration>();
+            _accountRepository = serviceProvider.GetRequiredService<IAccountRepository>();
 
         }
         public Task<List<Account>> GetAccounts()
@@ -35,7 +37,7 @@ namespace WebApp.Service.Services
                 false là có lấy những đối tượng bị xóa luôn ko
                 _=>_.Orchids là bao gồm các bảng nào 'include options'
              */
-            var list = _repository.Get().ToListAsync();
+            var list = _accountRepository.Get().ToListAsync();
             return list;
         }
 
