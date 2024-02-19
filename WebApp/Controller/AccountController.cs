@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebApp.Core.Models.AccountModels;
 using WebApp.Service.IServices;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -9,16 +10,36 @@ namespace WebApp.Controller
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly IAccountService _iAccountService;
-        public AccountController(IAccountService iAccountService)
+        private readonly IAccountService _accountService;
+        public AccountController(IAccountService accountService)
         {
-            _iAccountService = iAccountService;
+            _accountService = accountService;
+        }
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(AccountRegisterModel model)
+        {
+            var test = await _accountService.RegisterAccount(model);
+            if(test == null)
+            {
+                return BadRequest();
+            }
+            return Ok(test);
+        }
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login(AccountLoginModel model)
+        {
+            var test = await _accountService.LoginAccount(model);
+            if (test == null)
+            {
+                return BadRequest();
+            }
+            return Ok(test);
         }
         // GET: api/<AccountController>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var list = await _iAccountService.GetAccounts();
+            var list = await _accountService.GetAccounts();
 
             return Ok(list);
         }
