@@ -19,7 +19,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace WebApp.Service.Services
 {
     [ScopedDependency(ServiceType = typeof(IAccountService))]
-    public class AccountService : WebApp.Repository.Base.Service,IAccountService
+    public class AccountService : Base.Service,IAccountService
     {
         private readonly IConfiguration _configuration;
         private readonly IAccountRepository _accountRepository;
