@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.WebAPI", "4.WebAPI", "{5C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5.WebClient", "5.WebClient", "{0A212C23-1277-48AB-8D28-666CD2636FD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAppRazorpage", "WebAppRazorpage\WebAppRazorpage.csproj", "{01D33E12-8F07-4156-93E7-AD530C7ABA0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAppRazorpage", "WebAppRazorpage\WebAppRazorpage.csproj", "{01D33E12-8F07-4156-93E7-AD530C7ABA0F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
