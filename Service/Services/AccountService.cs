@@ -13,20 +13,82 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Net.WebRequestMethods;
+using WebApp.Repository;
+using Microsoft.Extensions.DependencyInjection;
+using WebApp.Core.Models.AccountModels;
+using WebApp.Core.Constants;
 
 namespace WebApp.Service.Services
 {
     [ScopedDependency(ServiceType = typeof(IAccountService))]
-    public class AccountService : IAccountService
+    public class AccountService : Base.Service, IAccountService
     {
         private readonly IConfiguration _configuration;
-        private readonly IAccountRepository _repository;
-        
-        public AccountService(IConfiguration configuration, IAccountRepository repository)
-        {
-            _configuration = configuration;
-            _repository = repository;
+        private readonly IAccountRepository _accountRepository;
 
+        public AccountService(IServiceProvider serviceProvider) : base(serviceProvider)
+        {
+            _configuration = serviceProvider.GetRequiredService<IConfiguration>();
+            _accountRepository = serviceProvider.GetRequiredService<IAccountRepository>();
+
+        }
+
+        //Code below to test Method Hash and Salt password by using HMACSHA512
+        /* public Task<AccountRegisterModel> Register(AccountRegisterModel accountRegisterModel)
+         {
+             AccountRegisterModel account = new AccountRegisterModel();
+             account.PasswordHash = CreatePasswordHash(accountRegisterModel.Password, out byte[] passwordSalt);
+             account.PasswordSalt = Convert.ToBase64String(passwordSalt);
+             account.PasswordHash = accountRegisterModel.PasswordHash;
+             account.PasswordSalt = accountRegisterModel.PasswordSalt;
+             if (VerifyPasswordHash(accountRegisterModel.Password, Convert.FromBase64String(account.PasswordHash), Convert.FromBase64String(account.PasswordSalt)))
+             {
+                 account.UserName = "ok";
+             }
+             return Task.FromResult(account);
+         }*/
+        public Task<string> RegisterAccount(AccountRegisterModel accountRegisterModel)
+        {
+            //This case we checked input data validation!
+            //Step-1 check the Email or UserName, makesure it not already exsit.
+
+            //Step-2 Convert data from Model to Entity.
+            //2.1 password encryption by hash and salt method
+            var passwordHash = CreatePasswordHash(accountRegisterModel.Password, out byte[] passwordSalt);
+            //2.2 create new model and add sub infomation
+            var account = new Account
+            {
+                UserName = accountRegisterModel.UserName,
+                PasswordHash = Convert.ToBase64String(passwordHash),
+                PasswordSalt = Convert.ToBase64String(passwordSalt),
+                Email = accountRegisterModel.Email,
+                Phone = accountRegisterModel.Phone,
+                Address = accountRegisterModel.Address,
+                Birthdate = accountRegisterModel.Birthday,
+                RoleId = UserRole.CUSTOMER,
+
+            };
+
+            //Step-3 Add to Database, save changes and return JWT.
+            _accountRepository.Add(account);
+            UnitOfWork.SaveChange();
+
+            return Task.FromResult(CreateBearerToken(account));
+        }
+        public Task<string> LoginAccount(AccountLoginModel loginModel)
+        {
+            string AdminId = _configuration.GetValue<string>("AdminAccount:Id");
+            string AdminUserName = _configuration.GetValue<string>("AdminAccount:UserName");
+            string AdminPassword = _configuration.GetValue<string>("AdminAccount:Password");
+            if (loginModel.UserName == AdminUserName && loginModel.Password == AdminPassword) 
+            {
+                Account AdminAcc = new Account
+                {
+                    Id = AdminId
+                };
+                return Task.FromResult(CreateBearerToken(AdminAcc));
+            }
+            return Task.FromResult("Meo dc roi hu hu");
         }
         public Task<List<Account>> GetAccounts()
         {
@@ -35,29 +97,29 @@ namespace WebApp.Service.Services
                 false là có lấy những đối tượng bị xóa luôn ko
                 _=>_.Orchids là bao gồm các bảng nào 'include options'
              */
-            var list = _repository.Get().ToListAsync();
+            var list = _accountRepository.Get().ToListAsync();
             return list;
         }
 
         #region Private Methods
-        private string CreatePasswordHash(string password, out byte[] passwordSalt)
+        private byte[] CreatePasswordHash(string password, out byte[] passwordSalt)
         {
             using (var hmac = new System.Security.Cryptography.HMACSHA512())
             {
                 passwordSalt = hmac.Key;
-                return Convert.ToBase64String(hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password)));
+                return hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
         }
 
-       /* private Guid GetSidLogged()
-        {
-            var sid = _http.HttpContext?.User.FindFirst(ClaimTypes.Sid)?.Value;
-            if (sid == null)
-            {
-                throw new Exception(ErrorCode.USER_NOT_FOUND);
-            }
-            return Guid.Parse(sid);
-        }*/
+        /* private Guid GetSidLogged()
+         {
+             var sid = _http.HttpContext?.User.FindFirst(ClaimTypes.Sid)?.Value;
+             if (sid == null)
+             {
+                 throw new Exception(ErrorCode.USER_NOT_FOUND);
+             }
+             return Guid.Parse(sid);
+         }*/
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
@@ -117,7 +179,7 @@ namespace WebApp.Service.Services
             return otpCode;
         }
 
-        
+
         #endregion
     }
 }

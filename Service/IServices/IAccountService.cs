@@ -9,6 +9,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Net.WebRequestMethods;
+using WebApp.Core.Models.AccountModels;
 
 namespace WebApp.Service.IServices
 {
@@ -16,5 +17,7 @@ namespace WebApp.Service.IServices
     { 
         //Add method here :v
         public Task<List<Account>> GetAccounts();
+        public Task<string> RegisterAccount(AccountRegisterModel model);
+        public Task<string> LoginAccount(AccountLoginModel model);
     }
 }
