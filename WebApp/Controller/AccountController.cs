@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using WebApp.Core.Constants;
 using WebApp.Core.Models.AccountModels;
 using WebApp.Service.IServices;
 
@@ -6,7 +8,7 @@ using WebApp.Service.IServices;
 
 namespace WebApp.Controller
 {
-    [Route("api/[controller]")]
+    
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -15,7 +17,8 @@ namespace WebApp.Controller
         {
             _accountService = accountService;
         }
-        [HttpPost("register")]
+        [Route(WebApiEndpoint.Account.SignUpAccount)]
+        [HttpPost]
         public async Task<IActionResult> Register(AccountRegisterModel model)
         {
             var test = await _accountService.RegisterAccount(model);
@@ -25,7 +28,8 @@ namespace WebApp.Controller
             }
             return Ok(test);
         }
-        [HttpPost("Login")]
+        [Route(WebApiEndpoint.Account.SignInAccount)]
+        [HttpPost]
         public async Task<IActionResult> Login(AccountLoginModel model)
         {
             var test = await _accountService.LoginAccount(model);
@@ -36,8 +40,10 @@ namespace WebApp.Controller
             return Ok(test);
         }
         // GET: api/<AccountController>
+        [Authorize]
+        [Route(WebApiEndpoint.Account.GetAllAccount)]
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetAll()
         {
             var list = await _accountService.GetAccounts();
 
@@ -45,21 +51,24 @@ namespace WebApp.Controller
         }
 
         // GET api/<AccountController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [Authorize]
+        [Route(WebApiEndpoint.Account.GetAccount)]
+        [HttpGet]
+        public async Task<IActionResult> GetSingle(int id)
         {
-            return "value";
+            var list = await _accountService.GetAccounts();
+            return Ok("value");
         }
-
+/*
         // POST api/<AccountController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post( string value)
         {
         }
 
         // PUT api/<AccountController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(string value)
         {
         }
 
@@ -67,6 +76,6 @@ namespace WebApp.Controller
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-        }
+        }*/
     }
 }

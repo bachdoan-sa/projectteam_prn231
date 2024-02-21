@@ -17,6 +17,7 @@ using WebApp.Repository;
 using Microsoft.Extensions.DependencyInjection;
 using WebApp.Core.Models.AccountModels;
 using WebApp.Core.Constants;
+using AutoMapper;
 
 namespace WebApp.Service.Services
 {
@@ -25,16 +26,17 @@ namespace WebApp.Service.Services
     {
         private readonly IConfiguration _configuration;
         private readonly IAccountRepository _accountRepository;
+        private readonly IMapper _mapper;
 
         public AccountService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _configuration = serviceProvider.GetRequiredService<IConfiguration>();
             _accountRepository = serviceProvider.GetRequiredService<IAccountRepository>();
-
+            _mapper = serviceProvider.GetRequiredService<IMapper>();
         }
 
         //Code below to test Method Hash and Salt password by using HMACSHA512
-        /* public Task<AccountRegisterModel> Register(AccountRegisterModel accountRegisterModel)
+        /* public Task<AccountRegisterModel> test(AccountRegisterModel accountRegisterModel)
          {
              AccountRegisterModel account = new AccountRegisterModel();
              account.PasswordHash = CreatePasswordHash(accountRegisterModel.Password, out byte[] passwordSalt);
@@ -88,7 +90,7 @@ namespace WebApp.Service.Services
                 };
                 return Task.FromResult(CreateBearerToken(AdminAcc));
             }
-            return Task.FromResult("Meo dc roi hu hu");
+            return Task.FromResult(ErrorCode.UserFailAuth);
         }
         public Task<List<Account>> GetAccounts()
         {
