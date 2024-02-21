@@ -152,7 +152,7 @@ namespace WebApp.Service.Services
                                              signingCredentials: creds
                                             );
             var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-            return tokenString;
+            return "bearer " + tokenString;
         }
 
         // Check the token is valid and not expired
