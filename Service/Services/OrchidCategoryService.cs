@@ -12,7 +12,7 @@ using WebApp.Service.IServices;
 
 namespace WebApp.Service.Services
 {
-    [ScopedDependency(ServiceType = typeof(IAccountService))]
+    [ScopedDependency(ServiceType = typeof(IOrchidCategoriesService))]
     public class OrchidCategoryService : IOrchidCategoriesService
     {
         private readonly IOrchidCategoriesRepository _orchidCategoryRepository;

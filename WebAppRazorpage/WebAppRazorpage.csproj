@@ -7,8 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Areas\Admin\Pages\Account\Create.cshtml.cs" />
+    <Content Include="Areas\Admin\Pages\Account\Read.cshtml.cs" />
+    <Content Include="Areas\Admin\Pages\Account\Update.cshtml.cs" />
+    <Content Include="Areas\Admin\Pages\Dashboard.cshtml.cs" />
+    <Content Include="Areas\Admin\Pages\Index.cshtml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="ApiModel\" />
-    <Folder Include="Pages\Areas\Admin\Shared\" />
   </ItemGroup>
 
   <ItemGroup>
