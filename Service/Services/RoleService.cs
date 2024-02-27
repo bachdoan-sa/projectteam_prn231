@@ -34,7 +34,7 @@ namespace WebApp.Service.Services
 
         public Task<List<Role>> GetRoles()
         {
-            throw new NotImplementedException();
+            return Task.FromResult(_roleRepository.Get().ToList());
         }
     }
 }

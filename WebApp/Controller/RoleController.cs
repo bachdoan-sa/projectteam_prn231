@@ -16,6 +16,17 @@ namespace WebApp.Controller
         {
             _roleService = roleService;
         }
+        [Route(WebApiEndpoint.Role.GetAllRole)]
+        [HttpGet]
+        public async Task<IActionResult> GetAllRole()
+        {
+            var test = await _roleService.GetRoles();
+            if (test == null)
+            {
+                return BadRequest();
+            }
+            return Ok(test);
+        }
         [Route(WebApiEndpoint.Role.AddRole)]
         [HttpPost]
         public async Task<IActionResult> CreateRole(RoleModel model)
