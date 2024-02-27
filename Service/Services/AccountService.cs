@@ -26,13 +26,12 @@ namespace WebApp.Service.Services
     {
         private readonly IConfiguration _configuration;
         private readonly IAccountRepository _accountRepository;
-        private readonly IMapper _mapper;
+        
 
         public AccountService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _configuration = serviceProvider.GetRequiredService<IConfiguration>();
             _accountRepository = serviceProvider.GetRequiredService<IAccountRepository>();
-            _mapper = serviceProvider.GetRequiredService<IMapper>();
         }
 
         //Code below to test Method Hash and Salt password by using HMACSHA512

@@ -8,9 +8,9 @@
 
   <ItemGroup>
     <Content Include="Areas\Admin\Pages\Account\Create.cshtml.cs" />
-    <Content Include="Areas\Admin\Pages\Account\Read.cshtml.cs" />
+    <Content Include="Areas\Admin\Pages\Account\Index.cshtml.cs" />
     <Content Include="Areas\Admin\Pages\Account\Update.cshtml.cs" />
-    <Content Include="Areas\Admin\Pages\Dashboard.cshtml.cs" />
+    <Content Include="Areas\Admin\Pages\Dashboard\Dashboard.cshtml.cs" />
     <Content Include="Areas\Admin\Pages\Index.cshtml.cs" />
   </ItemGroup>
 

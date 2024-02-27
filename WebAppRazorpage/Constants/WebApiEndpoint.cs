@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -62,7 +63,13 @@ namespace WebAppRazorpage.Constants
         }
         public static class Role
         {
+            private const string BaseEndpoint = Host + "/" + AreaName + "/" + nameof(Role);
 
+            public const string GetAllRole = BaseEndpoint + "/get-all";
+            public const string GetRole = BaseEndpoint + "/get-single/{id}";
+            public const string AddRole = BaseEndpoint + "/add";
+            public const string UpdateRole = BaseEndpoint + "/update";
+            public const string DeleteRole = BaseEndpoint + "/delete" + "/{id}";
         }
         public static class Transaction
         {

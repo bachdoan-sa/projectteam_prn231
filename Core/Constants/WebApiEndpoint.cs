@@ -61,7 +61,13 @@ namespace WebApp.Core.Constants
         }
         public static class Role
         {
+            private const string BaseEndpoint =  "~/" + AreaName + "/" + nameof(Role);
 
+            public const string GetAllRole = BaseEndpoint + "/get-all";
+            public const string GetRole = BaseEndpoint + "/get-single/{id}";
+            public const string AddRole = BaseEndpoint + "/add";
+            public const string UpdateRole = BaseEndpoint + "/update";
+            public const string DeleteRole = BaseEndpoint + "/delete" + "/{id}";
         }
         public static class Transaction
         {

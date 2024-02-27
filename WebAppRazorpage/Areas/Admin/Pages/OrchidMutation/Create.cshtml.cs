@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace WebAppRazorpage.Pages.Areas.Admin.Account
+namespace WebAppRazorpage.Areas.Admin.Pages.OrchidMutation
 {
     public class CreateModel : PageModel
     {
