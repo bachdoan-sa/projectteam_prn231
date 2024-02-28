@@ -43,14 +43,23 @@ namespace WebAppRazorpage.Constants
         }
         public static class Orchid
         {
-
+            private const string BaseEndpoint = Host + "/" + AreaName + "/" + nameof(Orchid);
+            public const string GetAllOrchid = BaseEndpoint;
+            public const string GetOrchid = BaseEndpoint + "/get-single/{id}";
+            public const string AddOrchid = BaseEndpoint + "/add";
+            public const string UpdateOrchid = BaseEndpoint + "/update";
+            public const string DeleteOrchid = BaseEndpoint + "/delete" + "/{id}";
         }
         public static class OrchidCategory
         {
+            private const string BaseEndpoint = Host + "/" + AreaName + "/" + nameof(OrchidCategory);
+            public const string GetAllOrchidCategory = BaseEndpoint;
 
         }
         public static class OrchidMutation
         {
+            private const string BaseEndpoint = Host + "/" + AreaName + "/" + nameof(OrchidMutation);
+            public const string GetAllOrchidMutation = BaseEndpoint;
 
         }
         public static class Order
