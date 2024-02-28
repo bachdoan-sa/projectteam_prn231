@@ -14,8 +14,9 @@ namespace WebAppRazorpage.ApiModel
     using System.Globalization;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
+    using WebAppRazorpage.ApiModel.Base;
 
-    public partial class ApiRoleModel
+    public partial class RoleModel
     {
         [JsonProperty("roleName")]
         public string RoleName { get; set; }
@@ -36,26 +37,9 @@ namespace WebAppRazorpage.ApiModel
         public object DeleteTime { get; set; }
     }
 
-    public partial class ApiRoleModel
+    public partial class RoleModel
     {
-        public static List<ApiRoleModel> FromJson(string json) => JsonConvert.DeserializeObject<List<ApiRoleModel>>(json, WebAppRazorpage.ApiModel.Converter.Settings);
+        public static List<RoleModel> FromJson(string json) => JsonConvert.DeserializeObject<List<RoleModel>>(json, Converter.Settings);
     }
 
-    public static class Serialize
-    {
-        public static string ToJson(this List<ApiRoleModel> self) => JsonConvert.SerializeObject(self, WebAppRazorpage.ApiModel.Converter.Settings);
-    }
-
-    internal static class Converter
-    {
-        public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
-        {
-            MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
-            DateParseHandling = DateParseHandling.None,
-            Converters =
-            {
-                new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }
-            },
-        };
-    }
 }

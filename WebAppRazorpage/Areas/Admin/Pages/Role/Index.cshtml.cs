@@ -9,7 +9,7 @@ namespace WebAppRazorpage.Areas.Admin.Pages.Role
     {
         private readonly HttpClient client = new HttpClient();
         [BindProperty]
-        public List<ApiRoleModel> ListRole { get; set; }
+        public List<RoleModel> ListRole { get; set; }
         public void OnGet()
         {
             string title = "chao mung toi thu nghiem";
@@ -22,12 +22,12 @@ namespace WebAppRazorpage.Areas.Admin.Pages.Role
             ViewData["Title"] = title + " Established " + yearStated;
             var task = client.GetAsync(WebApiEndpoint.Role.GetAllRole);
             HttpResponseMessage result = task.Result;
-            List<ApiRoleModel> listRole = new List<ApiRoleModel>();
+            List<RoleModel> listRole = new List<RoleModel>();
             if (result.IsSuccessStatusCode)
             {
                 Task<string> readString = result.Content.ReadAsStringAsync();
                 string jsonString = readString.Result;
-                listRole = ApiRoleModel.FromJson(jsonString);
+                listRole = RoleModel.FromJson(jsonString);
             }
             ListRole = listRole;
         }

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using System.Text;
+using WebAppRazorpage.ApiModel;
 using WebAppRazorpage.Constants;
 
 namespace WebAppRazorpage.Areas.Admin.Pages.Role
@@ -15,7 +16,7 @@ namespace WebAppRazorpage.Areas.Admin.Pages.Role
         public string ReponseMessage { get; set; }
         public void OnPost()
         {
-            string json = JsonConvert.SerializeObject(new
+            string json = JsonConvert.SerializeObject(new RoleModel
             {
                 RoleName = RoleName
             });
