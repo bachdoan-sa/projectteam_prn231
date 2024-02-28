@@ -35,7 +35,9 @@ namespace WebAppRazorpage.Constants
         }
         public static class DealHanger
         {
+            private const string BaseEndpoint = Host + "/" + AreaName + "/" + nameof(DealHanger);
 
+            public const string GetAllDealHanger = BaseEndpoint;
         }
         public static class Mutation
         {
@@ -55,11 +57,15 @@ namespace WebAppRazorpage.Constants
         }
         public static class Order
         {
+            private const string BaseEndpoint = Host + "/" + AreaName + "/" + nameof(Order);
 
+            public const string GetAllOrder = BaseEndpoint ;
         }
         public static class OrderDetail
         {
+            private const string BaseEndpoint = Host + "/" + AreaName + "/" + nameof(OrderDetail);
 
+            public const string GetAllOrderDetail = BaseEndpoint;
         }
         public static class Role
         {
