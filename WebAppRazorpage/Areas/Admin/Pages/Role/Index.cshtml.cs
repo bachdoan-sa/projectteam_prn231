@@ -12,14 +12,7 @@ namespace WebAppRazorpage.Areas.Admin.Pages.Role
         public List<RoleModel> ListRole { get; set; }
         public void OnGet()
         {
-            string title = "chao mung toi thu nghiem";
-            string inBrand = Request.Query["title"]; ;
-            if (inBrand != null && inBrand.Length > 0)
-            {
-                title = inBrand;
-            }
-            int yearStated = 2024;
-            ViewData["Title"] = title + " Established " + yearStated;
+            
             var task = client.GetAsync(WebApiEndpoint.Role.GetAllRole);
             HttpResponseMessage result = task.Result;
             List<RoleModel> listRole = new List<RoleModel>();

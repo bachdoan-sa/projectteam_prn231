@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebApp.Core.Models.AuctionEventModel;
 using WebApp.Repository.Entities;
 
 namespace WebApp.Service.IServices
 {
     public interface IAuctionEventService
     {
-        Task<List<AuctionEvent>> GetAllAuctionEvents();
-        Task<AuctionEvent> GetAuctionEventById(string id);
-        Task CreateAuctionEvent(AuctionEvent  auctionEvent);
-        Task UpdateAuctionEvent(AuctionEvent auctionEvent);
+        Task<List<AuctionEventModel>> GetAllAuctionEvents();
+        Task<AuctionEventModel> GetAuctionEventById(string id);
+        Task<string> CreateAuctionEvent(AuctionEventModel  model);
+        Task<string> UpdateAuctionEvent(AuctionEventModel model);
     }
 }

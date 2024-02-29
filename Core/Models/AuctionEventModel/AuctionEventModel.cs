@@ -10,6 +10,7 @@ namespace WebApp.Core.Models.AuctionEventModel
     {
         public DateTime? BeginDateTime { get; set; }
         public DateTime? EndDateTime { get; set; }
-        public string AuctionStatus { get; set; }
+        public string? AuctionStatus { get; set; }
+        public string? StaffId { get; set; }
     }
 }
