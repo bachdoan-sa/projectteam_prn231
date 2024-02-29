@@ -18,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using WebApp.Core.Models.AccountModels;
 using WebApp.Core.Constants;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 
 namespace WebApp.Service.Services
 {
@@ -129,15 +130,15 @@ namespace WebApp.Service.Services
             }
         }
 
-        /* private Guid GetSidLogged()
-         {
-             var sid = _http.HttpContext?.User.FindFirst(ClaimTypes.Sid)?.Value;
-             if (sid == null)
-             {
-                 throw new Exception(ErrorCode.USER_NOT_FOUND);
-             }
-             return Guid.Parse(sid);
-         }*/
+       /* private string GetSidLogged()
+        {
+            var sid = _http.HttpContext?.User.FindFirst(ClaimTypes.Sid)?.Value;
+            if (sid == null)
+            {
+                throw new Exception(ErrorCode.NotFound);
+            }
+            return sid;
+        }*/
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {

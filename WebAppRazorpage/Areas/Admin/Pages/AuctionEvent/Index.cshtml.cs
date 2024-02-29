@@ -9,7 +9,7 @@ namespace WebAppRazorpage.Areas.Admin.Pages.AuctionEvent
     {
         private readonly HttpClient client = new HttpClient();
         [BindProperty]
-        public List<AuctionEventModel> ListAuctionEvent { get; set; }
+        public List<AuctionEventModel> ListAuctionEvent { get; set; } = new List<AuctionEventModel>();
         public void OnGet()
         {
 

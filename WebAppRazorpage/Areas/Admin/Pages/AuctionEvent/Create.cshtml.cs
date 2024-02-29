@@ -11,9 +11,9 @@ namespace WebAppRazorpage.Areas.Admin.Pages.AuctionEvent
     {
         private readonly HttpClient client = new HttpClient();
         [BindProperty]
-        public DateTimeOffset BeginDateTime { get; set; }
+        public DateTimeOffset BeginDateTime { get; set; } = DateTimeOffset.Now.Date;
         [BindProperty]
-        public DateTimeOffset EndDateTime { get; set; }
+        public DateTimeOffset EndDateTime { get; set; } = DateTimeOffset.Now.Date;
         [BindProperty]
         public string AEStatus { get; set; }
         [BindProperty]
