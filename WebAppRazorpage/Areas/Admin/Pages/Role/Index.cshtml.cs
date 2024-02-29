@@ -12,12 +12,13 @@ namespace WebAppRazorpage.Areas.Admin.Pages.Role
         public List<RoleModel> ListRole { get; set; }
         public void OnGet()
         {
+            
             var task = client.GetAsync(WebApiEndpoint.Role.GetAllRole);
-            HttpResponseMessage result = task.Result; 
+            HttpResponseMessage result = task.Result;
             List<RoleModel> listRole = new List<RoleModel>();
-            if (result.IsSuccessStatusCode) 
+            if (result.IsSuccessStatusCode)
             {
-                Task<string> readString = result.Content.ReadAsStringAsync(); 
+                Task<string> readString = result.Content.ReadAsStringAsync();
                 string jsonString = readString.Result;
                 listRole = RoleModel.FromJson(jsonString);
             }

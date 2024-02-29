@@ -25,8 +25,14 @@ namespace WebApp.Core.Constants
         }
         public static class AuctionEvent
         {
+			private const string BaseEndpoint = "~/" + AreaName + "/" + nameof(AuctionEvent);
 
-        }
+			public const string GetAllAuctionEvent = BaseEndpoint + "/get-all";
+			public const string GetAuctionEvent = BaseEndpoint + "/get-single/{id}";
+			public const string AddAuctionEvent = BaseEndpoint + "/add";
+			public const string UpdateAuctionEvent = BaseEndpoint + "/update";
+			public const string DeleteAuctionEvent = BaseEndpoint + "/delete" + "/{id}";
+		}
         public static class AuctionState
         {
 

@@ -26,12 +26,13 @@ namespace WebApp.Service.Services
     {
         private readonly IConfiguration _configuration;
         private readonly IAccountRepository _accountRepository;
-        
+        private readonly IRoleRepository _roleRepository;
 
         public AccountService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _configuration = serviceProvider.GetRequiredService<IConfiguration>();
             _accountRepository = serviceProvider.GetRequiredService<IAccountRepository>();
+            _roleRepository = serviceProvider.GetRequiredService<IRoleRepository>();
         }
 
         //Code below to test Method Hash and Salt password by using HMACSHA512
@@ -57,6 +58,8 @@ namespace WebApp.Service.Services
             //2.1 password encryption by hash and salt method
             var passwordHash = CreatePasswordHash(accountRegisterModel.Password, out byte[] passwordSalt);
             //2.2 create new model and add sub infomation
+            var customerRole = _roleRepository.Get(_ => _.RoleName == UserRole.CUSTOMER).FirstOrDefault();
+
             var account = new Account
             {
                 UserName = accountRegisterModel.UserName,
@@ -66,7 +69,7 @@ namespace WebApp.Service.Services
                 Phone = accountRegisterModel.Phone,
                 Address = accountRegisterModel.Address,
                 Birthdate = accountRegisterModel.Birthday,
-                RoleId = UserRole.CUSTOMER,
+                RoleId = customerRole.Id,
 
             };
 
@@ -88,6 +91,20 @@ namespace WebApp.Service.Services
                     Id = AdminId
                 };
                 return Task.FromResult(CreateBearerToken(AdminAcc));
+            }
+            else
+            {
+                var user = _accountRepository.Get(_ => _.UserName == loginModel.UserName).FirstOrDefault();
+                if (user != null)
+                {
+                    var check = VerifyPasswordHash(loginModel.Password,
+                        Convert.FromBase64String(user.PasswordHash),
+                        Convert.FromBase64String(user.PasswordSalt));
+                    if (check)
+                    {
+                        return Task.FromResult(CreateBearerToken(user));
+                    }
+                }
             }
             return Task.FromResult(ErrorCode.UserFailAuth);
         }

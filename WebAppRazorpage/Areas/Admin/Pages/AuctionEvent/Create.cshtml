@@ -3,3 +3,28 @@
 @{
     Layout = "_AdminLayout";
 }
+<div class="row">
+    <div class="card">
+        <div class="card-title">
+            <h4>Create Role</h4>
+        </div>
+        <div class="card-body">
+            <div class="basic-form">
+                <form method="post">
+                    <div class="form-group">
+                        <label asp-for="AEStatus">Role Name</label>
+                        <input asp-for="AEStatus" type="text" class="form-control" placeholder="Status">
+                        <label asp-for="BeginDateTime">Begin Date</label>
+                        <input asp-for="BeginDateTime" type="text" class="form-control" placeholder="Status">
+                        <label asp-for="EndDateTime">End Date</label>
+                        <input asp-for="BeginDateTime" type="text" class="form-control" placeholder="Status">
+                        <label asp-for="StaffId">Staff</label>
+                        <input asp-for="StaffId" type="text" class="form-control" placeholder="Status">
+                    </div>
+                    <input class="btn btn-default" value="Submit" type="submit" />
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

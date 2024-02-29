@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebApp.Core.Constants;
+using WebApp.Core.Models.AuctionEventModel;
 using WebApp.Repository.Entities;
 using WebApp.Service.IServices;
 using WebApp.Service.Services;
@@ -7,7 +9,6 @@ using static WebApp.Core.Constants.WebApiEndpoint;
 
 namespace WebApp.Controller
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class AuctionEventController : ControllerBase
     {
@@ -16,15 +17,16 @@ namespace WebApp.Controller
         {
             _auctionEventService = auctionEventService;
         }
-
+        [Route(WebApiEndpoint.AuctionEvent.GetAllAuctionEvent)]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Repository.Entities.AuctionEvent>>> GetAllAuctionEvents()
+        public async Task<IActionResult> GetAllAuctionEvents()
         {
             var auctionEvents = await _auctionEventService.GetAllAuctionEvents();
             return Ok(auctionEvents);
         }
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Repository.Entities.AuctionEvent>> GetAuctionEventById(string id)
+		[Route(WebApiEndpoint.AuctionEvent.GetAuctionEvent)]
+		[HttpGet]
+        public async Task<IActionResult> GetAuctionEventById(string id)
         {
             var auctionEvent = await _auctionEventService.GetAuctionEventById(id);
             if (auctionEvent == null)
@@ -33,12 +35,12 @@ namespace WebApp.Controller
             }
             return Ok(auctionEvent);
         }
-
-        [HttpPost]
-        public async Task<ActionResult> CreateAuctionEvent(Repository.Entities.AuctionEvent auctionEvent)
+		[Route(WebApiEndpoint.AuctionEvent.AddAuctionEvent)]
+		[HttpPost]
+        public async Task<IActionResult> CreateAuctionEvent(AuctionEventModel model)
         {
-            await _auctionEventService.CreateAuctionEvent(auctionEvent);
-            return Ok();
+            var a = await _auctionEventService.CreateAuctionEvent(model);
+            return Ok(a);
         }
     }
 }
