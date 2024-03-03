@@ -17,7 +17,7 @@ namespace WebAppRazorpage.ApiModel
         public DateTimeOffset LastUpdated { get; set; }
 
         [JsonProperty("deleteTime")]
-        public DateTimeOffset DeleteTime { get; set; }
+        public object DeleteTime { get; set; }
 
         [JsonProperty("total")]
         public long Total { get; set; }
