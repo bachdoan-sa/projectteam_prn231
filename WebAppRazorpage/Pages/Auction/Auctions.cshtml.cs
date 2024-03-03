@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebAppRazorpage.Pages.Auction
 {
-    public class AuctionDetailModel : PageModel
+    public class AuctionsModel : PageModel
     {
         public void OnGet()
         {

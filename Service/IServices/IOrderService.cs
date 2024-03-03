@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebApp.Core.Models.OrderModel;
+using WebApp.Core.Models.OrderModels;
 using WebApp.Repository.Entities;
 
 namespace WebApp.Service.IServices

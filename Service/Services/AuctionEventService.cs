@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebApp.Core.Models.AuctionEventModel;
+using WebApp.Core.Models.AuctionEventModels;
 using WebApp.Repository.Entities;
 using WebApp.Repository.Repositories;
 using WebApp.Repository.Repositories.IRepositories;

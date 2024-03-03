@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using WebApp.Core.Models.OrderModel;
+using WebApp.Core.Models.OrderModels;
 using WebApp.Repository.Entities;
 using WebApp.Service.IServices;
 using WebApp.Service.Services;

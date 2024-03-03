@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebApp.Core.Models.RoleModel;
+using WebApp.Core.Models.RoleModels;
 using WebApp.Repository.Entities;
 using WebApp.Repository.Repositories;
 using WebApp.Repository.Repositories.IRepositories;
