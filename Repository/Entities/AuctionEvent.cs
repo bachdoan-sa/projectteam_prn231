@@ -16,7 +16,7 @@ namespace WebApp.Repository.Entities
         public string AuctionStatus { get; set; }
 
         public string? StaffId { get; set; }
-        [ForeignKey("AccountId")]
+        [ForeignKey(nameof(StaffId))]
         public virtual Account Account { get; set; }
         public virtual ICollection<AuctionState>? AuctionStates { get; set; }
     }
