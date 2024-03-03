@@ -17,7 +17,7 @@ namespace WebAppRazorpage.ApiModel
         public DateTimeOffset LastUpdated { get; set; }
 
         [JsonProperty("deleteTime")]
-        public DateTimeOffset DeleteTime { get; set; }
+        public DateTimeOffset? DeleteTime { get; set; }
 
         [JsonProperty("paymentMethod")]
         public string PaymentMethod { get; set; }
