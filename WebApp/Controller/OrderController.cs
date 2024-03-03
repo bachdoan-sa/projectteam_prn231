@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebApp.Core.Models.OrderModel;
 using WebApp.Repository.Entities;
 using WebApp.Service.IServices;
 using WebApp.Service.Services;
@@ -36,14 +37,19 @@ namespace WebApp.Controller
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Order order)
+        public async Task<IActionResult> Post(OrderModel order)
         {
             var createdOrder = await _iOrderService.CreateOrder(order);
-            return CreatedAtAction(nameof(GetById), new { id = createdOrder.Id }, createdOrder);
+            if (createdOrder == null)
+            {
+                return BadRequest();
+            }
+            return Ok(createdOrder);
+            
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(string id, Order order)
+        public async Task<IActionResult> Put(string id, OrderModel order)
         {
             if (id != order.Id)
             {
