@@ -32,7 +32,7 @@ namespace WebAppRazorpage.Pages
                 Task<string> readString = result.Content.ReadAsStringAsync();
                 ReponseMessage = readString.Result;
             }
-
+            
         }
     }
 }
