@@ -18,7 +18,7 @@ namespace WebAppRazorpage.ApiModel
         public DateTimeOffset LastUpdated { get; set; }
 
         [JsonProperty("deleteTime")]
-        public DateTimeOffset DeleteTime { get; set; }
+        public DateTimeOffset? DeleteTime { get; set; }
 
         [JsonProperty("userName")]
         public string UserName { get; set; }
@@ -39,16 +39,16 @@ namespace WebAppRazorpage.ApiModel
         public string Address { get; set; }
 
         [JsonProperty("birthdate")]
-        public DateTimeOffset Birthdate { get; set; }
+        public DateTimeOffset? Birthdate { get; set; }
 
         [JsonProperty("otp")]
         public string Otp { get; set; }
 
         [JsonProperty("otpCreatedDate")]
-        public DateTimeOffset OtpCreatedDate { get; set; }
+        public DateTimeOffset? OtpCreatedDate { get; set; }
 
         [JsonProperty("otpExpiredDate")]
-        public DateTimeOffset OtpExpiredDate { get; set; }
+        public DateTimeOffset? OtpExpiredDate { get; set; }
 
         [JsonProperty("roleId")]
         public string RoleId { get; set; }
@@ -60,7 +60,7 @@ namespace WebAppRazorpage.ApiModel
         public List<WalletModel> Wallets { get; set; }
 
         [JsonProperty("auctionEvents")]
-        public List<string> AuctionEvents { get; set; }
+        public List<AuctionEventModel> AuctionEvents { get; set; }
 
         [JsonProperty("orchids")]
         public List<OrchidModel> Orchids { get; set; }

@@ -19,13 +19,13 @@ namespace WebAppRazorpage.ApiModel
     public partial class RoleModel
     {
         [JsonProperty("roleName")]
-        public string RoleName { get; set; }
+        public string? RoleName { get; set; }
 
         [JsonProperty("accounts")]
-        public object Accounts { get; set; }
+        public List<AccountModel>? Accounts { get; set; }
 
         [JsonProperty("id")]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [JsonProperty("createdTime")]
         public DateTimeOffset CreatedTime { get; set; }
@@ -34,7 +34,7 @@ namespace WebAppRazorpage.ApiModel
         public DateTimeOffset LastUpdated { get; set; }
 
         [JsonProperty("deleteTime")]
-        public object DeleteTime { get; set; }
+        public DateTimeOffset? DeleteTime { get; set; }
     }
 
     public partial class RoleModel

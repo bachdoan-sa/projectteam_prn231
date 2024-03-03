@@ -16,13 +16,13 @@ namespace WebAppRazorpage.ApiModel
         public DateTimeOffset LastUpdated { get; set; }
 
         [JsonProperty("deleteTime")]
-        public DateTimeOffset DeleteTime { get; set; }
+        public DateTimeOffset? DeleteTime { get; set; }
 
         [JsonProperty("mutationPosition")]
         public string MutationPosition { get; set; }
 
         [JsonProperty("orchidMutations")]
-        public List<string> OrchidMutations { get; set; }
+        public List<OrchidMutationModel> OrchidMutations { get; set; }
     }
     public partial class MutationModel
     {

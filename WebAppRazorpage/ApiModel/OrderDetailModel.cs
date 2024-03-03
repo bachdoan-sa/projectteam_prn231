@@ -29,13 +29,13 @@ namespace WebAppRazorpage.ApiModel
         public string OrderId { get; set; }
 
         [JsonProperty("order")]
-        public string Order { get; set; }
+        public OrderModel Order { get; set; }
 
         [JsonProperty("orchidId")]
         public string OrchidId { get; set; }
 
         [JsonProperty("orchid")]
-        public string Orchid { get; set; }
+        public OrchidModel Orchid { get; set; }
     }
     public partial class OrderDetailModel
     {
