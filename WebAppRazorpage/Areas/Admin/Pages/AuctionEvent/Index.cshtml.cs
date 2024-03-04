@@ -9,11 +9,11 @@ namespace WebAppRazorpage.Areas.Admin.Pages.AuctionEvent
     {
         private readonly HttpClient client = new HttpClient();
         [BindProperty]
-        public List<AuctionEventModel> ListAuctionEvent { get; set; }
+        public List<AuctionEventModel> ListAuctionEvent { get; set; } = new List<AuctionEventModel>();
         public void OnGet()
         {
 
-            var task = client.GetAsync(WebApiEndpoint.AuctionEvent.GetAllAuctionEvent);
+            var task = client.GetAsync(WebAppEndpoint.AuctionEvent.GetAllAuctionEvent);
             HttpResponseMessage result = task.Result;
             if (result.IsSuccessStatusCode)
             {

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Core.Constants;
 using WebApp.Core.Models.AccountModels;
-using WebApp.Core.Models.RoleModel;
+using WebApp.Core.Models.RoleModels;
 using WebApp.Service.IServices;
 using WebApp.Service.Services;
 

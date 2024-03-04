@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebApp.Core.Models.AuctionStateModel
+namespace WebApp.Core.Models.AuctionStateModels
 {
     public class AuctionStateModel
     {
+        public string Id { get; set; }
         public int Position { get; set; }
         public double? StartingPrice { get; set; }
         public double? ExpectedPrice { get; set; }

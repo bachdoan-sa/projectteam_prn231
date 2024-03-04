@@ -12,7 +12,7 @@ namespace WebAppRazorpage.Areas.Admin.Pages.OrchidCategory
         public List<OrchidCategoryModel> List { get; set; }
         public void OnGet()
         {
-            var task = client.GetAsync(WebApiEndpoint.OrchidCategory.GetAllOrchidCategory);
+            var task = client.GetAsync(WebAppEndpoint.OrchidCategory.GetAllOrchidCategory);
             HttpResponseMessage result = task.Result;
             List<OrchidCategoryModel> list = new List<OrchidCategoryModel>();
             if (result.IsSuccessStatusCode)

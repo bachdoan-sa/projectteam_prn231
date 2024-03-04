@@ -1,5 +1,5 @@
 ﻿@page
-@model ProductModel
+@model WebAppRazorpage.Pages.Auction.OrchidAuctionDetailModel
 @{
     ViewData["Title"] = "ProductDetail";
 }
@@ -10,7 +10,7 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-   
+
 
     <title>Lugx Gaming - Product Detail</title>
 
@@ -41,11 +41,11 @@
                     <span class="">Giá khởi điểm:</span>
                     <span class="price">13.000.000vnd</span>
                     <p>Thời gian đếm ngược bắt đầu trả giá: <span>  24 giờ : 15 phút : 20 giây</span></p>
-                    
+
                     <p>Trạng thái: Đang diễn ra </p>
 
                     <form id="qty" action="#">
-                        <input type="qty" class="form-control" id="1" aria-describedby="quantity" placeholder="1" style="width:400px" >
+                        <input type="number" class="form-control" id="1" aria-describedby="quantity" placeholder="1" style="width:400px">
                         <button type="submit"><i class="fa"></i> SUBMIT</button>
                     </form>
                     <ul>
@@ -70,14 +70,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                      
-                       
-                            <tr>
-                                <td>15.000.000vnd</td>
-                                <td>Nguyễn Khoa</td>
-                                <td>Đang diễn ra</td>
-                            </tr>
-                        
+
+
+                        <tr>
+                            <td>15.000.000vnd</td>
+                            <td>Nguyễn Khoa</td>
+                            <td>Đang diễn ra</td>
+                        </tr>
+
                     </tbody>
                 </table>
 
@@ -88,7 +88,6 @@
     <div class="more-info">
         <div class="container">
             <div class="row">
-
             </div>
         </div>
     </div>
@@ -98,7 +97,7 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="section-heading">
-                      
+
                         <h2>Các món hàng khác</h2>
                     </div>
                 </div>

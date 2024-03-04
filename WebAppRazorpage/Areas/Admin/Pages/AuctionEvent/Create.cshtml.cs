@@ -11,9 +11,9 @@ namespace WebAppRazorpage.Areas.Admin.Pages.AuctionEvent
     {
         private readonly HttpClient client = new HttpClient();
         [BindProperty]
-        public DateTimeOffset BeginDateTime { get; set; }
+        public DateTimeOffset BeginDateTime { get; set; } = DateTimeOffset.Now.Date;
         [BindProperty]
-        public DateTimeOffset EndDateTime { get; set; }
+        public DateTimeOffset EndDateTime { get; set; } = DateTimeOffset.Now.Date;
         [BindProperty]
         public string AEStatus { get; set; }
         [BindProperty]
@@ -31,7 +31,7 @@ namespace WebAppRazorpage.Areas.Admin.Pages.AuctionEvent
             });
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var task = client.PostAsync(WebApiEndpoint.AuctionEvent.AddAuctionEvent, content);
+            var task = client.PostAsync(WebAppEndpoint.AuctionEvent.AddAuctionEvent, content);
             HttpResponseMessage result = task.Result;
             if (result.IsSuccessStatusCode)
             {

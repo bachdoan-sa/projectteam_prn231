@@ -22,7 +22,7 @@ namespace WebAppRazorpage.Areas.Admin.Pages.Orchid
             });
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var task = client.PostAsync(WebApiEndpoint.Orchid.AddOrchid, content);
+            var task = client.PostAsync(WebAppEndpoint.Orchid.AddOrchid, content);
             HttpResponseMessage result = task.Result;
             if (result.IsSuccessStatusCode)
             {

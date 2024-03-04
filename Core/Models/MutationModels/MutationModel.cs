@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebApp.Core.Models.MutationModel
+namespace WebApp.Core.Models.MutationModels
 {
     public class MutationModel
     {

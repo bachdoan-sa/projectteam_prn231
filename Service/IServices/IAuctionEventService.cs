@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebApp.Core.Models.AuctionEventModel;
+using WebApp.Core.Models.AuctionEventModels;
 using WebApp.Repository.Entities;
 
 namespace WebApp.Service.IServices
@@ -14,5 +14,6 @@ namespace WebApp.Service.IServices
         Task<AuctionEventModel> GetAuctionEventById(string id);
         Task<string> CreateAuctionEvent(AuctionEventModel  model);
         Task<string> UpdateAuctionEvent(AuctionEventModel model);
+
     }
 }

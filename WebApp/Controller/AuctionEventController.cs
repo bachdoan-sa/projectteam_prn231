@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Core.Constants;
-using WebApp.Core.Models.AuctionEventModel;
+using WebApp.Core.Models.AuctionEventModels;
 using WebApp.Repository.Entities;
 using WebApp.Service.IServices;
 using WebApp.Service.Services;

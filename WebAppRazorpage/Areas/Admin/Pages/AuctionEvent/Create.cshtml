@@ -12,14 +12,14 @@
             <div class="basic-form">
                 <form method="post">
                     <div class="form-group">
-                        <label asp-for="AEStatus">Role Name</label>
+                        <label asp-for="AEStatus">Status</label>
                         <input asp-for="AEStatus" type="text" class="form-control" placeholder="Status">
                         <label asp-for="BeginDateTime">Begin Date</label>
-                        <input asp-for="BeginDateTime" type="text" class="form-control" placeholder="Status">
+                        <input asp-for="BeginDateTime" type="datetime-local" class="form-control" >
                         <label asp-for="EndDateTime">End Date</label>
-                        <input asp-for="BeginDateTime" type="text" class="form-control" placeholder="Status">
+                        <input asp-for="BeginDateTime" type="datetime-local" class="form-control" >
                         <label asp-for="StaffId">Staff</label>
-                        <input asp-for="StaffId" type="text" class="form-control" placeholder="Status">
+                        <input asp-for="StaffId" type="text" class="form-control" placeholder="Staff">
                     </div>
                     <input class="btn btn-default" value="Submit" type="submit" />
                 </form>
