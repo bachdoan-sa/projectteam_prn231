@@ -29,7 +29,7 @@ namespace WebAppRazorpage.ApiModel
         public string CustomerId { get; set; }
 
         [JsonProperty("account")]
-        public string Account { get; set; }
+        public AccountModel Account { get; set; }
 
         [JsonProperty("orderDetails")]
         public List<OrderDetailModel> OrderDetails { get; set; }

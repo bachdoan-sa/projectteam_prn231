@@ -17,7 +17,7 @@ namespace WebAppRazorpage.ApiModel
         public DateTimeOffset LastUpdated { get; set; }
 
         [JsonProperty("deleteTime")]
-        public DateTimeOffset DeleteTime { get; set; }
+        public DateTimeOffset? DeleteTime { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -41,13 +41,13 @@ namespace WebAppRazorpage.ApiModel
         public string ProductOwnerId { get; set; }
 
         [JsonProperty("account")]
-        public string Account { get; set; }
+        public AccountModel Account { get; set; }
 
         [JsonProperty("orchidMutations")]
         public List<OrchidMutationModel> OrchidMutations { get; set; }
 
         [JsonProperty("auctionStates")]
-        public List<string> AuctionStates { get; set; }
+        public List<AuctionStateModel> AuctionStates { get; set; }
 
         [JsonProperty("orderDetails")]
         public List<OrderDetailModel> OrderDetails { get; set; }

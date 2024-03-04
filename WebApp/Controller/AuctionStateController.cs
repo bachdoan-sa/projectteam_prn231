@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using WebApp.Core.Constants;
 using WebApp.Repository.Entities;
 using WebApp.Service.IServices;
 using WebApp.Service.Services;
@@ -38,6 +39,20 @@ namespace WebApp.Controller
         {
             await _stateService.CreateAuctionState(auctionState);
             return Ok();
+        }
+        [Route(WebApiEndpoint.AuctionState.GetOrchidAuctions)]
+        [HttpGet]
+        public async Task<IActionResult> GetOrchidAuctions()
+        {
+
+            return Ok(await _stateService.GetOrchidAuctions());
+        }
+        [Route(WebApiEndpoint.AuctionState.GetOrchidAuction)]
+        [HttpGet]
+        public async Task<IActionResult> GetOrchidAuction(string id)
+        {
+
+            return Ok(await _stateService.GetOrchidAuction(id));
         }
     }
 }

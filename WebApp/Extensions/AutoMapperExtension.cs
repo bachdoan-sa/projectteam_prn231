@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using WebApp.Core.Mapper;
+using WebApp.Repository.Entities;
+using WebApp.Repository.Mapper;
 
 namespace WebApp.Extensions
 {
@@ -10,7 +12,7 @@ namespace WebApp.Extensions
             services.AddAutoMapper(cfg =>
             {
                 cfg.AddProfile(new AccountProfile());
-                
+                cfg.AddProfile(new AuctionStateProfile());
             });
 
             return services;

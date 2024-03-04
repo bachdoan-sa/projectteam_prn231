@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebApp.Core.Models.RoleModel
+namespace WebApp.Core.Models.RoleModels
 {
     public class RoleModel
     {

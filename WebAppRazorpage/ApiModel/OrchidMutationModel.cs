@@ -16,7 +16,7 @@ namespace WebAppRazorpage.ApiModel
         public DateTimeOffset LastUpdated { get; set; }
 
         [JsonProperty("deleteTime")]
-        public DateTimeOffset DeleteTime { get; set; }
+        public DateTimeOffset? DeleteTime { get; set; }
 
         [JsonProperty("color")]
         public string Color { get; set; }
@@ -37,7 +37,7 @@ namespace WebAppRazorpage.ApiModel
         public string OrchidId { get; set; }
 
         [JsonProperty("orchid")]
-        public string Orchid { get; set; }
+        public OrchidModel Orchid { get; set; }
     }
     public partial class OrchidMutationModel
     {

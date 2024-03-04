@@ -19,6 +19,6 @@ namespace WebApp.Service.IServices
         Task<Orchid> GetOrchidById(string id);
         Task AddOrchid(Orchid orchid);
         Task UpdateOrchid(Orchid orchid);
-   
+
     }
 }

@@ -16,7 +16,7 @@ namespace WebAppRazorpage.ApiModel
         public DateTimeOffset LastUpdated { get; set; }
 
         [JsonProperty("deleteTime")]
-        public DateTimeOffset DeleteTime { get; set; }
+        public DateTimeOffset? DeleteTime { get; set; }
 
         [JsonProperty("position")]
         public long Position { get; set; }
@@ -49,7 +49,7 @@ namespace WebAppRazorpage.ApiModel
         public string AuctionEventId { get; set; }
 
         [JsonProperty("auctionEvent")]
-        public string AuctionEvent { get; set; }
+        public AuctionEventModel? AuctionEvent { get; set; }
 
         [JsonProperty("dealHangers")]
         public List<DealHangerModel> DealHangers { get; set; }

@@ -29,13 +29,13 @@ namespace WebAppRazorpage.ApiModel
         public string CustomerId { get; set; }
 
         [JsonProperty("account")]
-        public string Account { get; set; }
+        public AccountModel Account { get; set; }
 
         [JsonProperty("auctionStateId")]
         public string AuctionStateId { get; set; }
 
         [JsonProperty("auctionState")]
-        public string AuctionState { get; set; }
+        public AuctionStateModel AuctionState { get; set; }
     }
     public partial class DealHangerModel
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebApp.Core.Models.AuctionStateModel
+namespace WebApp.Core.Models.AuctionStateModels
 {
     public class AuctionStateModel
     {

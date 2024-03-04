@@ -35,7 +35,10 @@ namespace WebApp.Core.Constants
 		}
         public static class AuctionState
         {
+            private const string BaseEndpoint = "~/" + AreaName + "/" + nameof(AuctionState);
 
+            public const string GetOrchidAuction = BaseEndpoint + "get-item/{id}";
+            public const string GetOrchidAuctions = BaseEndpoint + "/get-items";
         }
         public static class DealHanger
         {
@@ -47,7 +50,7 @@ namespace WebApp.Core.Constants
         }
         public static class Orchid
         {
-
+            
         }
         public static class OrchidCategory
         {
