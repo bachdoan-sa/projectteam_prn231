@@ -12,7 +12,7 @@ namespace WebAppRazorpage.Areas.Admin.Pages.Orchid
         public List<OrchidModel> ListOrchid { get; set; }
         public void OnGet()
         {
-            var task = client.GetAsync(WebApiEndpoint.Orchid.GetAllOrchid);
+            var task = client.GetAsync(WebAppEndpoint.Orchid.GetAllOrchid);
             HttpResponseMessage result = task.Result;
             List<OrchidModel> listOrchid = new List<OrchidModel>();
             if (result.IsSuccessStatusCode)

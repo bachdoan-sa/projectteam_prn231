@@ -12,7 +12,7 @@ namespace WebAppRazorpage.Areas.Admin.Pages.OrchidMutation
         public List<OrchidMutationModel> List { get; set; }
         public void OnGet()
         {
-            var task = client.GetAsync(WebApiEndpoint.OrchidMutation.GetAllOrchidMutation);
+            var task = client.GetAsync(WebAppEndpoint.OrchidMutation.GetAllOrchidMutation);
             HttpResponseMessage result = task.Result;
             List<OrchidMutationModel> list = new List<OrchidMutationModel>();
             if (result.IsSuccessStatusCode)

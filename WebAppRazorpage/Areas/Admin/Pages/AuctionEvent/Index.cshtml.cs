@@ -13,7 +13,7 @@ namespace WebAppRazorpage.Areas.Admin.Pages.AuctionEvent
         public void OnGet()
         {
 
-            var task = client.GetAsync(WebApiEndpoint.AuctionEvent.GetAllAuctionEvent);
+            var task = client.GetAsync(WebAppEndpoint.AuctionEvent.GetAllAuctionEvent);
             HttpResponseMessage result = task.Result;
             if (result.IsSuccessStatusCode)
             {
