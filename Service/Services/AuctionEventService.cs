@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Invedia.DI.Attributes;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,8 @@ using WebApp.Service.IServices;
 
 namespace WebApp.Service.Services
 {
-	public class AuctionEventService : Base.Service,IAuctionEventService
+    [ScopedDependency(ServiceType = typeof(IAuctionEventService))]
+    public class AuctionEventService : Base.Service,IAuctionEventService
 	{
 		private readonly IAuctionEventRepository _auctionEventRepository;
 		public AuctionEventService(IServiceProvider serviceProvider) : base(serviceProvider)
