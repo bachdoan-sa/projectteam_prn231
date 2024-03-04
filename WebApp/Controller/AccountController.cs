@@ -21,6 +21,10 @@ namespace WebApp.Controller
         [HttpPost]
         public async Task<IActionResult> Register(AccountRegisterModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return Ok(ModelState.ToList());
+            }
             var test = await _accountService.RegisterAccount(model);
             if (test == null)
             {

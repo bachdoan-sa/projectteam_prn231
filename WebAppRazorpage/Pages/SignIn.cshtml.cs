@@ -25,7 +25,7 @@ namespace WebAppRazorpage.Pages
             });
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var task = client.PostAsync(WebApiEndpoint.Account.SignInAccount, content);
+            var task = client.PostAsync(WebAppEndpoint.Account.SignInAccount, content);
             HttpResponseMessage result = task.Result;
             if (result.IsSuccessStatusCode)
             {
