@@ -8,6 +8,7 @@ namespace WebApp.Core.Models.AuctionEventModels
 {
     public class AuctionEventModel
     {
+        public string Id { get; set; }
         public DateTime? BeginDateTime { get; set; }
         public DateTime? EndDateTime { get; set; }
         public string? AuctionStatus { get; set; }

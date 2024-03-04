@@ -13,7 +13,7 @@ namespace WebAppRazorpage.Areas.Admin.Pages.Role
         public void OnGet()
         {
             
-            var task = client.GetAsync(WebApiEndpoint.Role.GetAllRole);
+            var task = client.GetAsync(WebAppEndpoint.Role.GetAllRole);
             HttpResponseMessage result = task.Result;
             List<RoleModel> listRole = new List<RoleModel>();
             if (result.IsSuccessStatusCode)

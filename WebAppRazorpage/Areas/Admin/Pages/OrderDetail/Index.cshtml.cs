@@ -14,7 +14,7 @@ namespace WebAppRazorpage.Areas.Admin.Pages.OrderDetail
         {
 
 
-            var task = client.GetAsync(WebApiEndpoint.OrderDetail.GetAllOrderDetail);
+            var task = client.GetAsync(WebAppEndpoint.OrderDetail.GetAllOrderDetail);
             HttpResponseMessage result = task.Result;
             List<OrderDetailModel> listOrderDetail = new List<OrderDetailModel>();
             if (result.IsSuccessStatusCode)

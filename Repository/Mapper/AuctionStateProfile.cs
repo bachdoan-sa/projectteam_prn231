@@ -13,8 +13,13 @@ namespace WebApp.Repository.Mapper
     {
         public AuctionStateProfile()
         {
-            CreateMap<AuctionStateModel, AuctionState>().ReverseMap();
-            CreateMap<OrchidAuctionModel, AuctionState>().ReverseMap();
+            CreateMap<AuctionStateModel, AuctionState>()
+                .ForMember(x => x.Id, opt => opt.Ignore());
+            CreateMap<AuctionState, AuctionStateModel>();
+
+            CreateMap<OrchidAuctionModel, AuctionState>()
+                .ForMember(x => x.Id, opt => opt.Ignore());
+            CreateMap<AuctionState, OrchidAuctionModel>();
         }
     }
 }

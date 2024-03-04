@@ -119,7 +119,33 @@ namespace WebApp.Service.Services
             var list = _accountRepository.Get().ToListAsync();
             return list;
         }
+        public Task<Account> GetAccountById(string id)
+        {
+                
+            var account = _accountRepository.Get(_ => _.Id == id).FirstOrDefault();
+            if (account == null)
+            {
+                throw new Exception("404");
+            }
+            return Task.FromResult(account);
+        }
+        public Task<string> CreateAccount(AccountModel account)
+        {
+            var passwordHash = CreatePasswordHash(account.Password, out byte[] passwordSalt);
+            var entity = new Account();
+            entity.UserName = account.UserName;
+            entity.PasswordHash = Convert.ToBase64String(passwordHash);
+            entity.PasswordSalt = Convert.ToBase64String(passwordSalt);
+            entity.Email = account.Email;
+            entity.Phone = account.Phone;
+            entity.Address = account.Address;
+            entity.Birthdate = account.Birthdate;
+            entity.RoleId = account.RoleId;
+            _accountRepository.Add(entity);
+            UnitOfWork.SaveChange();
 
+            return Task.FromResult(entity.Id);
+        }
         #region Private Methods
         private byte[] CreatePasswordHash(string password, out byte[] passwordSalt)
         {

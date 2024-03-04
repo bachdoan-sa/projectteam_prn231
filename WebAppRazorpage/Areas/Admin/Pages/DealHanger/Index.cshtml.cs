@@ -14,7 +14,7 @@ namespace WebAppRazorpage.Areas.Admin.Pages.DealHanger
         {
 
 
-            var task = client.GetAsync(WebApiEndpoint.DealHanger.GetAllDealHanger);
+            var task = client.GetAsync(WebAppEndpoint.DealHanger.GetAllDealHanger);
             HttpResponseMessage result = task.Result;
             List<DealHangerModel> listDealHanger = new List<DealHangerModel>();
             if (result.IsSuccessStatusCode)

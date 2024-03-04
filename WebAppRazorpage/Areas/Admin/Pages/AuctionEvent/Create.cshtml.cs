@@ -31,7 +31,7 @@ namespace WebAppRazorpage.Areas.Admin.Pages.AuctionEvent
             });
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var task = client.PostAsync(WebApiEndpoint.AuctionEvent.AddAuctionEvent, content);
+            var task = client.PostAsync(WebAppEndpoint.AuctionEvent.AddAuctionEvent, content);
             HttpResponseMessage result = task.Result;
             if (result.IsSuccessStatusCode)
             {
