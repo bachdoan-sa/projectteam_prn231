@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebApp.Core.Models.DeadHangerModels;
 using WebApp.Repository.Entities;
 using WebApp.Service.IServices;
 using WebApp.Service.Services;
@@ -34,10 +35,10 @@ namespace WebApp.Controller
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(DealHanger dealHanger)
+        public async Task<IActionResult> Post(DealHangerModel dealHanger)
         {
-            var createdDealHanger = await _iDealHangerService.CreateDealHanger(dealHanger);
-            return CreatedAtAction(nameof(GetById), new { id = createdDealHanger.Id }, createdDealHanger);
+            var createdDealHangerId = await _iDealHangerService.CreateDealHanger(dealHanger);
+            return CreatedAtAction(nameof(GetById), new { id = createdDealHangerId }, new { Id = createdDealHangerId });
         }
 
         [HttpPut("{id}")]
@@ -54,6 +55,21 @@ namespace WebApp.Controller
                 return NotFound();
             }
             return Ok(result);
+        }
+
+        [HttpPost("startAuction")]
+        public async Task<IActionResult> StartAuction(DealHangerModel request)
+        {
+            try
+            {
+                string result = await _iDealHangerService.StartAuction(request);
+                return Ok(result); // Return success message
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message); // Return error message
+            }
+
         }
     }
 }
