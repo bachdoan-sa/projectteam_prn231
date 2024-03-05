@@ -8,7 +8,7 @@ using WebApp.Service.IServices;
 
 namespace WebApp.Controller
 {
-    
+
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -21,8 +21,12 @@ namespace WebApp.Controller
         [HttpPost]
         public async Task<IActionResult> Register(AccountRegisterModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return Ok(ModelState.ToList());
+            }
             var test = await _accountService.RegisterAccount(model);
-            if(test == null)
+            if (test == null)
             {
                 return BadRequest();
             }
@@ -54,18 +58,21 @@ namespace WebApp.Controller
         [Authorize]
         [Route(WebApiEndpoint.Account.GetAccount)]
         [HttpGet]
-        public async Task<IActionResult> GetSingle(int id)
+        public async Task<IActionResult> GetSingle(string id)
         {
-            var list = await _accountService.GetAccounts();
-            return Ok("value");
+            var acc = await _accountService.GetAccountById(id);
+            return Ok(acc);
         }
-/*
         // POST api/<AccountController>
+        [Authorize]
+        [Route(WebApiEndpoint.Account.AddAccount)]
         [HttpPost]
-        public void Post( string value)
+        public async Task<IActionResult> AddAccount(AccountModel model)
         {
+            var list = await _accountService.CreateAccount(model);
+            return Ok(list);
         }
-
+        /*
         // PUT api/<AccountController>/5
         [HttpPut("{id}")]
         public void Put(string value)

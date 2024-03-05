@@ -12,6 +12,7 @@ namespace WebApp.Extensions
             services.AddAutoMapper(cfg =>
             {
                 cfg.AddProfile(new AccountProfile());
+                cfg.AddProfile(new AuctionEventProfile());
                 cfg.AddProfile(new AuctionStateProfile());
             });
 

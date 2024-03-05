@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WebAppRazorpage.Constants
 {
-    public class WebApiEndpoint
+    public class WebAppEndpoint
     {
         public const string Host = "https://localhost:7253";
         public const string AreaName = "api";

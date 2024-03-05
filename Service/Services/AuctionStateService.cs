@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Invedia.DI.Attributes;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ using WebApp.Service.IServices;
 
 namespace WebApp.Service.Services
 {
+    [ScopedDependency(ServiceType = typeof(IAuctionStateService))]
     public class AuctionStateService : Base.Service,IAuctionStateService
     {
         private readonly IAuctionStateRepository _auctionStateRepository;

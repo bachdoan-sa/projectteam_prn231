@@ -13,6 +13,7 @@ namespace WebApp.Core.Mapper
     {
         public AccountProfile()
         {
+            CreateMap<AccountModel, Account>().ReverseMap();
             CreateMap<AccountRegisterModel, Account>().ReverseMap();
         }
     }
