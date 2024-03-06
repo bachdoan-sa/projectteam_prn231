@@ -1,0 +1,31 @@
+﻿@page
+@model WebAppRazorpage.Pages.ProductOwner.ProfileModel
+@{
+    Layout = "_ProductOwnerLayout";
+
+}
+
+    <div class="container">
+        <h2>User Profile</h2>
+        <div class="profile-img">
+            <img src="~/images/hoa.jpeg" alt="Profile Picture" >
+        </div>
+        <div class="info-group">
+            <label for="fullName">Full Name:</label>
+            <p id="fullName">John Doe</p>
+        </div>
+        <div class="info-group">
+            <label for="email">Email address:</label>
+            <p id="email">johndoe@example.com</p>
+        </div>
+        <div class="info-group">
+            <label for="phone">Phone Number:</label>
+            <p id="phone">123-456-7890</p>
+        </div>
+        <div class="info-group">
+            <label for="address">Address:</label>
+            <p id="address">123 Main St, City, Country</p>
+        </div>
+    </div>
+
+</html>

@@ -14,23 +14,30 @@ namespace WebAppRazorpage.Pages
         public string Username { get; set; }
         [BindProperty]
         public string Password { get; set; }
-        [BindProperty]
-        public string ReponseMessage { get; set; }
-        public void OnPost()
+        
+        public IActionResult OnPost()
         {
             string json = JsonConvert.SerializeObject(new
             {
                 username = Username,
                 password = Password
             });
-
+            string token;
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var task = client.PostAsync(WebAppEndpoint.Account.SignInAccount, content);
             HttpResponseMessage result = task.Result;
             if (result.IsSuccessStatusCode)
             {
                 Task<string> readString = result.Content.ReadAsStringAsync();
-                ReponseMessage = readString.Result;
+                token = readString.Result;
+                HttpContext.Session.SetString("JwToken", token);
+                return Redirect("~/Index");
+            }
+            else
+            {
+                Task<string> readString = result.Content.ReadAsStringAsync();
+                ViewData["ErrorMessage"] = readString.Result;
+                return Page();
             }
             
         }

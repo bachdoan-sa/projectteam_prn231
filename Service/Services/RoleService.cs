@@ -24,8 +24,12 @@ namespace WebApp.Service.Services
         }
         public Task<string> AddRole(RoleModel model)
         {
+            if(string.IsNullOrEmpty(model.RoleName)) 
+            {
+                throw new Exception("Data gui ve rong");
+            }
             var role = new Role();
-            role.RoleName = model.RoleName;
+            role.RoleName = model.RoleName.ToUpper();
 
             _roleRepository.Add(role);
             UnitOfWork.SaveChange();

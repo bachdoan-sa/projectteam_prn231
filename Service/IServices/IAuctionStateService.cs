@@ -17,5 +17,6 @@ namespace WebApp.Service.IServices
         public Task<string> DeleteAuctionState(string id);
         Task<List<OrchidAuctionModel>> GetOrchidAuctions();
         Task<OrchidAuctionModel> GetOrchidAuction(string id);
+        Task<string> CreateAuctionByOwner(AuctionRequestModel auctionRequest);
     }
 }

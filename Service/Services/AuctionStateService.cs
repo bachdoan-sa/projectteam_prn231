@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebApp.Core.Models.AuctionStateModels;
+using WebApp.Repository.Base;
+using WebApp.Repository.Base.Interface;
 using WebApp.Repository.Entities;
 using WebApp.Repository.Repositories;
 using WebApp.Repository.Repositories.IRepositories;
@@ -15,12 +17,14 @@ using WebApp.Service.IServices;
 namespace WebApp.Service.Services
 {
     [ScopedDependency(ServiceType = typeof(IAuctionStateService))]
-    public class AuctionStateService : Base.Service,IAuctionStateService
+    public class AuctionStateService : Base.Service, IAuctionStateService
     {
         private readonly IAuctionStateRepository _auctionStateRepository;
+        private readonly IAuctionEventRepository _auctionEventRepository;
         public AuctionStateService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _auctionStateRepository = serviceProvider.GetRequiredService<IAuctionStateRepository>();
+            _auctionEventRepository = serviceProvider.GetRequiredService<IAuctionEventRepository>();
         }
         public Task<List<AuctionState>> GetAllAuctionStates()
         {
@@ -89,7 +93,7 @@ namespace WebApp.Service.Services
 
         public Task<List<OrchidAuctionModel>> GetOrchidAuctions()
         {
-            var listEntities = _auctionStateRepository.Get(null,false, _ => _.Orchid, _ => _.AuctionEvent,_ => _.DealHangers).ToList();
+            var listEntities = _auctionStateRepository.Get(null, false, _ => _.Orchid, _ => _.AuctionEvent, _ => _.DealHangers).ToList();
             var result = _mapper.Map<List<OrchidAuctionModel>>(listEntities);
             return Task.FromResult(result);
         }
@@ -101,5 +105,46 @@ namespace WebApp.Service.Services
             return Task.FromResult(result);
         }
         
+
+        public Task<string> CreateAuctionByOwner(AuctionRequestModel auctionRequest)
+        {
+            
+                // Create a new AuctionEvent
+                var auctionEvent = new AuctionEvent
+                {
+                    BeginDateTime = auctionRequest.BeginDateTime,
+                    EndDateTime = auctionRequest.EndDateTime,
+                    AuctionStatus = "Pending",
+                    // Set other properties accordingly
+                };
+
+            // Create a new AuctionState for the Orchid
+            var auctionState = new AuctionState
+            {
+                Position = 1,
+                StartingPrice = auctionRequest.StartingPrice,
+                ExpectedPrice = auctionRequest.ExpectedPrice,
+                MinRaise = auctionRequest.MinRaise,
+                MaxRaise = auctionRequest.MaxRaise,
+                AuctionStateStatus = "HoldOn",
+                FinalPrice = auctionRequest.FinalPrice,
+                AuctionEventId = auctionEvent.Id,
+                OrchidId = auctionRequest.orchidId
+                // Set other properties accordingly
+            };
+
+                // Associate AuctionState with Orchid
+               
+
+                 _auctionEventRepository.Add(auctionEvent);
+                 _auctionStateRepository.Add(auctionState);
+
+                // Save changes asynchronously
+                UnitOfWork.SaveChange();
+            
+            
+            return Task.FromResult(auctionState.Id);
+        }
     }
+    
 }
