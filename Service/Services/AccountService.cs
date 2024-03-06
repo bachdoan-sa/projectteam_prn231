@@ -112,15 +112,16 @@ namespace WebApp.Service.Services
             }
             return Task.FromResult(ErrorCode.UserFailAuth);
         }
-        public Task<List<Account>> GetAccounts()
+        public Task<List<AccountModel>> GetAccounts()
         {
             /* ví dụ: _repository.Get(_ => _.UserName.Contains("a"),false,_=>_.Orchids)
                 _ => _.UserName.Contains("a") là query options
                 false là có lấy những đối tượng bị xóa luôn ko
                 _=>_.Orchids là bao gồm các bảng nào 'include options'
              */
-            var list = _accountRepository.Get().ToListAsync();
-            return list;
+            var list = _accountRepository.Get().Include(_=>_.Role).ToListAsync().Result;
+            var result = _mapper.Map<List<AccountModel>>(list);
+            return Task.FromResult(result);
         }
         public Task<Account> GetAccountById(string id)
         {
