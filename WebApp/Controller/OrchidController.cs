@@ -3,8 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApp.Core.Constants;
+using WebApp.Core.Models.OrchidModels;
 using WebApp.Repository.Entities;
 using WebApp.Service.IServices;
+using WebApp.Service.Services;
 
 namespace WebApp.API.Controllers
 {
@@ -38,10 +40,10 @@ namespace WebApp.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AddOrchid(Orchid orchid)
+        public async Task<ActionResult> AddOrchid(OrchidModel orchid)
         {
             await _orchidsService.AddOrchid(orchid);
-            return Ok();
+            return Ok(orchid);
         }
 
         [HttpPut("{id}")]
@@ -55,6 +57,17 @@ namespace WebApp.API.Controllers
             await _orchidsService.UpdateOrchid(orchid);
             return Ok();
         }
-        
+
+        [HttpGet("Owner{id}")]
+        public async Task<ActionResult<List<OrchidModel>>> GetOrchidsByProductOwnerId(string id)
+        {
+            var orchids = await _orchidsService.GetOrchidByProductOwnerId(id);
+            if (orchids == null)
+            {
+                return NotFound();
+            }
+            return orchids;
+        }
+
     }
 }

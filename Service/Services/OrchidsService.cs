@@ -8,17 +8,21 @@ using System.Threading.Tasks;
 using WebApp.Repository.Repositories.IRepositories;
 using Microsoft.EntityFrameworkCore;
 using Invedia.DI.Attributes;
+using WebApp.Core.Models.OrchidModels;
+using WebApp.Repository.Base;
+using WebApp.Repository.Repositories;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WebApp.Service.Services
 {
     [ScopedDependency(ServiceType = typeof(IOrchidsService))]
-    public class OrchidsService : IOrchidsService
+    public class OrchidsService : Base.Service, IOrchidsService
     {
         private readonly IOrchidsRepository _orchidsRepository;
 
-        public OrchidsService(IOrchidsRepository orchidsRepository)
+        public OrchidsService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
-            _orchidsRepository = orchidsRepository;
+            _orchidsRepository = serviceProvider.GetRequiredService<IOrchidsRepository>();
         }
 
         public Task<List<Orchid>> GetAllOrchids()
@@ -33,10 +37,19 @@ namespace WebApp.Service.Services
             return orchid;
         }
 
-        public Task AddOrchid(Orchid orchid)
+        public Task<string> AddOrchid(OrchidModel model)
         {
-            var addorchid = _orchidsRepository.Add(orchid);
-            return Task.FromResult(addorchid);
+            var orchid = new Orchid();
+            orchid.Name = model.Name;
+            orchid.Description = model.Description;
+            orchid.Price = model.Price;
+            orchid.OrchidStatus = model.OrchidStatus;
+            orchid.OrchidCategoryId = model.OrchidCategoryId;
+            orchid.ProductOwnerId = model.ProductOwnerId;
+
+            _orchidsRepository.Add(orchid);
+            UnitOfWork.SaveChange();
+            return Task.FromResult(orchid.Id);
         }
 
 
@@ -45,16 +58,11 @@ namespace WebApp.Service.Services
             var existingOrchids = _orchidsRepository.GetSingle(x => x.Id == orchid.Id);
             if (existingOrchids != null)
             {
-
-
-                
                 existingOrchids.Name = orchid.Name;
                 existingOrchids.Description = orchid.Description;
                 existingOrchids.Price = orchid.Price;
                 existingOrchids.OrchidCategory = orchid.OrchidCategory;
                 existingOrchids.OrchidStatus = orchid.OrchidStatus;
-
-
 
                 _orchidsRepository.Update(existingOrchids);
 
@@ -62,5 +70,20 @@ namespace WebApp.Service.Services
             return Task.FromResult(existingOrchids.Id);
         }
 
+        public async Task<List<OrchidModel>> GetOrchidByProductOwnerId(string id)
+        {
+            var orchids = await _orchidsRepository.Get(orchid => orchid.ProductOwnerId == id).ToListAsync();
+            var orchidModels = orchids.Select(orchid => new OrchidModel
+            {
+                Name = orchid.Name,
+                Description = orchid.Description,
+                Price = orchid.Price,
+                OrchidStatus = orchid.OrchidStatus,
+                OrchidCategoryId = orchid.OrchidCategoryId,
+                ProductOwnerId = id
+            }).ToList();
+
+            return orchidModels;
+        }
     }
 }
