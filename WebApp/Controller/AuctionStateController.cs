@@ -68,7 +68,7 @@ namespace WebApp.Controller
         [HttpDelete]
         public async Task<IActionResult> DeleteAuctionState(string id)
         {
-            var flag = _stateService.DeleteAuctionState(id);
+            var flag = await _stateService.DeleteAuctionState(id);
             return Ok(flag);
         }
 

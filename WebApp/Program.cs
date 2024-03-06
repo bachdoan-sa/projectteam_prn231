@@ -17,7 +17,8 @@ namespace WebApp
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
+            // Add HttpContextAccessor
+            builder.Services.AddHttpContextAccessor();
             // Add services to the container.
             builder.Services.AddAuthorization();
             // Add Identity Service with JWT Token Authentication and Role-based Authorization

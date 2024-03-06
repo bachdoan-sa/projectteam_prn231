@@ -50,6 +50,25 @@ namespace WebApp.Controller
                 return BadRequest(ex.Message);
             }
         }
+        [Route("~/api/Account/getwholognow")]
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> GetWho()
+        {
+            try
+            {
+                var test = await _accountService.GetWhoYouAre();
+                if (test == null)
+                {
+                    return BadRequest();
+                }
+                return Ok(test);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         // GET: api/<AccountController>
         [Authorize(Roles = UserRole.ADMIN)]
         [Route(WebApiEndpoint.Account.GetAllAccount)]
