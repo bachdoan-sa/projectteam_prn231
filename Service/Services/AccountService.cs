@@ -133,6 +133,11 @@ namespace WebApp.Service.Services
             }
             return Task.FromResult(account);
         }
+        //test auth
+        public Task<string> GetWhoYouAre()
+        {
+            return Task.FromResult(GetSidLogged());
+        }
         public Task<string> CreateAccount(AccountModel account)
         {
             var passwordHash = CreatePasswordHash(account.Password, out byte[] passwordSalt);
@@ -160,15 +165,16 @@ namespace WebApp.Service.Services
             }
         }
 
-        /* private string GetSidLogged()
-         {
-             var sid = _http.HttpContext?.User.FindFirst(ClaimTypes.Sid)?.Value;
-             if (sid == null)
-             {
-                 throw new Exception(ErrorCode.NotFound);
-             }
-             return sid;
-         }*/
+        private string GetSidLogged()
+        {
+            var sid = _http.HttpContext?.User.FindFirst(ClaimTypes.Sid)?.Value;
+            if (sid == null)
+            {
+                throw new Exception(ErrorCode.NotFound);
+            }
+            return sid;
+        }
+       
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
@@ -205,7 +211,7 @@ namespace WebApp.Service.Services
                     new Claim(JwtRegisteredClaimNames.Sub,_configuration.GetValue<string>("Jwt:Subject")),
                     new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Iat,DateTime.UtcNow.ToString()),
-                    new Claim("Id",logUser.Id),
+                    new Claim(ClaimTypes.Sid,logUser.Id),
                     new Claim("Username",logUser.UserName),
                     new Claim(ClaimTypes.Role,roleName),
                 };
