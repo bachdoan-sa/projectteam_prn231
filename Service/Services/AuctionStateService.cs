@@ -1,4 +1,5 @@
 ﻿using Invedia.DI.Attributes;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using WebApp.Core.Models.AuctionStateModels;
 using WebApp.Repository.Base;
 using WebApp.Repository.Base.Interface;
 using WebApp.Repository.Entities;
+using WebApp.Repository.Repositories;
 using WebApp.Repository.Repositories.IRepositories;
 using WebApp.Service.IServices;
 
@@ -26,23 +28,68 @@ namespace WebApp.Service.Services
         }
         public Task<List<AuctionState>> GetAllAuctionStates()
         {
-            throw new NotImplementedException();
+            var list  = _auctionStateRepository.Get().ToListAsync();
+            return list;
         }
 
-        public Task<AuctionState> GetAuctionStateById(string id)
+        public Task<AuctionStateModel> GetAuctionStateById(string id)
         {
-            throw new NotImplementedException();
+            var entity = _auctionStateRepository.Get(_ => _.Id.Equals(id)).FirstOrDefault();
+            var result = _mapper.Map<AuctionStateModel>(entity);
+            return Task.FromResult(result);
         }
 
-        public Task CreateAuctionState(AuctionState auctionState)
+        public Task<string> CreateAuctionState(AuctionStateModel model)
         {
-            throw new NotImplementedException();
+            var entity = new AuctionState
+            {
+                Position = model.Position,
+                StartingPrice = model.StartingPrice,
+                ExpectedPrice = model.ExpectedPrice,
+                MinRaise = model.MinRaise,
+                MaxRaise = model.MaxRaise,
+                AuctionStateStatus = model.AuctionStateStatus,
+                FinalPrice = model.FinalPrice,
+            };
+            _auctionStateRepository.Add(entity);
+            UnitOfWork.SaveChange();
+            return Task.FromResult(entity.Id);
         }
+        public Task<string> UpdateAuctionState(AuctionStateModel auctionState)
+        {
+            var entity = _auctionStateRepository.Get(_ => _.Id.Equals(auctionState.Id)).FirstOrDefault();
 
-        public Task UpdateAuctionState(AuctionState auctionState)
-        {
-            throw new NotImplementedException();
+            if (entity == null)
+            {
+                return Task.FromResult("Not Found Auction Need Update");
+            }
+           
+                entity.Position = auctionState.Position;
+                entity.StartingPrice = auctionState.StartingPrice;
+                entity.ExpectedPrice = auctionState.ExpectedPrice;
+                entity.MinRaise = auctionState.MinRaise;
+                entity.MaxRaise = auctionState.MaxRaise;
+                entity.AuctionStateStatus = auctionState.AuctionStateStatus;
+                entity.FinalPrice = auctionState.FinalPrice;
+
+                _auctionStateRepository.Update(entity);
+                UnitOfWork.SaveChange();
+            return Task.FromResult(entity.Id);
         }
+        public Task<string> DeleteAuctionState(string id)
+        {
+            var entity = _auctionStateRepository.Get(_ => _.Id.Equals(id)).FirstOrDefault();
+            if(entity != null)
+            _auctionStateRepository.Delete(entity);
+            UnitOfWork.SaveChange();
+            return Task.FromResult("Delete Successfully");
+        }
+        /* 
+          public Task UpdateAuctionState(AuctionState auctionState)
+          {
+              throw new NotImplementedException();
+          }
+        */
 
         public Task<List<OrchidAuctionModel>> GetOrchidAuctions()
         {
@@ -57,6 +104,7 @@ namespace WebApp.Service.Services
             var result = _mapper.Map<OrchidAuctionModel>(entity);
             return Task.FromResult(result);
         }
+        
 
         public Task<string> CreateAuctionByOwner(AuctionRequestModel auctionRequest)
         {
