@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Net.WebRequestMethods;
 using WebApp.Core.Models.AccountModels;
+using WebApp.Core.Models.OrchidModels;
 
 namespace WebApp.Service.IServices
 {
@@ -17,8 +18,9 @@ namespace WebApp.Service.IServices
     {
         Task<List<Orchid>> GetAllOrchids();
         Task<Orchid> GetOrchidById(string id);
-        Task AddOrchid(Orchid orchid);
+        Task<string> AddOrchid(OrchidModel model);
         Task UpdateOrchid(Orchid orchid);
-
+        Task<List<OrchidModel>> GetOrchidByProductOwnerId(string id);
+        
     }
 }
