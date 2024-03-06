@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Core.Constants;
+using WebApp.Core.Models.AuctionStateModels;
 using WebApp.Repository.Entities;
 using WebApp.Service.IServices;
 using WebApp.Service.Services;
@@ -53,6 +54,12 @@ namespace WebApp.Controller
         {
 
             return Ok(await _stateService.GetOrchidAuction(id));
+        }
+
+        [HttpPost("CreateAuctionByOwner")]
+        public async Task<ActionResult> CreateAuctionByOwner(AuctionRequestModel model)
+        {
+            return Ok(await _stateService.CreateAuctionByOwner(model));
         }
     }
 }
