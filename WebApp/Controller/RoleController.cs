@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Core.Constants;
 using WebApp.Core.Models.AccountModels;
@@ -8,6 +9,7 @@ using WebApp.Service.Services;
 
 namespace WebApp.Controller
 {
+    [Authorize(Roles = UserRole.ADMIN)]
     [ApiController]
     public class RoleController : ControllerBase
     {

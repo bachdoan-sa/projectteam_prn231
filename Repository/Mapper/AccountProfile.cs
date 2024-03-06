@@ -13,7 +13,9 @@ namespace WebApp.Core.Mapper
     {
         public AccountProfile()
         {
-            CreateMap<AccountModel, Account>().ReverseMap();
+            CreateMap<AccountModel, Account>()
+                .ForMember(x => x.Id, opt => opt.Ignore());
+            CreateMap<Account, AccountModel>();
             CreateMap<AccountRegisterModel, Account>().ReverseMap();
         }
     }

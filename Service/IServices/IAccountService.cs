@@ -16,7 +16,7 @@ namespace WebApp.Service.IServices
     public interface IAccountService 
     { 
         //Add method here :v
-        public Task<List<Account>> GetAccounts();
+        public Task<List<AccountModel>> GetAccounts();
         public Task<Account> GetAccountById(string id);
         public Task<string> RegisterAccount(AccountRegisterModel model);
         public Task<string> LoginAccount(AccountLoginModel model);

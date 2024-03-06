@@ -21,7 +21,7 @@ namespace WebApp
             // Add services to the container.
             builder.Services.AddAuthorization();
             // Add Identity Service with JWT Token Authentication and Role-based Authorization
-            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            /*builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
                     // Fix Null Reference Exception by checking if configuration is null before accessing GetSection()
@@ -32,7 +32,21 @@ namespace WebApp
                         ValidateIssuer = false,
                         ValidateAudience = false
                     };
-                });
+                });*/
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+               .AddJwtBearer(options =>
+               {
+                   options.TokenValidationParameters = new TokenValidationParameters
+                   {
+                       ValidateIssuer = false, //disable boi vi ko co link :v
+                       ValidateAudience = false, //disable boi vi ko co link :v
+                       ValidateLifetime = true,
+                       ValidateIssuerSigningKey = true,
+                       ValidIssuer = builder.Configuration.GetValue<string>("Jwt:Issuer"),
+                       ValidAudience = builder.Configuration.GetValue<string>("Jwt:Audience"),
+                       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration.GetValue<string>("Jwt:Key")))
+                   };
+               });
             // Add Bb Context
             builder.Services.AddDbContext<AppDbContext>();
             // Add Scoped Dependency Injection with Invedia framework.
@@ -44,7 +58,7 @@ namespace WebApp
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen(option =>
+            /*builder.Services.AddSwaggerGen(option =>
             {
                 option.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {
@@ -54,9 +68,34 @@ namespace WebApp
                     Type = SecuritySchemeType.ApiKey
                 });
                 option.OperationFilter<SecurityRequirementsOperationFilter>();
+            });*/
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Orchid API", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] {}
+                    }
+                });
             });
-
-
+            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -70,8 +109,10 @@ namespace WebApp
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Orchid v1"));
             app.UseStaticFiles();
             app.UseRouting();
+
             app.UseAuthentication();
             app.UseAuthorization();
+
             app.MapControllers();
 
 

@@ -8,7 +8,10 @@ namespace WebAppRazorpage
 
             // Add services to the container.
             builder.Services.AddRazorPages();
-
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(60);
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -23,7 +26,7 @@ namespace WebAppRazorpage
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseSession();
             app.UseAuthorization();
 
             app.MapRazorPages();

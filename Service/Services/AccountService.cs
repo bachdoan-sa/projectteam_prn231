@@ -78,24 +78,27 @@ namespace WebApp.Service.Services
             _accountRepository.Add(account);
             UnitOfWork.SaveChange();
 
-            return Task.FromResult(CreateBearerToken(account));
+            return Task.FromResult(CreateBearerToken(account, UserRole.CUSTOMER));
         }
         public Task<string> LoginAccount(AccountLoginModel loginModel)
         {
             string AdminId = _configuration.GetValue<string>("AdminAccount:Id");
             string AdminUserName = _configuration.GetValue<string>("AdminAccount:UserName");
             string AdminPassword = _configuration.GetValue<string>("AdminAccount:Password");
-            if (loginModel.UserName == AdminUserName && loginModel.Password == AdminPassword) 
+            string roleName;
+            if (loginModel.UserName == AdminUserName && loginModel.Password == AdminPassword)
             {
+                roleName = UserRole.ADMIN;
                 Account AdminAcc = new Account
                 {
-                    Id = AdminId
+                    Id = AdminId,
+                    UserName = AdminUserName,
                 };
-                return Task.FromResult(CreateBearerToken(AdminAcc));
+                return Task.FromResult(CreateBearerToken(AdminAcc, roleName));
             }
             else
             {
-                var user = _accountRepository.Get(_ => _.UserName == loginModel.UserName).FirstOrDefault();
+                var user = _accountRepository.Get(_ => _.UserName == loginModel.UserName,false,_=>_.Role).FirstOrDefault();
                 if (user != null)
                 {
                     var check = VerifyPasswordHash(loginModel.Password,
@@ -103,25 +106,26 @@ namespace WebApp.Service.Services
                         Convert.FromBase64String(user.PasswordSalt));
                     if (check)
                     {
-                        return Task.FromResult(CreateBearerToken(user));
+                        return Task.FromResult(CreateBearerToken(user, user.Role.RoleName));
                     }
                 }
             }
-            return Task.FromResult(ErrorCode.UserFailAuth);
+            throw new Exception(ErrorCode.UserFailAuth);
         }
-        public Task<List<Account>> GetAccounts()
+        public Task<List<AccountModel>> GetAccounts()
         {
             /* ví dụ: _repository.Get(_ => _.UserName.Contains("a"),false,_=>_.Orchids)
                 _ => _.UserName.Contains("a") là query options
                 false là có lấy những đối tượng bị xóa luôn ko
                 _=>_.Orchids là bao gồm các bảng nào 'include options'
              */
-            var list = _accountRepository.Get().ToListAsync();
-            return list;
+            var list = _accountRepository.Get().Include(_=>_.Role).ToListAsync().Result;
+            var result = _mapper.Map<List<AccountModel>>(list);
+            return Task.FromResult(result);
         }
         public Task<Account> GetAccountById(string id)
         {
-                
+
             var account = _accountRepository.Get(_ => _.Id == id).FirstOrDefault();
             if (account == null)
             {
@@ -156,15 +160,15 @@ namespace WebApp.Service.Services
             }
         }
 
-       /* private string GetSidLogged()
-        {
-            var sid = _http.HttpContext?.User.FindFirst(ClaimTypes.Sid)?.Value;
-            if (sid == null)
-            {
-                throw new Exception(ErrorCode.NotFound);
-            }
-            return sid;
-        }*/
+        /* private string GetSidLogged()
+         {
+             var sid = _http.HttpContext?.User.FindFirst(ClaimTypes.Sid)?.Value;
+             if (sid == null)
+             {
+                 throw new Exception(ErrorCode.NotFound);
+             }
+             return sid;
+         }*/
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
@@ -179,9 +183,9 @@ namespace WebApp.Service.Services
             return true;
         }
 
-        private string CreateBearerToken(Account logUser)
+        private string CreateBearerToken(Account logUser, string roleName)
         {
-            List<Claim> claims = new List<Claim>
+            /*List<Claim> claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Sid, logUser.Id.ToString())
             };
@@ -195,7 +199,34 @@ namespace WebApp.Service.Services
                                              signingCredentials: creds
                                             );
             var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-            return "bearer " + tokenString;
+            return "bearer " + tokenString;*/
+            var claims = new[]
+                {
+                    new Claim(JwtRegisteredClaimNames.Sub,_configuration.GetValue<string>("Jwt:Subject")),
+                    new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
+                    new Claim(JwtRegisteredClaimNames.Iat,DateTime.UtcNow.ToString()),
+                    new Claim("Id",logUser.Id),
+                    new Claim("Username",logUser.UserName),
+                    new Claim(ClaimTypes.Role,roleName),
+                };
+            //get JWT key valude in appsettings
+            var JwtKey = Encoding.UTF8.GetBytes(_configuration.GetValue<string>("Jwt:Key"));
+            if(JwtKey == null)
+            {
+                throw new ArgumentNullException(nameof(JwtKey));
+            }
+
+            var key = new SymmetricSecurityKey(JwtKey);
+            var signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var token = new JwtSecurityToken(
+                _configuration.GetValue<string>("Jwt:Subject"),
+                _configuration.GetValue<string>("Jwt:Audience"),
+                claims,
+                expires: DateTime.Now.AddMinutes(60),
+                signingCredentials: signIn);
+            string tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return /*"Bearer " +*/ tokenString;
         }
 
         // Check the token is valid and not expired
@@ -205,7 +236,7 @@ namespace WebApp.Service.Services
             token = token.Substring(7);
             var tokenHandler = new JwtSecurityTokenHandler();
 #pragma warning disable CS8604 // Possible null reference argument.
-            var key = Encoding.ASCII.GetBytes(_configuration.GetSection("AppSettings:Token").Value);
+            var key = Encoding.ASCII.GetBytes(_configuration.GetSection("Jwt:Key").Value);
 #pragma warning restore CS8604 // Possible null reference argument.
             tokenHandler.ValidateToken(token, new TokenValidationParameters
             {
