@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Core.Constants;
+using WebApp.Core.Models.AuctionStateModels;
 using WebApp.Repository.Entities;
 using WebApp.Service.IServices;
 using WebApp.Service.Services;
@@ -33,13 +34,44 @@ namespace WebApp.Controller
             }
             return Ok(auctionState);
         }
-
+        [Route(WebApiEndpoint.AuctionState.AddAuctionState)]
         [HttpPost]
-        public async Task<ActionResult> CreateAuctionState(Repository.Entities.AuctionState auctionState)
+        public async Task<IActionResult> CreateAuctionState(AuctionStateModel auctionStateModel)
         {
-            await _stateService.CreateAuctionState(auctionState);
-            return Ok();
+            if (!ModelState.IsValid)
+            {
+                return Ok(ModelState.ToList());
+            }
+            var flag = await _stateService.CreateAuctionState(auctionStateModel);
+            return Ok(flag);
         }
+        //[Route(WebApiEndpoint.AuctionState.UpdateAuctionState)]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAuctionState( string id, AuctionStateModel auctionStateModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Ok(ModelState.ToList());
+            }
+            if (!id.Equals(auctionStateModel.Id))
+            {
+                return BadRequest();
+            }
+            var flag = await _stateService.UpdateAuctionState(auctionStateModel);
+            if(flag == null) 
+            {
+                return NotFound();
+            }
+            return Ok(flag);
+        }
+        [Route(WebApiEndpoint.AuctionState.DeleteAuctionState)]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteAuctionState(string id)
+        {
+            var flag = _stateService.DeleteAuctionState(id);
+            return Ok(flag);
+        }
+
         [Route(WebApiEndpoint.AuctionState.GetOrchidAuctions)]
         [HttpGet]
         public async Task<IActionResult> GetOrchidAuctions()

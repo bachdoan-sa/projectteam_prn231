@@ -11,9 +11,10 @@ namespace WebApp.Service.IServices
     public interface IAuctionStateService
     {
         Task<List<AuctionState>> GetAllAuctionStates();
-        Task<AuctionState> GetAuctionStateById(string id);
-        Task CreateAuctionState(AuctionState auctionState);
-        Task UpdateAuctionState(AuctionState auctionState);
+        Task<AuctionStateModel> GetAuctionStateById(string id);
+        Task<string> CreateAuctionState(AuctionStateModel auctionState);
+        Task<string> UpdateAuctionState(AuctionStateModel auctionState);
+        public Task<string> DeleteAuctionState(string id);
         Task<List<OrchidAuctionModel>> GetOrchidAuctions();
         Task<OrchidAuctionModel> GetOrchidAuction(string id);
     }

@@ -10,6 +10,7 @@ using WebApp.Repository.Entities;
 using WebApp.Repository.Repositories;
 using WebApp.Repository.Repositories.IRepositories;
 using WebApp.Service.IServices;
+using static WebApp.Core.Constants.WebApiEndpoint;
 
 namespace WebApp.Service.Services
 {
@@ -23,8 +24,8 @@ namespace WebApp.Service.Services
 		}
 		public Task<string> CreateAuctionEvent(AuctionEventModel model)
 		{
-			var entity = new AuctionEvent
-			{
+			var entity = new Repository.Entities.AuctionEvent
+            {
 				BeginDateTime = model.BeginDateTime,
 				EndDateTime = model.EndDateTime,
 				AuctionStatus = model.AuctionStatus,
@@ -49,9 +50,24 @@ namespace WebApp.Service.Services
 			return Task.FromResult(result);
 		}
 
-		public Task<string> UpdateAuctionEvent(AuctionEventModel model)
+		public Task<string> UpdateAuctionEvent(AuctionEventModel auctionEventModel)
 		{
-			throw new NotImplementedException();
-		}
+            var entity = _auctionEventRepository.Get(_ => _.Id.Equals(auctionEventModel.Id)).FirstOrDefault();
+
+            if (entity == null)
+            {
+                return Task.FromResult("Not Found Auction Event Need Update");
+            }
+
+            entity.BeginDateTime = auctionEventModel.BeginDateTime;
+            entity.EndDateTime = auctionEventModel.EndDateTime;
+            entity.AuctionStatus = auctionEventModel.AuctionStatus;
+            entity.StaffId = auctionEventModel.StaffId;
+
+
+            _auctionEventRepository.Update(entity);
+            UnitOfWork.SaveChange();
+            return Task.FromResult(entity.Id);
+        }
 	}
 }
