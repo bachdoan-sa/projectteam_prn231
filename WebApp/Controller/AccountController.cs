@@ -44,7 +44,7 @@ namespace WebApp.Controller
             return Ok(test);
         }
         // GET: api/<AccountController>
-        [Authorize]
+        [Authorize(Roles = UserRole.ADMIN)]
         [Route(WebApiEndpoint.Account.GetAllAccount)]
         [HttpGet]
         public async Task<IActionResult> GetAll()

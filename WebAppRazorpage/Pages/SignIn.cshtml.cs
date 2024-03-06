@@ -23,11 +23,17 @@ namespace WebAppRazorpage.Pages
                 username = Username,
                 password = Password
             });
-
+            string token;
             var content = new StringContent(json, Encoding.UTF8, "application/json");
             var task = client.PostAsync(WebAppEndpoint.Account.SignInAccount, content);
             HttpResponseMessage result = task.Result;
             if (result.IsSuccessStatusCode)
+            {
+                Task<string> readString = result.Content.ReadAsStringAsync();
+                token = readString.Result;
+                HttpContext.Session.SetString("JwToken", token);
+            }
+            else
             {
                 Task<string> readString = result.Content.ReadAsStringAsync();
                 ReponseMessage = readString.Result;
