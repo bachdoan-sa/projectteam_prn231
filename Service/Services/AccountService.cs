@@ -110,7 +110,7 @@ namespace WebApp.Service.Services
                     }
                 }
             }
-            return Task.FromResult(ErrorCode.UserFailAuth);
+            throw new Exception(ErrorCode.UserFailAuth);
         }
         public Task<List<AccountModel>> GetAccounts()
         {

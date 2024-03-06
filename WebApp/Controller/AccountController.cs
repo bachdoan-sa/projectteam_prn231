@@ -36,12 +36,19 @@ namespace WebApp.Controller
         [HttpPost]
         public async Task<IActionResult> Login(AccountLoginModel model)
         {
-            var test = await _accountService.LoginAccount(model);
-            if (test == null)
+            try
             {
-                return BadRequest();
+                var test = await _accountService.LoginAccount(model);
+                if (test == null)
+                {
+                    return BadRequest();
+                }
+                return Ok(test);
             }
-            return Ok(test);
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         // GET: api/<AccountController>
         [Authorize(Roles = UserRole.ADMIN)]

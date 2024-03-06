@@ -2,6 +2,7 @@
 @model WebAppRazorpage.Pages.SignInModel
 @{
     ViewData["Title"] = "Login";
+    var errorMessage = ViewData["ErrorMessage"] as string ?? "";
 }
 
 <h1>Login</h1>
@@ -19,7 +20,7 @@
     </div>
     <input class="btn btn-primary" value="Sign In" type="submit" />
 </form>
-<p readonly style="color:red">@Model.ReponseMessage</p>
+<p readonly style="color:red">@errorMessage</p>
 <div>
     <a asp-page="./SignUp">SignUp Here</a> | <a asp-page="./ForgotPassword">Forgot Password</a>
 </div>

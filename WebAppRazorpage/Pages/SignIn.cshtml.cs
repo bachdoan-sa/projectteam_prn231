@@ -14,9 +14,8 @@ namespace WebAppRazorpage.Pages
         public string Username { get; set; }
         [BindProperty]
         public string Password { get; set; }
-        [BindProperty]
-        public string ReponseMessage { get; set; }
-        public void OnPost()
+        
+        public IActionResult OnPost()
         {
             string json = JsonConvert.SerializeObject(new
             {
@@ -32,11 +31,13 @@ namespace WebAppRazorpage.Pages
                 Task<string> readString = result.Content.ReadAsStringAsync();
                 token = readString.Result;
                 HttpContext.Session.SetString("JwToken", token);
+                return Redirect("~/Index");
             }
             else
             {
                 Task<string> readString = result.Content.ReadAsStringAsync();
-                ReponseMessage = readString.Result;
+                ViewData["ErrorMessage"] = readString.Result;
+                return Page();
             }
             
         }
