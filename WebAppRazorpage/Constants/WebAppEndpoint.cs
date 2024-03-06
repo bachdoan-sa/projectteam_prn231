@@ -37,7 +37,9 @@ namespace WebAppRazorpage.Constants
 		}
         public static class AuctionState
         {
-
+            private const string BaseEndpoint = Host + "/" + AreaName + "/" + nameof(AuctionState);
+            
+            public const string CreateAuctionByOwner = BaseEndpoint + "/CreateAuctionByOwner";
         }
         public static class DealHanger
         {

@@ -15,5 +15,9 @@ namespace WebApp.Core.Models.OrchidModels
 
         public string? OrchidCategoryId { get; set; }
         public string? ProductOwnerId { get; set; }
+        public string? MutationId { get; set; }
+        public string Color { get; set; }
+        public double Size { get; set; }
+        public string Shape { get; set; }
     }
 }

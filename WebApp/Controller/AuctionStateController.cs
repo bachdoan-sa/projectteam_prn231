@@ -87,7 +87,8 @@ namespace WebApp.Controller
             return Ok(await _stateService.GetOrchidAuction(id));
         }
 
-        [HttpPost("CreateAuctionByOwner")]
+        [Route(WebApiEndpoint.AuctionState.CreateAuctionByOwner)]
+        [HttpPost]
         public async Task<ActionResult> CreateAuctionByOwner(AuctionRequestModel model)
         {
             return Ok(await _stateService.CreateAuctionByOwner(model));
