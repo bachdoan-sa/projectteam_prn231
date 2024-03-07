@@ -1,5 +1,5 @@
 ﻿@page
-@model WebAppRazorpage.Pages.Auction.AuctionsModel
+@model WebAppRazorpage.Pages.ProductOwner.IndexModel
 @{
     Layout = "_ProductOwnerLayout";
    
@@ -17,41 +17,81 @@
                              </div>
                          </div>
                          <div class="col-lg-12">
-                             <form id="contact-form" action="" method="post">
-                                 <div class="row">
-                                     <div class="col-lg-6">
-                                         <fieldset>
-                                             <input type="" name="" id="" placeholder="Nhập Màu sắc" autocomplete="on" required>
-                                         </fieldset>
-                                     </div>
-                                     <div class="col-lg-6">
-                                         <fieldset>
-                                             <input type="" name="" id="" placeholder="Nhập Kích thước" autocomplete="on" required>
-                                         </fieldset>
-                                     </div>
-                                     <div class="col-lg-6">
-                                         <fieldset>
-                                             <input type="" name="" id="" placeholder="Nhập Hình dáng" autocomplete="on">
-                                         </fieldset>
-                                     </div>
-                                     <div class="col-lg-6">
-                                         <fieldset>
-                                             <input type="file">
-                                         </fieldset>
-                                     </div>
-                                     <div class="col-lg-12">
-                                         <fieldset>
-                                             <input type="" name="" id="" placeholder="Nhập giá" autocomplete="on">
-                                         </fieldset>
-                                     </div>
-                                     <div class="col-lg-12">
-                                         <fieldset>
-                                             <button type="submit" id="form-submit" class="orange-button">SUBMIT</button>
-                                         </fieldset>
-                                     </div>
-
-                                 </div>
-                             </form>
+                            <form id="contact-form" method="post">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <fieldset>
+                                            <input asp-for="Name" class="form-control" placeholder="Nhập Tên" autocomplete="on" required>
+                                            <span asp-validation-for="Name" class="text-danger"></span>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <fieldset>
+                                            <input asp-for="Description" class="form-control" placeholder="Nhập Mô tả" autocomplete="on" required>
+                                            <span asp-validation-for="Description" class="text-danger"></span>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <fieldset>
+                                            <select asp-for="CategoryId" class="form-control" required>
+                                                <option value="">Chọn Category</option>
+                                                @foreach (var category in Model.Categories)
+                                                {
+                                                    <option value="@category.Id">@category.CategoryName</option>
+                                                }
+                                            </select>
+                                            <span asp-validation-for="CategoryId" class="text-danger"></span>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <fieldset>
+                                            <select asp-for="MutationId" class="form-control">
+                                                <option value="">Chọn Mutation</option>
+                                                @foreach (var mutation in Model.Mutations)
+                                                {
+                                                    <option value="@mutation.Id">@mutation.MutationPosition</option>
+                                                }
+                                            </select>
+                                            <span asp-validation-for="MutationId" class="text-danger"></span>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <fieldset>
+                                            <input asp-for="Color" class="form-control" placeholder="Nhập Màu sắc" autocomplete="on" required>
+                                            <span asp-validation-for="Color" class="text-danger"></span>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <fieldset>
+                                            <input asp-for="Size" class="form-control" placeholder="Nhập Kích thước" autocomplete="on" required>
+                                            <span asp-validation-for="Size" class="text-danger"></span>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <fieldset>
+                                            <input asp-for="Shape" class="form-control" placeholder="Nhập Hình dáng" autocomplete="on">
+                                            <span asp-validation-for="Shape" class="text-danger"></span>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <fieldset>
+                                           @*  <input type="file" asp-for="">
+                                            <span asp-validation-for="Image" class="text-danger"></span> *@
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <fieldset>
+                                            <input asp-for="Price" class="form-control" placeholder="Nhập giá" autocomplete="on">
+                                            <span asp-validation-for="Price" class="text-danger"></span>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <fieldset>
+                                            <button type="submit" id="form-submit" class="orange-button">SUBMIT</button>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </form>
                          </div>
                      </div>
                  </div>

@@ -40,6 +40,8 @@ namespace WebAppRazorpage.Constants
             private const string BaseEndpoint = Host + "/" + AreaName + "/" + nameof(AuctionState);
             public const string GetOrchidAuction = BaseEndpoint + "get-item/{id}";
             public const string GetOrchidAuctions = BaseEndpoint + "/get-items";
+            
+            public const string CreateAuctionByOwner = BaseEndpoint + "/CreateAuctionByOwner";
         }
         public static class DealHanger
         {

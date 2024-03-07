@@ -17,7 +17,7 @@ namespace WebApp.Controller
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Mutation>>> GetAllMutations()
+        public async Task<IActionResult> GetAllMutations()
         {
             var mutations = await _mutationService.GetAllMutations();
             return Ok(mutations);

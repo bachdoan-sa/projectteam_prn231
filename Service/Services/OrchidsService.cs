@@ -19,10 +19,12 @@ namespace WebApp.Service.Services
     public class OrchidsService : Base.Service, IOrchidsService
     {
         private readonly IOrchidsRepository _orchidsRepository;
+        private readonly IOrchidMutationsRepository _orchidMutationsRepository;
 
         public OrchidsService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _orchidsRepository = serviceProvider.GetRequiredService<IOrchidsRepository>();
+            _orchidMutationsRepository = serviceProvider.GetRequiredService<IOrchidMutationsRepository>();
         }
 
         public Task<List<Orchid>> GetAllOrchids()
@@ -43,11 +45,19 @@ namespace WebApp.Service.Services
             orchid.Name = model.Name;
             orchid.Description = model.Description;
             orchid.Price = model.Price;
-            orchid.OrchidStatus = model.OrchidStatus;
+            orchid.OrchidStatus = "Active";
             orchid.OrchidCategoryId = model.OrchidCategoryId;
             orchid.ProductOwnerId = model.ProductOwnerId;
 
+            var mutan = new OrchidMutation();
+            mutan.Shape = model.Shape;
+            mutan.Color = model.Color;
+            mutan.Size = model.Size;
+            mutan.OrchidId = orchid.Id;
+            mutan.MutationId = model.MutationId;
+
             _orchidsRepository.Add(orchid);
+            _orchidMutationsRepository.Add(mutan);
             UnitOfWork.SaveChange();
             return Task.FromResult(orchid.Id);
         }
