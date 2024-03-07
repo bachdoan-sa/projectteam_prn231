@@ -168,7 +168,7 @@ namespace WebApp.Service.Services
         private string GetSidLogged()
         {
             var sid = _http.HttpContext?.User.FindFirst(ClaimTypes.Sid)?.Value;
-            if (sid == null)
+             if (sid == null)
             {
                 throw new Exception(ErrorCode.NotFound);
             }
