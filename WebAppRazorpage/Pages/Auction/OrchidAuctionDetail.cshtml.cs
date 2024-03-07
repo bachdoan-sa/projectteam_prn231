@@ -13,20 +13,27 @@ namespace WebAppRazorpage.Pages.Auction
         public AuctionStateModel AuctionState { get; set; }
         public IActionResult OnGet()
         {
+
             string auctionStateId = ViewData["AuctionStateId"] as string ?? "";
             var accessToken = HttpContext.Session.GetString("JwToken");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            var task = client.GetAsync(string.Format(WebAppEndpoint.AuctionState.GetOrchidAuction, auctionStateId));
-            HttpResponseMessage result = task.Result;
-
-            if (result.IsSuccessStatusCode)
+            if (!string.IsNullOrEmpty(auctionStateId))
             {
-                Task<string> readString = result.Content.ReadAsStringAsync();
-                string jsonString = readString.Result;
-                AuctionState = AuctionStateModel.FromJson(jsonString).FirstOrDefault() ?? new AuctionStateModel();
-                return Page();
+                string url = WebAppEndpoint.AuctionState.GetOrchidAuction + '/' + auctionStateId;
+                var task = client.GetAsync(url);
+                HttpResponseMessage result = task.Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    Task<string> readString = result.Content.ReadAsStringAsync();
+                    string jsonString = readString.Result;
+                    AuctionState = AuctionStateModel.FromJson(jsonString).FirstOrDefault() ?? new AuctionStateModel();
+                    return Page();
+                }
             }
+
             return Page();
+
         }
     }
 }
