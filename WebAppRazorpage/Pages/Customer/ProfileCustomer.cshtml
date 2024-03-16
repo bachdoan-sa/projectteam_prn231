@@ -1,5 +1,37 @@
-﻿@page
+﻿@page "{customerId}"
 @model WebAppRazorpage.Pages.Customer.ProfileCustomerModel
 @{
     Layout = "_CustomerLayout";
+
+}
+
+<h1>Customer Profile</h1>
+
+@if (Model.Customer != null)
+{
+    <table>
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Email</td>
+                <td>Phone</td>
+                <td>Address</td>
+            </tr>
+        </thead>
+        <tbody>
+
+            
+                <tr>
+                    <td>@Model.Customer.UserName</td>
+                    <td>@Model.Customer.Email</td>
+                    <td>@Model.Customer.Phone</td>
+                    <td>@Model.Customer.Address</td>
+                </tr>
+            
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No customer data available.</p>
 }

@@ -2,7 +2,8 @@
 @model WebAppRazorpage.Pages.ProductOwner.OrchidListModel
 @{
     Layout = "_ProductOwnerLayout";
-  }
+    var list = Model.ListOrchid;
+}
 
 
     <div class="section trending">
@@ -17,21 +18,24 @@
 
 
             <div class="row trending-box">
-                @*  @foreach (var product in Model.Products)
-                { *@
+                  @foreach (var orchid in list)
+                { 
+                  
+
+
                 <div class="col-lg-3 col-md-6 align-self-center mb-30 trending-items col-md-6">
                     <div class="item">
                         <div class="thumb">
-                            <a href="/ProductDetail"><img src="~/images/hoa.jpeg" alt=""></a>
+                            <a><img src="~/images/hoa.jpeg" alt=""></a>
                         </div>
                         <div class="down-content">                           
-                            <h4>Name</h4>
-                            <span>Hoa:</span>
-                            <a href="/ProductDetail"><i class="fa ">Chọn</i></a>
+                            <h4>@orchid.Name</h4>
+                            
+                            <a href="/AuctionEvent?id=@orchid.Id"><i class="fa ">Chọn</i></a>
                         </div>
                     </div>
                 </div>
-                @*  } *@
+                  } 
             </div>
 
         </div>
@@ -44,5 +48,3 @@
 
 
 
-
-</html>
