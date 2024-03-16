@@ -53,33 +53,7 @@ namespace WebAppRazorpage.Pages.ProductOwner
         public string ReponseMessage { get; set; }
 
 
-        //public async void OnGet()
-        //{
-        //    Categories = await GetCategories();
-        //    Mutations = await GetMutations();
-           
-        //}
-
-        //private async Task<List<OrchidCategoryModel>> GetCategories()
-        //{
-        //    var response = await client.GetAsync("https://localhost:7253/api/OrchidCategories");
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        var content = await response.Content.ReadAsStringAsync();
-        //        return JsonConvert.DeserializeObject<List<OrchidCategoryModel>>(content);
-        //    }
-        //    return null;
-        //}
-        //private async Task<List<MutationModel>> GetMutations()
-        //{
-        //    var response = await client.GetAsync("https://localhost:7253/api/Mutation");
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        var content = await response.Content.ReadAsStringAsync();
-        //        return JsonConvert.DeserializeObject<List<MutationModel>>(content);
-        //    }
-        //    return null;
-        //}
+        
 
 
         public void OnGet()
