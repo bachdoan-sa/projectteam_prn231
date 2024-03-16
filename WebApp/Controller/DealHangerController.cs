@@ -71,5 +71,16 @@ namespace WebApp.Controller
             }
 
         }
+
+        [HttpGet("Customer{id}")]
+        public async Task<IActionResult> GetByCustomerId(string id)
+        {
+            var dealHanger = await _iDealHangerService.GetByCustomerId(id);
+            if (dealHanger == null)
+            {
+                return NotFound();
+            }
+            return Ok(dealHanger);
+        }
     }
 }
