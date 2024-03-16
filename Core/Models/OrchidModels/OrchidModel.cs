@@ -8,6 +8,7 @@ namespace WebApp.Core.Models.OrchidModels
 {
     public class OrchidModel
     {
+        public string? Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public double Price { get; set; }
@@ -19,5 +20,8 @@ namespace WebApp.Core.Models.OrchidModels
         public string Color { get; set; }
         public double Size { get; set; }
         public string Shape { get; set; }
+        public DateTimeOffset? CreatedTime { get; set; }
+        public DateTimeOffset? LastUpdated { get; set; }
+        public DateTimeOffset? DeleteTime { get; set; }
     }
 }
