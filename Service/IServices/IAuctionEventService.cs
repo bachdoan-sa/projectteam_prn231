@@ -14,6 +14,8 @@ namespace WebApp.Service.IServices
         Task<AuctionEventModel> GetAuctionEventById(string id);
         Task<string> CreateAuctionEvent(AuctionEventModel  model);
         Task<string> UpdateAuctionEvent(AuctionEventModel model);
+        public Task<string> DeleteAuctionEvent(string id);
+
 
     }
 }

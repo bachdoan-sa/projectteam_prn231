@@ -69,5 +69,18 @@ namespace WebApp.Service.Services
             UnitOfWork.SaveChange();
             return Task.FromResult(entity.Id);
         }
-	}
+
+        public Task<string> DeleteAuctionEvent(string id)
+        {
+            var entity = _auctionEventRepository.Get(_ => _.Id.Equals(id)).FirstOrDefault();
+            if (entity == null)
+            {
+                return Task.FromResult("Not Found Auction Event Need Delete");
+            }
+            entity.DeleteTime = DateTime.UtcNow;
+            _auctionEventRepository.Update(entity);
+			UnitOfWork.SaveChange();
+            return Task.FromResult("Delete Auction Event Successfully");
+        }
+    }
 }

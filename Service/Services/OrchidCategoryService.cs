@@ -1,10 +1,12 @@
 ﻿using Invedia.DI.Attributes;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebApp.Repository.Base;
 using WebApp.Repository.Entities;
 using WebApp.Repository.Repositories;
 using WebApp.Repository.Repositories.IRepositories;
@@ -13,18 +15,23 @@ using WebApp.Service.IServices;
 namespace WebApp.Service.Services
 {
     [ScopedDependency(ServiceType = typeof(IOrchidCategoriesService))]
-    public class OrchidCategoryService : IOrchidCategoriesService
+    public class OrchidCategoryService : Base.Service,IOrchidCategoriesService
     {
         private readonly IOrchidCategoriesRepository _orchidCategoryRepository;
 
-        public OrchidCategoryService(IOrchidCategoriesRepository orchidCategoryRepository)
+        public OrchidCategoryService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
-            _orchidCategoryRepository = orchidCategoryRepository;
+            _orchidCategoryRepository = serviceProvider.GetRequiredService<IOrchidCategoriesRepository>();
         }
-        public Task AddOrchidCategory(OrchidCategory orchidCategory)
+        public Task<OrchidCategory> AddOrchidCategory(OrchidCategory orchidCategory)
         {
-            var addorchid = _orchidCategoryRepository.Add(orchidCategory);
-            return Task.FromResult(orchidCategory);
+            var entity = new OrchidCategory
+            {
+                CategoryName = orchidCategory.CategoryName,
+            };
+            var addorchid = _orchidCategoryRepository.Add(entity);
+            UnitOfWork.SaveChange();
+            return Task.FromResult(addorchid);
         }
 
         public Task<List<OrchidCategory>> GetAllOrchidCategorys()
@@ -49,8 +56,10 @@ namespace WebApp.Service.Services
 
                 existingorchidCategory.CategoryName = orchidCategory.CategoryName;
                 _orchidCategoryRepository.Update(existingorchidCategory);
+                UnitOfWork.SaveChange();
 
             }
+
             return Task.FromResult(existingorchidCategory.Id);
         }
     }

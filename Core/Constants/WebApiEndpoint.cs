@@ -48,7 +48,13 @@ namespace WebApp.Core.Constants
         }
         public static class Mutation
         {
+            private const string BaseEndpoint = "~/" + AreaName + "/" + nameof(Mutation);
 
+            public const string GetAllMutation = BaseEndpoint + "/get-all";
+            public const string GetMutation = BaseEndpoint + "/get-single/{id}";
+            public const string AddMutation = BaseEndpoint + "/add";
+            public const string UpdateMutation = BaseEndpoint + "/update";
+            public const string DeleteMutation = BaseEndpoint + "/delete" + "/{id}";
         }
         public static class Orchid
         {

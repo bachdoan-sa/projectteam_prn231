@@ -45,18 +45,15 @@ namespace WebApp.Controller
             var flag = await _stateService.CreateAuctionState(auctionStateModel);
             return Ok(flag);
         }
-        //[Route(WebApiEndpoint.AuctionState.UpdateAuctionState)]
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAuctionState( string id, AuctionStateModel auctionStateModel)
+        [Route(WebApiEndpoint.AuctionState.UpdateAuctionState)]
+        [HttpPut]
+        public async Task<IActionResult> UpdateAuctionState( AuctionStateModel auctionStateModel)
         {
             if (!ModelState.IsValid)
             {
                 return Ok(ModelState.ToList());
             }
-            if (!id.Equals(auctionStateModel.Id))
-            {
-                return BadRequest();
-            }
+
             var flag = await _stateService.UpdateAuctionState(auctionStateModel);
             if(flag == null) 
             {
