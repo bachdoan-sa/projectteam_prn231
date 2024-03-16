@@ -18,6 +18,10 @@ namespace WebApp.Repository.Mapper
             CreateMap<OrchidAuctionModel, AuctionState>()
                 .ForMember(x => x.Id, opt => opt.Ignore());
             CreateMap<AuctionState, OrchidAuctionModel>();
+
+            CreateMap<AuctionStateModel, AuctionState>()
+                .ForMember(x => x.Id, opt => opt.Ignore());
+            CreateMap<AuctionState, AuctionStateModel>();
         }
     }
 }

@@ -28,5 +28,6 @@ namespace WebApp.Repository.Entities
         public virtual ICollection<OrchidMutation>? OrchidMutations { get; set; }
         public virtual ICollection<AuctionState>? AuctionStates { get; set; }
         public virtual ICollection<OrderDetail>? OrderDetails { get; set; }
+        public virtual ICollection<OrchidImage>? OrchidImages { get; set; }
     }
 }

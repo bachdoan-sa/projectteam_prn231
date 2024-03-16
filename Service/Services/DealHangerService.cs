@@ -122,6 +122,15 @@ namespace WebApp.Service.Services
 
             return $"Đấu giá thành công. DealHangerId: {createdDealHangerId}";
         }
+
+        public Task<List<DealHangerHistoryModel>> GetByCustomerId(string id)
+        {
+            var dealHanger = _repository.Get(dealHanger => dealHanger.CustomerId == id)
+                                        .Include(dealHanger => dealHanger.AuctionState)
+                                        .ToListAsync().Result;
+            var result = _mapper.Map<List<DealHangerHistoryModel>>(dealHanger);
+            return Task.FromResult(result);
+        }
     }
 }
 
