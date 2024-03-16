@@ -17,6 +17,7 @@ namespace WebApp.Repository.Infaustructure
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<Mutation> Mutations { get; set; }
         public DbSet<Orchid> Orchids { get; set; }
+        public DbSet<OrchidImage> OrchidImages { get; set; }
         public DbSet<OrchidCategory> OrchidsCategories { get; set;}
         public DbSet<OrchidMutation> OrchidsMutations { get; set;}
         public DbSet<Order> Orders { get; set; }
