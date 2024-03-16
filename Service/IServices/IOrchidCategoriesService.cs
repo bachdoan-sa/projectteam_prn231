@@ -11,7 +11,7 @@ namespace WebApp.Service.IServices
     {
         Task<List<OrchidCategory>> GetAllOrchidCategorys();
         Task<OrchidCategory> GetOrchidCategoryById(string id);
-        Task AddOrchidCategory(OrchidCategory orchidCategory);
+        Task<OrchidCategory> AddOrchidCategory(OrchidCategory orchidCategory);
         Task UpdateOrchidCategory(OrchidCategory orchidCategory);
     }
 }

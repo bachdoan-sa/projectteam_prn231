@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebApp.Core.Models.AuctionEventModels;
 using WebApp.Core.Models.AuctionStateModels;
 using WebApp.Repository.Base;
 using WebApp.Repository.Base.Interface;
@@ -26,10 +27,11 @@ namespace WebApp.Service.Services
             _auctionStateRepository = serviceProvider.GetRequiredService<IAuctionStateRepository>();
             _auctionEventRepository = serviceProvider.GetRequiredService<IAuctionEventRepository>();
         }
-        public Task<List<AuctionState>> GetAllAuctionStates()
+        public Task<List<AuctionStateModel>> GetAllAuctionStates()
         {
-            var list  = _auctionStateRepository.Get().ToListAsync();
-            return list;
+            var list = _auctionStateRepository.Get().Include(_ => _.AuctionEvent).Include(_ => _.Orchid).ToListAsync().Result;
+            var result = _mapper.Map<List<AuctionStateModel>>(list);
+            return Task.FromResult(result);
         }
 
         public Task<AuctionStateModel> GetAuctionStateById(string id)
@@ -50,6 +52,8 @@ namespace WebApp.Service.Services
                 MaxRaise = model.MaxRaise,
                 AuctionStateStatus = model.AuctionStateStatus,
                 FinalPrice = model.FinalPrice,
+                OrchidId = model.OrchidId,
+                AuctionEventId = model.AuctionEventId
             };
             _auctionStateRepository.Add(entity);
             UnitOfWork.SaveChange();
@@ -71,6 +75,8 @@ namespace WebApp.Service.Services
                 entity.MaxRaise = auctionState.MaxRaise;
                 entity.AuctionStateStatus = auctionState.AuctionStateStatus;
                 entity.FinalPrice = auctionState.FinalPrice;
+                entity.OrchidId = auctionState.OrchidId;
+                entity.AuctionEventId = auctionState.AuctionEventId;
 
                 _auctionStateRepository.Update(entity);
                 UnitOfWork.SaveChange();
@@ -79,10 +85,13 @@ namespace WebApp.Service.Services
         public Task<string> DeleteAuctionState(string id)
         {
             var entity = _auctionStateRepository.Get(_ => _.Id.Equals(id)).FirstOrDefault();
-            if(entity != null)
-            _auctionStateRepository.Delete(entity);
-            UnitOfWork.SaveChange();
-            return Task.FromResult("Delete Successfully");
+            if(entity == null)
+            {
+                return Task.FromResult("Not Found Auction State Need Delete");
+            }
+            entity.DeleteTime = DateTime.UtcNow;
+            _auctionStateRepository.Update(entity); UnitOfWork.SaveChange();
+            return Task.FromResult("Delete Auction State Successfully");
         }
         /* 
           public Task UpdateAuctionState(AuctionState auctionState)

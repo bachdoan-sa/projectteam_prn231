@@ -1,12 +1,38 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
+using System.Text;
+using WebAppRazorpage.ApiModel;
+using WebAppRazorpage.Constants;
 
 namespace WebAppRazorpage.Areas.Admin.Pages.Mutation
 {
     public class CreateModel : PageModel
     {
-        public void OnGet()
+        private readonly HttpClient client = new HttpClient();
+        [BindProperty] 
+        public string MutationPosition { get; set; }
+        [BindProperty]
+        public string ReponseMessage { get; set; }
+
+        public void OnPost()
         {
+            string json = JsonConvert.SerializeObject(new MutationModel 
+            { 
+                MutationPosition = MutationPosition 
+            });
+
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var task = client.PostAsync(WebAppEndpoint.Mutation.AddMutation, content);
+            HttpResponseMessage result = task.Result;
+            if (result.IsSuccessStatusCode)
+            {
+                Task<string> readString = result.Content.ReadAsStringAsync();
+                ReponseMessage = readString.Result;
+            }
+            //Redirect("~/Admin/Index");
+            Redirect("~/Admin/Mutation/Create");
         }
     }
 }

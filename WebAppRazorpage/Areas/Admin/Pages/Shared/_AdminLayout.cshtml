@@ -440,6 +440,8 @@
     <!--Custom JavaScript -->
     <script src="~/admin/assets/js/custom.min.js"></script>
     <!--Addition JavaScript-->
-    @RenderSection("scripts",false)
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await Component.InvokeAsync("Notyf")
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

@@ -15,6 +15,7 @@ namespace WebApp.Extensions
                 cfg.AddProfile(new RoleProfile());
                 cfg.AddProfile(new AuctionEventProfile());
                 cfg.AddProfile(new AuctionStateProfile());
+                cfg.AddProfile(new MutatiionProfile());
             });
 
             return services;

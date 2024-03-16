@@ -1,3 +1,6 @@
+using AspNetCoreHero.ToastNotification;
+using AspNetCoreHero.ToastNotification.Extensions;
+
 namespace WebAppRazorpage
 {
     public class Program
@@ -12,6 +15,7 @@ namespace WebAppRazorpage
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(60);
             });
+            builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -30,6 +34,7 @@ namespace WebAppRazorpage
             app.UseAuthorization();
 
             app.MapRazorPages();
+            app.UseNotyf();
 
             app.Run();
         }

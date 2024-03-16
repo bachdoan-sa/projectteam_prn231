@@ -17,6 +17,6 @@ namespace WebApp.Core.Models.AccountModels
         public string Address { get; set; }
         public DateTimeOffset Birthdate { get; set; }
         public string RoleId { get; set; }
-        public RoleModel role { get; set; }
+        public RoleModel? role { get; set; }
     }
 }

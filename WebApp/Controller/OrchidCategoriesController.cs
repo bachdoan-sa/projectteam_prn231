@@ -36,8 +36,8 @@ namespace WebApp.Controller
         [HttpPost]
         public async Task<IActionResult> AddOrchidCategory(OrchidCategory orchidCategory)
         {
-            await _orchidCategoriesService.AddOrchidCategory(orchidCategory);
-            return CreatedAtAction(nameof(GetOrchidCategoryById), new { id = orchidCategory.Id }, orchidCategory);
+             var result = await _orchidCategoriesService.AddOrchidCategory(orchidCategory);
+            return CreatedAtAction(nameof(GetOrchidCategoryById), new { id = result.Id }, result);
         }
 
         [HttpPut("{id}")]

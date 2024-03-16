@@ -27,5 +27,6 @@ namespace WebAppRazorpage.ApiModel
     public partial class MutationModel
     {
         public static List<MutationModel> FromJson(string json) => JsonConvert.DeserializeObject<List<MutationModel>>(json, Converter.Settings);
+        public static MutationModel FromJsonToObject(string json) => JsonConvert.DeserializeObject<MutationModel>(json, Converter.Settings);
     }
 }
