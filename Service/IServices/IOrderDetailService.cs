@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebApp.Core.Models.OrderDetailModels;
 using WebApp.Repository.Entities;
 
 namespace WebApp.Service.IServices
@@ -13,5 +14,7 @@ namespace WebApp.Service.IServices
         public Task<OrderDetail> GetOrderDetailById(string id);
         public Task<OrderDetail> CreateOrderDetail(OrderDetail orderDetail);
         public Task<string> UpdateOrderDetail(OrderDetail orderDetail);
+
+        public Task<List<OrderDetailModel>> GetByOrderId(string id);
     }
 }

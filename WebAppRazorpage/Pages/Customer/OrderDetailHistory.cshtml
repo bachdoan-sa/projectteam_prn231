@@ -1,0 +1,38 @@
+﻿@page "{Id}"
+@model WebAppRazorpage.Pages.Customer.OrderDetailHistoryModel
+@{
+    Layout = "_CustomerLayout";
+}
+
+@if (Model.ListOrderDetail != null && Model.ListOrderDetail.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Id</td>
+                <td>Status</td>
+                <td>Orchid Name</td>
+                <td>Cost</td>
+                <td>Created Time</td>
+                <!-- Add other relevant columns here -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var orderDetail in Model.ListOrderDetail)
+            {
+                <tr>
+                    <td>@orderDetail.Id</td>
+                    <td>@orderDetail.OrderDetailStatus</td>
+                    <td>@orderDetail.Orchid.Name</td>
+                    <td>@orderDetail.Cost</td>
+                    <td style ="text-align:left!important">@orderDetail.CreatedTime.ToString("dd-MM-yyyy")</td>
+                    <!-- Add other relevant columns here -->
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No order details found for this order.</p>
+}

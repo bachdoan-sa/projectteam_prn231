@@ -8,17 +8,19 @@ using System.Threading.Tasks;
 using WebApp.Repository.Entities;
 using WebApp.Repository.Repositories.IRepositories;
 using WebApp.Service.IServices;
+using WebApp.Core.Models.OrderDetailModels;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WebApp.Service.Services
 {
     [ScopedDependency(ServiceType = typeof(IOrderDetailService))]
-    public class OrderDetailService : IOrderDetailService  
+    public class OrderDetailService :Base.Service, IOrderDetailService  
     {
         private readonly IOrderDetailRepository _repository;
 
-        public OrderDetailService(IOrderDetailRepository repository)
+        public OrderDetailService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
-            _repository = repository;
+            _repository = serviceProvider.GetRequiredService<IOrderDetailRepository>();
 
         }
 
@@ -53,6 +55,14 @@ namespace WebApp.Service.Services
 
             }
             return Task.FromResult(existingOrderDetail.Id);
+        }
+
+        public Task<List<OrderDetailModel>> GetByOrderId(string id)
+        {
+            var orderDetail = _repository.Get(orderDetail => orderDetail.OrderId == id)
+                                        .Include(orderDetail => orderDetail.Orchid).ToListAsync().Result;
+            var result = _mapper.Map<List<OrderDetailModel>>(orderDetail);
+            return Task.FromResult(result);
         }
     }
 }
