@@ -9,6 +9,7 @@ using static WebApp.Core.Constants.WebApiEndpoint;
 
 namespace WebApp.Controller
 {
+    [Route("api/[controller]")]
     [ApiController]
     public class AuctionEventController : ControllerBase
     {
@@ -42,23 +43,29 @@ namespace WebApp.Controller
             var a = await _auctionEventService.CreateAuctionEvent(model);
             return Ok(a);
         }
+
+
         [Route(WebApiEndpoint.AuctionEvent.UpdateAuctionEvent)]
         [HttpPut]
-        public async Task<IActionResult> UpdateAuctionState(string id, AuctionEventModel auctionStateModel)
+        public async Task<IActionResult> UpdateAuctionEvent(AuctionEventModel model)
         {
             if (!ModelState.IsValid)
             {
                 return Ok(ModelState.ToList());
             }
-            if (!id.Equals(auctionStateModel.Id))
-            {
-                return BadRequest();
-            }
-            var flag = await _auctionEventService.UpdateAuctionEvent(auctionStateModel);
+            var flag = await _auctionEventService.UpdateAuctionEvent(model);
             if (flag == null)
             {
                 return NotFound();
             }
+            return Ok(flag);
+        }
+
+        [Route(WebApiEndpoint.AuctionEvent.DeleteAuctionEvent)]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteAuctionEvent(string id)
+        {
+            var flag = await _auctionEventService.DeleteAuctionEvent(id);
             return Ok(flag);
         }
     }

@@ -17,6 +17,7 @@ namespace WebApp.Extensions
                 cfg.AddProfile(new AuctionStateProfile());
                 cfg.AddProfile(new OrderDetailProfile());
                 cfg.AddProfile(new OrchidProfile());
+                cfg.AddProfile(new MutatiionProfile());
             });
 
             return services;

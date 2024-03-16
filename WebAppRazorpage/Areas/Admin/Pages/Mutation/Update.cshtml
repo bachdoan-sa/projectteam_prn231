@@ -2,4 +2,33 @@
 @model WebAppRazorpage.Areas.Admin.Pages.Mutation.UpdateModel
 @{
     Layout = "_AdminLayout";
+    var mutationDetails = Model.MutationModel;
 }
+
+<div class="row">
+    <div class="card">
+        <div class="card-title">
+            <h4>Update Mutation</h4>
+        </div>
+        <div class="card-body">
+            <div class="basic-form">
+                <form asp-area="Admin" asp-page="/Mutation/Update" asp-page-handler="update" method="post">
+                    <div class="form-group">
+                        <label>Id</label>
+                        <input asp-for="@Model.MutationModel.Id" type="text" class="form-control" placeholder="@mutationDetails.Id" readonly>
+                        <label>Mutation Position</label>
+                        <input asp-for="@Model.MutationModel.MutationPosition" type="text" class="form-control" placeholder="@mutationDetails.MutationPosition">
+                        <label>Created Time</label>
+                        <input type="text" class="form-control" placeholder="@mutationDetails.CreatedTime" readonly>                        
+                        <label>Last Updated</label>
+                        <input  type="text" class="form-control" placeholder="@mutationDetails.LastUpdated" readonly>
+                        <label>Delete TimeId</label>
+                        <input type="text" class="form-control" placeholder="@mutationDetails.DeleteTime" readonly>
+                    </div>
+                    <input class="btn btn-default" value="Submit" type="submit" />
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -8,6 +8,7 @@ namespace WebApp.Core.Models.MutationModels
 {
     public class MutationModel
     {
+        public string? Id { get; set; }
         public string MutationPosition { get; set; }
     }
 }

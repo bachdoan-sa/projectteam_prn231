@@ -1,9 +1,11 @@
-﻿using System;
+﻿   using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebApp.Core.Models.AuctionEventModels;
+using WebApp.Core.Models.OrchidModels;
 
 namespace WebApp.Core.Models.AuctionStateModels
 {
@@ -11,26 +13,31 @@ namespace WebApp.Core.Models.AuctionStateModels
     {
         public string Id { get; set; }
         public int Position { get; set; }
-        [Required(ErrorMessage = "Position is required ")]
+        //[Required(ErrorMessage = "Position is required ")]
         [CheckPosition]
         public double? StartingPrice { get; set; }
-        [Required(ErrorMessage = "Starting Price is required ")]
+        //[Required(ErrorMessage = "Starting Price is required ")]
         [CheckStartingPrice]
         public double? ExpectedPrice { get; set; }
-        [Required(ErrorMessage = "Expected Price is required ")]
+        //[Required(ErrorMessage = "Expected Price is required ")]
         [CheckExpectedPrice]
         public double? MinRaise { get; set; }
-        [Required(ErrorMessage = "Min Raise is required ")]
+        //[Required(ErrorMessage = "Min Raise is required ")]
         [CheckMinRaise]
 
         public double? MaxRaise { get; set; }
-        [Required(ErrorMessage = "Max Raise is required ")]
+        //[Required(ErrorMessage = "Max Raise is required ")]
         [CheckMaxRaise]
 
         public string AuctionStateStatus { get; set; }
-        [Required(ErrorMessage = "Auction Status is required ")]
+        //[Required(ErrorMessage = "Auction Status is required ")]
 
         public double? FinalPrice {  get; set; }
+        public string? OrchidId { get; set; }
+        public OrchidModel? Orchid { get; set; }
+        public string? AuctionEventId { get; set; }
+        public AuctionEventModel ? AuctionEvent { get; set; }
+
     }
 
     public class CheckPositionAttribute : ValidationAttribute

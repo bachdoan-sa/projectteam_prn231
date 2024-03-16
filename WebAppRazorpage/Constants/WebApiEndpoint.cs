@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WebAppRazorpage.Constants
 {
-    public class WebAppEndpoint
+    public class WebApiEndpoint
     {
         public const string Host = "https://localhost:7253";
         public const string AreaName = "api";
@@ -30,18 +30,14 @@ namespace WebAppRazorpage.Constants
 			private const string BaseEndpoint = Host + "/" + AreaName + "/" + nameof(AuctionEvent);
 
 			public const string GetAllAuctionEvent = BaseEndpoint + "/get-all";
-			public const string GetAuctionEvent = BaseEndpoint + "/get-single" /* + "/{id}"*/;
-            public const string AddAuctionEvent = BaseEndpoint + "/add";
+			public const string GetAuctionEvent = BaseEndpoint + "/get-single/{id}";
+			public const string AddAuctionEvent = BaseEndpoint + "/add";
 			public const string UpdateAuctionEvent = BaseEndpoint + "/update";
 			public const string DeleteAuctionEvent = BaseEndpoint + "/delete" + "/{id}";
 		}
         public static class AuctionState
         {
-            private const string BaseEndpoint = Host + "/" + AreaName + "/" + nameof(AuctionState);
-            public const string GetOrchidAuction = BaseEndpoint + "/get-item" /* + "/{id}"*/;
-            public const string GetOrchidAuctions = BaseEndpoint + "/get-items";
-            
-            public const string CreateAuctionByOwner = BaseEndpoint + "/CreateAuctionByOwner";
+
         }
         public static class DealHanger
         {
@@ -51,13 +47,7 @@ namespace WebAppRazorpage.Constants
         }
         public static class Mutation
         {
-            private const string BaseEndpoint = Host + "/" + AreaName + "/" + nameof(Mutation);
 
-            public const string GetAllMutation = BaseEndpoint + "/get-all";
-            public const string GetMutation = BaseEndpoint + "/get-single";
-            public const string AddMutation = BaseEndpoint + "/add";
-            public const string UpdateMutation = BaseEndpoint + "/update";
-            public const string DeleteMutation = BaseEndpoint + "/delete" + "/";
         }
         public static class Orchid
         {

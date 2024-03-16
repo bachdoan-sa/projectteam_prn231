@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using WebApp.Core.Constants;
+using WebApp.Core.Models.MutationModels;
 using WebApp.Repository.Entities;
 using WebApp.Service.IServices;
+using WebApp.Service.Services;
 
 namespace WebApp.Controller
 {
@@ -16,13 +19,15 @@ namespace WebApp.Controller
             _mutationService = mutationService;
         }
 
+        [Route(WebApiEndpoint.Mutation.GetAllMutation)]
         [HttpGet]
         public async Task<IActionResult> GetAllMutations()
         {
             var mutations = await _mutationService.GetAllMutations();
             return Ok(mutations);
         }
-        [HttpGet("{id}")]
+        [Route(WebApiEndpoint.Mutation.GetMutation)]
+        [HttpGet]
         public async Task<ActionResult<Mutation>> GetMutationById(string id)
         {
             var mutation = await _mutationService.GetMutationById(id);  
@@ -32,22 +37,35 @@ namespace WebApp.Controller
             }
             return Ok(mutation);
         }
-
+        [Route(WebApiEndpoint.Mutation.AddMutation)]
         [HttpPost]
-        public async Task<ActionResult> CreateMutation(Mutation mutation)
+        public async Task<ActionResult> CreateMutation(MutationModel model)
         {
-            await _mutationService.CreateMutaion(mutation); 
-            return Ok();
+            var newMutation = await _mutationService.CreateMutaion(model); 
+            return Ok(newMutation);
+        }
+        [Route(WebApiEndpoint.Mutation.UpdateMutation)]
+        [HttpPut]
+        public async Task<ActionResult> UpdateMutation(MutationModel mutation)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Ok(ModelState.ToList());
+            }
+            var flag = await _mutationService.UpdateMutaion(mutation);
+            if (flag == null)
+            {
+                return NotFound();
+            }
+            return Ok(flag);
+        }
+        [Route(WebApiEndpoint.Mutation.DeleteMutation)]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteMutation(string id) 
+        {
+            var flag = _mutationService.DeleteMutaion(id);
+            return Ok(flag);
         }
 
-        //[HttpPut ("{id}")]
-        //public async Task<ActionResult> UpdateMutation(string id, Mutation mutation)
-        //{
-        //    if(id != mutation.Id)
-        //    {
-
-        //    }
-        //}
-
-     }
+    }
 }

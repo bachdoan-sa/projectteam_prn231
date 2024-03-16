@@ -1,12 +1,13 @@
-﻿using AngleSharp.Dom;
-using Invedia.DI.Attributes;
+﻿using Invedia.DI.Attributes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebApp.Core.Models.MutationModels;
 using WebApp.Repository.Entities;
 using WebApp.Repository.Repositories.IRepositories;
 using WebApp.Service.IServices;
@@ -16,34 +17,60 @@ namespace WebApp.Service.Services
     [ScopedDependency(ServiceType = typeof(IMutationService))]
     public class MutationService : Base.Service, IMutationService
     {
-        private readonly IMutationRepository _repository;
-
-
-        public MutationService(IServiceProvider serviceProvider) : base(serviceProvider)
+        private readonly IMutationRepository _mutationRepository;
+        public MutationService(IServiceProvider serviceProvider) : base(serviceProvider) 
         {
-            _repository = serviceProvider.GetRequiredService<IMutationRepository>();
-            
-        }
-    
-    public Task CreateMutaion(Mutation mutation)
-        {
-            throw new NotImplementedException();
+            _mutationRepository = serviceProvider.GetRequiredService<IMutationRepository>();
         }
 
-        public Task<List<Mutation>> GetAllMutations()
+
+        public Task<string> CreateMutaion(MutationModel model)
         {
-            var list = _repository.Get().ToListAsync();
-            return list;
+            var entity = _mapper.Map<Mutation>(model);
+            _mutationRepository.Add(entity);
+            UnitOfWork.SaveChange();
+            return Task.FromResult(entity.Id);
         }
 
-        public Task<Mutation> GetMutationById(string id)
+        public Task<string> DeleteMutaion(string id)
         {
-            throw new NotImplementedException();
+                var entity = _mutationRepository.Get(_ => _.Id.Equals(id)).FirstOrDefault();
+                if (entity == null)
+                {
+                    return Task.FromResult("Not Found Mutation Need Delete");
+                }
+                entity.DeleteTime = DateTime.UtcNow;
+                _mutationRepository.Update(entity);
+                UnitOfWork.SaveChange();
+                return Task.FromResult("Delete Mutation Successfully");   
         }
 
-        public Task UpdateMutaion(Mutation mutation)
+        public Task<List<MutationModel>> GetAllMutations()
         {
-            throw new NotImplementedException();
+            var list = _mutationRepository.Get().ToListAsync().Result;
+            var result = _mapper.Map<List<MutationModel>>(list);
+            return Task.FromResult(result);
+                
+        }
+
+        public Task<MutationModel> GetMutationById(string id)
+        {
+            var entity = _mutationRepository.Get(_=>_.Id.Equals(id)).FirstOrDefault();
+            var result = _mapper.Map<MutationModel>(entity);
+            return Task.FromResult(result);
+        }
+
+        public Task<string> UpdateMutaion(MutationModel mutation)
+        {
+            var entity = _mutationRepository.Get(_=>_.Id.Equals(mutation.Id)).FirstOrDefault();
+            if (entity == null) 
+            {
+                return Task.FromResult("Not Found Auction Need Update");
+            }
+            entity.MutationPosition = mutation.MutationPosition;
+            _mutationRepository.Update(entity);
+            UnitOfWork.SaveChange() ;
+            return Task.FromResult(entity.Id);
         }
     }
 }
