@@ -81,7 +81,7 @@ namespace WebApp.Controller
         }
 
         // GET api/<AccountController>/5
-        [Authorize]
+        /*[Authorize]*/
         [Route(WebApiEndpoint.Account.GetAccount)]
         [HttpGet]
         public async Task<IActionResult> GetSingle(string id)

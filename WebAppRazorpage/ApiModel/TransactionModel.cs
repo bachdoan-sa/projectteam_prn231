@@ -38,10 +38,11 @@ namespace WebAppRazorpage.ApiModel
         public string WalletId { get; set; }
 
         [JsonProperty("wallet")]
-        public string Wallet { get; set; }
+        public WalletModel? Wallet { get; set; }
     }
     public partial class TransactionModel
     {
         public static List<TransactionModel> FromJson(string json) => JsonConvert.DeserializeObject<List<TransactionModel>>(json, Converter.Settings);
+        public static TransactionModel FromJsonToObject(string json) => JsonConvert.DeserializeObject<TransactionModel>(json, Converter.Settings);
     }
 }

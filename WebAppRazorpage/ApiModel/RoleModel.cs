@@ -40,6 +40,7 @@ namespace WebAppRazorpage.ApiModel
     public partial class RoleModel
     {
         public static List<RoleModel> FromJson(string json) => JsonConvert.DeserializeObject<List<RoleModel>>(json, Converter.Settings);
+        public static RoleModel FromJsonToObject(string json) => JsonConvert.DeserializeObject<RoleModel>(json, Converter.Settings);
     }
 
 }

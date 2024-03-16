@@ -74,5 +74,6 @@ namespace WebAppRazorpage.ApiModel
     public partial class AccountModel   
     {
         public static List<AccountModel> FromJson(string json) => JsonConvert.DeserializeObject<List<AccountModel>>(json, Converter.Settings);
+        public static AccountModel FromJsonToObject(string json) => JsonConvert.DeserializeObject<AccountModel>(json, Converter.Settings);
     }
 }

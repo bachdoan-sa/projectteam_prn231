@@ -40,5 +40,6 @@ namespace WebAppRazorpage.ApiModel
     public partial class DealHangerModel
     {
         public static List<DealHangerModel> FromJson(string json) => JsonConvert.DeserializeObject<List<DealHangerModel>>(json, Converter.Settings);
+        public static DealHangerModel FromJsonToObject(string json) => JsonConvert.DeserializeObject<DealHangerModel>(json, Converter.Settings);
     }
 }

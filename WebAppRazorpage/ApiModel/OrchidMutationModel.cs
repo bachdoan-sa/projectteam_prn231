@@ -42,5 +42,6 @@ namespace WebAppRazorpage.ApiModel
     public partial class OrchidMutationModel
     {
         public static List<OrchidMutationModel> FromJson(string json) => JsonConvert.DeserializeObject<List<OrchidMutationModel>>(json, Converter.Settings);
+        public static OrchidMutationModel FromJsonToObject(string json) => JsonConvert.DeserializeObject<OrchidMutationModel>(json, Converter.Settings);
     }
 }

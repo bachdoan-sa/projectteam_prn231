@@ -27,5 +27,6 @@ namespace WebAppRazorpage.ApiModel
     public partial class OrchidCategoryModel
     {
         public static List<OrchidCategoryModel> FromJson(string json) => JsonConvert.DeserializeObject<List<OrchidCategoryModel>>(json, Converter.Settings);
+        public static OrchidCategoryModel FromJsonToObject(string json) => JsonConvert.DeserializeObject<OrchidCategoryModel>(json, Converter.Settings);
     }
 }

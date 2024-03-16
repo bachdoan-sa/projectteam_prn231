@@ -57,5 +57,6 @@ namespace WebAppRazorpage.ApiModel
     public partial class AuctionStateModel
     {
         public static List<AuctionStateModel> FromJson(string json) => JsonConvert.DeserializeObject<List<AuctionStateModel>>(json, Converter.Settings);
+        public static AuctionStateModel FromJsonToObject(string json) => JsonConvert.DeserializeObject<AuctionStateModel>(json, Converter.Settings);
     }
 }
