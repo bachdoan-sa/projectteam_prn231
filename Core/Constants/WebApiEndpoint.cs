@@ -36,6 +36,8 @@ namespace WebApp.Core.Constants
         public static class AuctionState
         {
             private const string BaseEndpoint = "~/" + AreaName + "/" + nameof(AuctionState);
+
+            public const string GetAllAuctionState = BaseEndpoint + "/get-all";
             public const string AddAuctionState = BaseEndpoint + "/add";
 			public const string UpdateAuctionState = BaseEndpoint + "/update";
 			public const string DeleteAuctionState = BaseEndpoint + "/delete" + "/{id}";

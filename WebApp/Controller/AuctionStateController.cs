@@ -18,6 +18,7 @@ namespace WebApp.Controller
         {
             _stateService = stateService;
         }
+        [Route(WebApiEndpoint.AuctionState.GetAllAuctionState)]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Repository.Entities.AuctionState>>> GetAllAuctionStates()
         {

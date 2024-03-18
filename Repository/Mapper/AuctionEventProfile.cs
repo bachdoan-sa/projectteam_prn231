@@ -17,6 +17,7 @@ namespace WebApp.Repository.Mapper
             CreateMap<AuctionEventModel, AuctionEvent>()
                 .ForMember(x => x.Id, opt => opt.Ignore());
             CreateMap<AuctionEvent, AuctionEventModel>();
+            CreateMap<AuctionEvent, AuctionStateModel>();
 
         }
     }

@@ -23,8 +23,8 @@
 
 
             <div class="row trending-box">
-                @*  @foreach (var product in Model.Products)
-                { *@
+                 @foreach (var product in Model.ListStateAuction)
+                {
                 <div class="col-lg-3 col-md-6 align-self-center mb-30 trending-items col-md-6">
                     <div class="item">
                         <div class="thumb">
@@ -32,14 +32,16 @@
                         </div>
                         <div class="down-content">
                             <span class="category">starting price:</span>
-                            <span>StartingPrice</span>
-                            <h4>Name</h4>
-                            <span>time of existence:</span>
-                            <a href="/Auction/OrchidAuctionDetail"><i class="fa ">Join</i></a>
+                                <span>@product.StartingPrice</span>
+                                <h4>@product.Orchid.Name</h4>
+                                <span>time of existence:</span>
+                                <span id="countdown"></span>
+
+                                <a href="/Auction/OrchidAuctionDetail"><i class="fa ">Join</i></a>
                         </div>
                     </div>
                 </div>
-                @*  } *@
+                 }
             </div>
 
         </div>
