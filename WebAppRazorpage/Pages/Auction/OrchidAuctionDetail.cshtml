@@ -1,157 +1,257 @@
-﻿@page
+﻿@page "{id}"
 @model WebAppRazorpage.Pages.Auction.OrchidAuctionDetailModel
 @{
+    Layout = "_Layout";
     ViewData["Title"] = "ProductDetail";
+
+    var auction = Model.AuctionState;
+    if (auction == null || auction.AuctionEvent == null)
+    {
+        Redirect("/Index");
+    }
+
+    var listDeal = auction?.DealHangers ?? null;
+    var lastDeal = 0.0;
+    if (listDeal != null)
+    {
+        listDeal = listDeal.OrderByDescending(_ => _.Currency).ToList();
+        if (listDeal.Count > 0)
+            lastDeal = listDeal.MaxBy(_ => _.Currency).Currency;
+    }
+
 }
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 
-    <title>Lugx Gaming - Product Detail</title>
+<div class="single-product section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="left-image">
+                    <img src="~/images/hoa.jpeg" alt="">
+                </div>
+                <ul>
+                    <li><span>Người bán:</span> Nguyễn Văn A</li>
+                    <li><span>Màu sắc:</span> Hồng</li>
+                    <li><span>Kích thước:</span> <a href="#">Cao 20cm  </a></li>
+                    <li><span>Hình dáng:</span> <a href="#">bông to, chất lượng hoa loại A nở 4-6 bông trên cành</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-6" style=" margin-top: 40px">
+                <h4>Hoa phong lan đột biến</h4>
+                <div class="row">
+                    <div class="col-6">
+                        <ul>
+                            <li>
+                                <span class="">Giá khởi điểm: </span>
+                                <span class="price">@auction.StartingPrice</span>
+                            </li>
+                            <li>
+                                <span class="">Giá hiện tại: </span> <span class="price">@lastDeal</span>
+                            </li>
+                            <li>
+                                <span class="">Ngày kết thúc: </span> <span class="price">@Model.AuctionState.AuctionEvent?.EndDateTime.ToString("dd/MM/yyyy")</span>
+                                <input hidden readonly asp-for="AuctionState.AuctionEvent.EndDateTime" id="countdownDate" />
+                            </li>
+                            <li>
+                                <span class="">Giá hiện tại: </span> <span class="price">@lastDeal</span>
+                            </li>
+                            <li>
+                                <span class="">Trạng thái: </span> <span class="price"> @auction.AuctionStateStatus</span>
 
-    <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="~/css/fontawesome.css">
-    <link rel="stylesheet" href="~/css/templatemolugxgaming.css">
-    <link rel="stylesheet" href="~/css/owl.css">
-    <link rel="stylesheet" href="~/css/animate.css">
-
-</head>
-
-<body>
-
-
-    <div class="single-product section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="left-image">
-                        <img src="~/images/hoa.jpeg" alt="">
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-6">
+                        <ul>
+                            <li>
+                                <span>Khoảng nâng tối thiểu</span>@if (auction.MinRaise != null)
+                                {
+                                    @auction.MinRaise
+                                }
+                                else
+                                {
+                                    @Html.Raw("None")
+                                }
+                            </li>
+                            <li>
+                                <span>Khoảng nâng tối đa</span>@if (auction.MaxRaise != null)
+                                {
+                                    @auction.MaxRaise
+                                }
+                                else
+                                {
+                                    @Html.Raw("None")
+                                }
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="countdown mt-4" id="countdown">
+                        <span> Thời gian đếm ngược bắt đầu trả giá:</span>
+                        <span id="days">00</span> : <span id="hours">00</span> : <span id="minutes">00</span> : <span id="seconds">00</span>
                     </div>
                 </div>
-                <div class="col-lg-6 align-self-center">
-                    <h4>Hoa phong lan đột biến</h4>
-                    <span class="">Giá khởi điểm:</span>
-                    <span class="price">13.000.000vnd</span>
-                    <p>Thời gian đếm ngược bắt đầu trả giá: <span>  24 giờ : 15 phút : 20 giây</span></p>
 
-                    <p>Trạng thái: Đang diễn ra </p>
-
-                    <form id="qty" action="#">
-                        <input type="number" class="form-control" id="1" aria-describedby="quantity" placeholder="1" style="width:400px">
+                <div style="margin-top: 40px">
+                    <h3>Đấu giá ngay:</h3>
+                    <form method="post" asp-page-handler="RaisePrice">
+                        <input hidden asp-for="AuctionState" />
+                        <input asp-for="RisePrice" type="number" class="form-control" id="1" aria-describedby="quantity" placeholder="@lastDeal" min="@lastDeal" style="width:400px">
                         <button type="submit"><i class="fa"></i> SUBMIT</button>
                     </form>
-                    <ul>
-                        <li><span>Người bán:</span> Nguyễn Văn A</li>
-                        <li><span>Màu sắc:</span> Hồng</li>
-                        <li><span>Kích thước:</span> <a href="#">Cao 20cm  </a></li>
-                        <li><span>Hình dáng:</span> <a href="#">bông to, chất lượng hoa loại A nở 4-6 bông trên cành</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-12">
-                    <div class="sep"></div>
                 </div>
 
-                <h4>Lịch sử người đặt giá</h4>
+            </div>
+            <div class="col-lg-12">
+                <div class="sep"></div>
+            </div>
 
-                <table class="table">
-                    <thead>
+            <h4>Lịch sử người đặt giá</h4>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Giá</th>
+                        <th>User</th>
+                        <th>Trạng thái cuộc đấu giá</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (listDeal != null && listDeal.Count > 0)
+                    {
+                        @foreach (var item in listDeal)
+                        {
+                            <tr>
+                                <td>@item.Currency</td>
+                                <td>none</td>
+                                <td>@item.DealStatus</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
                         <tr>
-                            <th>Giá</th>
-                            <th>User</th>
-                            <th>Trạng thái cuộc đấu giá</th>
+                            <td>No one have raise the price</td>
                         </tr>
-                    </thead>
-                    <tbody>
+                    }
 
+                </tbody>
+            </table>
 
-                        <tr>
-                            <td>15.000.000vnd</td>
-                            <td>Nguyễn Khoa</td>
-                            <td>Đang diễn ra</td>
-                        </tr>
-
-                    </tbody>
-                </table>
-
-            </div>
         </div>
     </div>
+</div>
 
-    <div class="more-info">
-        <div class="container">
-            <div class="row">
-            </div>
+<div class="more-info">
+    <div class="container">
+        <div class="row">
         </div>
     </div>
+</div>
 
-    <div class="section categories related-games">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="section-heading">
+<div class="section categories related-games">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="section-heading">
 
-                        <h2>Các món hàng khác</h2>
+                    <h2>Các món hàng khác</h2>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="main-button">
+                    <a href="shop.html">Xem thêm</a>
+                </div>
+            </div>
+            <div class="col-lg col-sm-6 col-xs-12">
+                <div class="item">
+                    <h4>Hoa</h4>
+                    <div class="thumb">
+                        <a href="product-details.html"><img src="assets/images/categories-01.jpg" alt=""></a>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="main-button">
-                        <a href="shop.html">Xem thêm</a>
+            </div>
+            <div class="col-lg col-sm-6 col-xs-12">
+                <div class="item">
+                    <h4>Hoa</h4>
+                    <div class="thumb">
+                        <a href="product-details.html"><img src="assets/images/categories-05.jpg" alt=""></a>
                     </div>
                 </div>
-                <div class="col-lg col-sm-6 col-xs-12">
-                    <div class="item">
-                        <h4>Hoa</h4>
-                        <div class="thumb">
-                            <a href="product-details.html"><img src="assets/images/categories-01.jpg" alt=""></a>
-                        </div>
+            </div>
+            <div class="col-lg col-sm-6 col-xs-12">
+                <div class="item">
+                    <h4>Hoa</h4>
+                    <div class="thumb">
+                        <a href="product-details.html"><img src="assets/images/categories-03.jpg" alt=""></a>
                     </div>
                 </div>
-                <div class="col-lg col-sm-6 col-xs-12">
-                    <div class="item">
-                        <h4>Hoa</h4>
-                        <div class="thumb">
-                            <a href="product-details.html"><img src="assets/images/categories-05.jpg" alt=""></a>
-                        </div>
+            </div>
+            <div class="col-lg col-sm-6 col-xs-12">
+                <div class="item">
+                    <h4>Hoa</h4>
+                    <div class="thumb">
+                        <a href="product-details.html"><img src="assets/images/categories-04.jpg" alt=""></a>
                     </div>
                 </div>
-                <div class="col-lg col-sm-6 col-xs-12">
-                    <div class="item">
-                        <h4>Hoa</h4>
-                        <div class="thumb">
-                            <a href="product-details.html"><img src="assets/images/categories-03.jpg" alt=""></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg col-sm-6 col-xs-12">
-                    <div class="item">
-                        <h4>Hoa</h4>
-                        <div class="thumb">
-                            <a href="product-details.html"><img src="assets/images/categories-04.jpg" alt=""></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg col-sm-6 col-xs-12">
-                    <div class="item">
-                        <h4>Hoa</h4>
-                        <div class="thumb">
-                            <a href="product-details.html"><img src="assets/images/categories-05.jpg" alt=""></a>
-                        </div>
+            </div>
+            <div class="col-lg col-sm-6 col-xs-12">
+                <div class="item">
+                    <h4>Hoa</h4>
+                    <div class="thumb">
+                        <a href="product-details.html"><img src="assets/images/categories-05.jpg" alt=""></a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+@section Scripts{
+    <script>
+        let countdownDate;
+
+        $(document).ready(function () {
+            // Get the date and time set by the user
+            countdownDate = new Date(document.getElementById("countdownDate")
+                .value).getTime();
+
+            // Show the countdown clock
+            document.getElementById("countdown").style.display = "flex";
+
+            // Update the countdown every 1 second
+            let x = setInterval(function () {
+                // Get the current date and time
+                let now = new Date().getTime();
+
+                // Calculate the distance between now and the countdown date
+                let distance = countdownDate - now;
+
+                // Calculate days, hours, minutes and seconds
+                let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Display the result
+                document.getElementById("days").innerHTML = days.
+                    toString().padStart(2, '0');
+                document.getElementById("hours").innerHTML = hours.
+                    toString().padStart(2, '0');
+                document.getElementById("minutes").innerHTML = minutes.
+                    toString().padStart(2, '0');
+                document.getElementById("seconds").innerHTML = seconds.
+                    toString().padStart(2, '0');
+
+                // If the countdown is over, display a message
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("countdown").innerHTML = "EXPIRED";
+                }
+            }, 1000);
+        });
 
 
 
+    </script>
 
-</body>
-</html>
+}
+

@@ -1,29 +1,31 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using WebAppRazorpage.ApiModel;
-using WebAppRazorpage.Constants;
 
 namespace WebAppRazorpage.Pages.Customer
 {
-    public class OrderHistoryModel : PageModel
+    public class OrderDetailHistoryModel : PageModel
     {
         private readonly HttpClient client = new HttpClient();
 
 
-        public List<OrderModel> ListOrder { get; set; }
+        public List<OrderDetailModel> ListOrderDetail { get; set; }
 
-        public void OnGet(int customerId)
+        public void OnGet(int Id)
         {
-            var task = client.GetAsync($"https://localhost:7253/api/Order/Customer{customerId}");
+            var task = client.GetAsync($"https://localhost:7253/api/OrderDetail/Order{Id}");
             HttpResponseMessage result = task.Result;
-            List<OrderModel> listOrder = new List<OrderModel>();
+            List<OrderDetailModel> listOrderDetail = new List<OrderDetailModel>();
             if (result.IsSuccessStatusCode)
             {
                 Task<string> readString = result.Content.ReadAsStringAsync();
                 string jsonString = readString.Result;
-                listOrder = OrderModel.FromJson(jsonString);
+                listOrderDetail = OrderDetailModel.FromJson(jsonString);
             }
-            ListOrder = listOrder;
+            ListOrderDetail = listOrderDetail;
         }
+
+
+
     }
 }

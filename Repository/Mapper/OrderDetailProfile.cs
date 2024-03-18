@@ -4,20 +4,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebApp.Core.Models.OrchidModels;
+using WebApp.Core.Models.AuctionStateModels;
+using WebApp.Core.Models.OrderDetailModels;
 using WebApp.Repository.Entities;
 
 namespace WebApp.Repository.Mapper
 {
-    public class OrchidProfile : Profile
+    public class OrderDetailProfile : Profile
     {
-        public OrchidProfile()
+        public OrderDetailProfile()
         {
-            CreateMap<OrchidModel, Orchid>()
+            CreateMap<OrderDetailModel, OrderDetail>()
                 .ForMember(x => x.Id, opt => opt.Ignore());
-            CreateMap<Orchid, OrchidModel>();
+            CreateMap<OrderDetail, OrderDetailModel>();
 
-
+           
         }
     }
 }

@@ -49,6 +49,7 @@ namespace WebAppRazorpage.ApiModel
     public partial class AuctionEventModel
     {
         public static List<AuctionEventModel> FromJson(string json) => JsonConvert.DeserializeObject<List<AuctionEventModel>>(json, Converter.Settings);
+        public static AuctionEventModel FromJsonToObject(string json) => JsonConvert.DeserializeObject<AuctionEventModel>(json, Converter.Settings);
     }
 
 

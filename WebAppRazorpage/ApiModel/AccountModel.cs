@@ -54,25 +54,26 @@ namespace WebAppRazorpage.ApiModel
         public string RoleId { get; set; }
 
         [JsonProperty("role")]
-        public RoleModel Role { get; set; }
+        public RoleModel? Role { get; set; }
 
         [JsonProperty("wallets")]
-        public List<WalletModel> Wallets { get; set; }
+        public List<WalletModel>? Wallets { get; set; }
 
         [JsonProperty("auctionEvents")]
-        public List<AuctionEventModel> AuctionEvents { get; set; }
+        public List<AuctionEventModel>? AuctionEvents { get; set; }
 
         [JsonProperty("orchids")]
-        public List<OrchidModel> Orchids { get; set; }
+        public List<OrchidModel>? Orchids { get; set; }
 
         [JsonProperty("orders")]
-        public List<OrderModel> Orders { get; set; }
+        public List<OrderModel>? Orders { get; set; }
 
         [JsonProperty("dealHangers")]
-        public List<DealHangerModel> DealHangers { get; set; }
+        public List<DealHangerModel>? DealHangers { get; set; }
     }
-    public partial class AccountModel
+    public partial class AccountModel   
     {
         public static List<AccountModel> FromJson(string json) => JsonConvert.DeserializeObject<List<AccountModel>>(json, Converter.Settings);
+        public static AccountModel FromJsonToObject(string json) => JsonConvert.DeserializeObject<AccountModel>(json, Converter.Settings);
     }
 }

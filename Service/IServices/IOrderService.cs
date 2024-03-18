@@ -14,5 +14,6 @@ namespace WebApp.Service.IServices
         public Task<Order> GetOrderById(string id);
         public Task<string> CreateOrder(OrderModel order);
         public Task<string> UpdateOrder(OrderModel order);
+        public Task<List<Order?>> GetOrderByCustomerId(string id);
     }
 }

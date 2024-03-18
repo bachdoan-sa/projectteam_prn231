@@ -29,7 +29,7 @@ namespace WebAppRazorpage.ApiModel
         public string AccountId { get; set; }
 
         [JsonProperty("account")]
-        public string Account { get; set; }
+        public AccountModel? Account { get; set; }
 
         [JsonProperty("transactions")]
         public List<TransactionModel> Transactions { get; set; }
@@ -37,5 +37,6 @@ namespace WebAppRazorpage.ApiModel
     public partial class WalletModel
     {
         public static List<WalletModel> FromJson(string json) => JsonConvert.DeserializeObject<List<WalletModel>>(json, Converter.Settings);
+        public static WalletModel FromJsonToObject(string json) => JsonConvert.DeserializeObject<WalletModel>(json, Converter.Settings);
     }
 }

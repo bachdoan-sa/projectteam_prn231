@@ -71,5 +71,11 @@ namespace WebApp.Service.Services
             }
             return Task.FromResult(existingOrder.Id);
         }
+
+        public Task<List<Order?>> GetOrderByCustomerId(string id)
+        {
+            var order = _repository.Get(order => order.CustomerId == id).ToListAsync();
+            return order;
+        }
     }
 }

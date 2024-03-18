@@ -1,5 +1,41 @@
-﻿@page
+﻿@page "{customerId}"
 @model WebAppRazorpage.Pages.Customer.OrderHistoryModel
 @{
     Layout = "_CustomerLayout";
+}
+
+
+@if (Model.ListOrder != null && Model.ListOrder.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Id</td>
+                <td>Order Status</td>
+                <td>Total</td>
+                <td>Created Time</td>
+                <!-- Add other relevant columns here -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model.ListOrder)
+            {
+                <tr>
+                    <td>@order.Id</td>
+                    <td>@order.OrderStatus</td>
+                    <td>@order.Total</td>
+                    <td>@order.CreatedTime</td>
+                    <td> </td>
+                    <td>
+                        <a href="~/Customer/OrderDetailHistory/@order.Id" class="btn btn-primary">Xem chi tiết</a>
+                    </td>
+                    <!-- Add other relevant columns here -->
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No orders found for this customer.</p>
 }

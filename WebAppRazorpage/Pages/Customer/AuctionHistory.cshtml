@@ -1,5 +1,42 @@
-﻿@page
+﻿@page "{Id}"
 @model WebAppRazorpage.Pages.Customer.AuctionHistoryModel
 @{
     Layout = "_CustomerLayout";
 }
+@if (Model.ListDealhanger != null && Model.ListDealhanger.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Id</td>
+                <td>DealStatus</td>
+                <td>Currency</td>
+                <td>AuctionStateId</td>
+                <td>AuctionState Status</td>
+                <td>CreatedTime</td>
+                <td>LastUpdated</td>
+                <!-- Add other relevant columns here -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var list in Model.ListDealhanger)
+            {
+                <tr>
+                    <td>@list.Id</td>
+                    <td>@list.DealStatus</td>
+                    <td>@list.Currency</td>
+                    <td>@list.AuctionStateId</td>
+                    <td>@list.AuctionState.AuctionStateStatus</td>
+                    <td style="text-align:left!important">@list.CreatedTime.ToString("dd-MM-yyyy")</td>
+                    <td style="text-align:left!important">@list.LastUpdated.ToString("dd-MM-yyyy")</td>
+                    <!-- Add other relevant columns here -->
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No order details found for this order.</p>
+}
+

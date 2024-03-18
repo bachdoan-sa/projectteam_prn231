@@ -63,5 +63,16 @@ namespace WebApp.Controller
             }
             return Ok(result);
         }
+
+        [HttpGet("Customer{id}")]
+        public async Task<IActionResult> GetByCustomerId(string id)
+        {
+            var order = await _iOrderService.GetOrderByCustomerId(id);
+            if (order == null)
+            {
+                return NotFound();
+            }
+            return Ok(order);
+        }
     }
 }

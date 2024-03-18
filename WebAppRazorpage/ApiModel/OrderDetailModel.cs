@@ -17,7 +17,7 @@ namespace WebAppRazorpage.ApiModel
         public DateTimeOffset LastUpdated { get; set; }
 
         [JsonProperty("deleteTime")]
-        public object DeleteTime { get; set; }
+        public DateTimeOffset? DeleteTime { get; set; }
 
         [JsonProperty("orderDetailStatus")]
         public string OrderDetailStatus { get; set; }
@@ -40,5 +40,6 @@ namespace WebAppRazorpage.ApiModel
     public partial class OrderDetailModel
     {
         public static List<OrderDetailModel> FromJson(string json) => JsonConvert.DeserializeObject<List<OrderDetailModel>>(json, Converter.Settings);
+        public static OrderDetailModel FromJsonToObject(string json) => JsonConvert.DeserializeObject<OrderDetailModel>(json, Converter.Settings);
     }
 }

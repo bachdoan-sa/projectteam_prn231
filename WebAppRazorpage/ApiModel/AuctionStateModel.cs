@@ -19,25 +19,25 @@ namespace WebAppRazorpage.ApiModel
         public DateTimeOffset? DeleteTime { get; set; }
 
         [JsonProperty("position")]
-        public long Position { get; set; }
+        public int Position { get; set; }
 
         [JsonProperty("startingPrice")]
-        public long StartingPrice { get; set; }
+        public double? StartingPrice { get; set; }
 
         [JsonProperty("expectedPrice")]
-        public long ExpectedPrice { get; set; }
+        public double? ExpectedPrice { get; set; }
 
         [JsonProperty("minRaise")]
-        public long MinRaise { get; set; }
+        public double? MinRaise { get; set; }
 
         [JsonProperty("maxRaise")]
-        public long MaxRaise { get; set; }
+        public double? MaxRaise { get; set; }
 
         [JsonProperty("auctionStateStatus")]
         public string AuctionStateStatus { get; set; }
 
         [JsonProperty("finalPrice")]
-        public long FinalPrice { get; set; }
+        public double? FinalPrice { get; set; }
 
         [JsonProperty("orchidId")]
         public string OrchidId { get; set; }
@@ -57,5 +57,6 @@ namespace WebAppRazorpage.ApiModel
     public partial class AuctionStateModel
     {
         public static List<AuctionStateModel> FromJson(string json) => JsonConvert.DeserializeObject<List<AuctionStateModel>>(json, Converter.Settings);
+        public static AuctionStateModel FromJsonToObject(string json) => JsonConvert.DeserializeObject<AuctionStateModel>(json, Converter.Settings);
     }
 }

@@ -41,13 +41,14 @@ namespace WebApp.Core.Constants
             public const string AddAuctionState = BaseEndpoint + "/add";
 			public const string UpdateAuctionState = BaseEndpoint + "/update";
 			public const string DeleteAuctionState = BaseEndpoint + "/delete" + "/{id}";
-            public const string GetOrchidAuction = BaseEndpoint + "get-item/{id}";
+            public const string GetOrchidAuction = BaseEndpoint + "/get-item/{id}";
             public const string GetOrchidAuctions = BaseEndpoint + "/get-items";
             public const string CreateAuctionByOwner = BaseEndpoint + "/CreateAuctionByOwner";
         }
         public static class DealHanger
         {
-
+            private const string BaseEndpoint = "~/" + AreaName + "/" + nameof(DealHanger);
+            public const string RaisePrice = BaseEndpoint + "/raise-price";
         }
         public static class Mutation
         {

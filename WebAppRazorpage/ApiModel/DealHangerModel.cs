@@ -17,13 +17,13 @@ namespace WebAppRazorpage.ApiModel
         public DateTimeOffset LastUpdated { get; set; }
 
         [JsonProperty("deleteTime")]
-        public object DeleteTime { get; set; }
+        public DateTimeOffset? DeleteTime { get; set; }
 
         [JsonProperty("dealStatus")]
         public string DealStatus { get; set; }
 
         [JsonProperty("currency")]
-        public long Currency { get; set; }
+        public double Currency { get; set; }
 
         [JsonProperty("customerId")]
         public string CustomerId { get; set; }
@@ -40,5 +40,6 @@ namespace WebAppRazorpage.ApiModel
     public partial class DealHangerModel
     {
         public static List<DealHangerModel> FromJson(string json) => JsonConvert.DeserializeObject<List<DealHangerModel>>(json, Converter.Settings);
+        public static DealHangerModel FromJsonToObject(string json) => JsonConvert.DeserializeObject<DealHangerModel>(json, Converter.Settings);
     }
 }
