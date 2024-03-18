@@ -13,6 +13,9 @@ namespace WebApp.Repository.Mapper
     {
         public DealHangerProfile()
         {
+            CreateMap<DealHangerModel, DealHanger>()
+               .ForMember(x => x.Id, opt => opt.Ignore());
+            CreateMap<DealHanger, DealHangerModel>();
             CreateMap<DealHangerHistoryModel, DealHanger>()
                 .ForMember(x => x.Id, opt => opt.Ignore());
             CreateMap<DealHanger, DealHangerHistoryModel>();

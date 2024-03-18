@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 using System.Net.Http.Headers;
+using System.Text;
 using WebAppRazorpage.ApiModel;
 using WebAppRazorpage.Constants;
 
@@ -10,13 +12,16 @@ namespace WebAppRazorpage.Pages.Auction
     public class OrchidAuctionDetailModel : PageModel
     {
         private readonly HttpClient client = new HttpClient();
-        public AuctionStateModel AuctionState { get; set; }
-        public IActionResult OnGet()
+        public AuctionStateModel? AuctionState { get; set; }
+        public double? RisePrice { get; set; }
+        public string? ReponseMessage { get; set; }
+        public IActionResult OnGet(string id)
         {
 
-            string auctionStateId = ViewData["AuctionStateId"] as string ?? "";
-            var accessToken = HttpContext.Session.GetString("JwToken");
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            string auctionStateId = id;
+            /*            var accessToken = HttpContext.Session.GetString("JwToken");
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            */
             if (!string.IsNullOrEmpty(auctionStateId))
             {
                 string url = WebAppEndpoint.AuctionState.GetOrchidAuction + '/' + auctionStateId;
@@ -27,13 +32,45 @@ namespace WebAppRazorpage.Pages.Auction
                 {
                     Task<string> readString = result.Content.ReadAsStringAsync();
                     string jsonString = readString.Result;
-                    AuctionState = AuctionStateModel.FromJson(jsonString).FirstOrDefault() ?? new AuctionStateModel();
+                    AuctionState = AuctionStateModel.FromJsonToObject(jsonString);
                     return Page();
                 }
             }
-
+            if(AuctionState == null)
+            {
+                return Redirect("/Auction/Auctions");
+            }
             return Page();
 
+        }
+        public IActionResult OnPostRaisePrice() {
+            var accessToken = HttpContext.Session.GetString("JwToken");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            if (RisePrice > 0)
+            {
+                string json = JsonConvert.SerializeObject(new DealHangerModel
+                {
+                    AuctionStateId = AuctionState.Id,
+                    Currency = RisePrice ?? 0
+
+                });
+
+                string url = WebAppEndpoint.DealHanger.RaisePrice;
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var task = client.PostAsync(url, content);
+               
+                HttpResponseMessage result = task.Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    Task<string> readString = result.Content.ReadAsStringAsync();
+                    string jsonString = readString.Result;
+                    ReponseMessage = jsonString;
+                    return OnGet(AuctionState.Id);
+                }
+            }
+            return OnGet(AuctionState.Id);
         }
     }
 }

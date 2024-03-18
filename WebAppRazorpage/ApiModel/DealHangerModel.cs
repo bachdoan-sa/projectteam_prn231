@@ -17,13 +17,13 @@ namespace WebAppRazorpage.ApiModel
         public DateTimeOffset LastUpdated { get; set; }
 
         [JsonProperty("deleteTime")]
-        public object DeleteTime { get; set; }
+        public DateTimeOffset? DeleteTime { get; set; }
 
         [JsonProperty("dealStatus")]
         public string DealStatus { get; set; }
 
         [JsonProperty("currency")]
-        public long Currency { get; set; }
+        public double Currency { get; set; }
 
         [JsonProperty("customerId")]
         public string CustomerId { get; set; }

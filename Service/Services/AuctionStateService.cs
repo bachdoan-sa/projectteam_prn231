@@ -109,7 +109,7 @@ namespace WebApp.Service.Services
 
         public Task<OrchidAuctionModel> GetOrchidAuction(string id)
         {
-            var entity = _auctionStateRepository.Get(_ => _.Id == id, false, _ => _.Orchid, _ => _.AuctionEvent, _ => _.DealHangers).FirstOrDefault();
+            var entity = _auctionStateRepository.Get(_ => _.Id == id, false, _ => _.Orchid, _ => _.AuctionEvent, _ => _.DealHangers,_=>_.DealHangers).FirstOrDefault();
             var result = _mapper.Map<OrchidAuctionModel>(entity);
             return Task.FromResult(result);
         }

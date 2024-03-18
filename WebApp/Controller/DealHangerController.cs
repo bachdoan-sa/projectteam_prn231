@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebApp.Core.Constants;
 using WebApp.Core.Models.DeadHangerModels;
 using WebApp.Repository.Entities;
 using WebApp.Service.IServices;
@@ -56,8 +57,8 @@ namespace WebApp.Controller
             }
             return Ok(result);
         }
-
-        [HttpPost("startAuction")]
+        [Route(WebApiEndpoint.DealHanger.RaisePrice)]
+        [HttpPost]
         public async Task<IActionResult> StartAuction(DealHangerModel request)
         {
             try
