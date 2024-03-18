@@ -7,13 +7,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Page Title</title>
     <link rel="stylesheet" href="~/css/ProductSellPage.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
-<body>
+<body class="w3-light-grey">
 
     <div class="section trending">
         <div class="container">
+            <div class="w3-section  w3-padding-16">
+                <span class="w3-margin-right">Filter:</span>
+                <button class="w3-button w3-black">ALL</button>
+                <button class="w3-button w3-white"><i class="fa fa-diamond w3-margin-right"></i>Bắt Đầu Gần Đây Nhất</button>
+                <button class="w3-button w3-white w3-hide-small"><i class="fa fa-photo w3-margin-right"></i>Nhiều Người Tham Gia Nhất</button>
+                <button class="w3-button w3-white w3-hide-small"><i class="fa fa-map-pin w3-margin-right"></i>Gía Cao Nhất</button>
 
+            </div>
 
             <div class="row">
                 <div class="col-lg-12">
@@ -22,21 +32,19 @@
             </div>
 
 
-            <div class="row trending-box">
+            <div class="row trending-box" >
                  @foreach (var product in Model.ListStateAuction)
                 {
-                <div class="col-lg-3 col-md-6 align-self-center mb-30 trending-items col-md-6">
+                    <div class="col-lg-3 col-md-6 align-self-center mb-30 trending-items col-md-6">
                     <div class="item">
                         <div class="thumb">
                             <a href="/Auction/OrchidAuctionDetail"><img src="~/images/hoa.jpeg" alt=""></a>
                         </div>
-                        <div class="down-content">
+                        <div class="down-content" style="background-color: white">
                             <span class="category">starting price:</span>
                                 <span>@product.StartingPrice</span>
                                 <h4>@product.Orchid.Name</h4>
-                                <span>time of existence:</span>
-                                <span id="countdown"></span>
-
+                                <span>Status:@product.AuctionEvent.AuctionStatus</span>
                                 <a href="/Auction/OrchidAuctionDetail"><i class="fa ">Join</i></a>
                         </div>
                     </div>

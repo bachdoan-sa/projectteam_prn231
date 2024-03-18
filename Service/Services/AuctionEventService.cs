@@ -1,4 +1,5 @@
 ﻿using Invedia.DI.Attributes;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -38,7 +39,7 @@ namespace WebApp.Service.Services
 
 		public Task<List<AuctionEventModel>> GetAllAuctionEvents()
 		{
-			var list = _auctionEventRepository.Get().ToList();
+			var list = _auctionEventRepository.Get().ToListAsync().Result;
 			var result = _mapper.Map<List<AuctionEventModel>>(list);
 			return Task.FromResult(result);
 		}

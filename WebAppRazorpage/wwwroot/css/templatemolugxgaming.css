@@ -305,16 +305,16 @@ Header Style
 }
 
 .header-area {
-  /*position: absolute;*/
-  background-color: #4472f2;
-  top: 40px;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  -webkit-transition: all .5s ease 0s;
-  -moz-transition: all .5s ease 0s;
-  -o-transition: all .5s ease 0s;
-  transition: all .5s ease 0s;
+    /*position: absolute;*/
+    background-color: #1e1e1e;
+    top: 40px;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    -webkit-transition: all .5s ease 0s;
+    -moz-transition: all .5s ease 0s;
+    -o-transition: all .5s ease 0s;
+    transition: all .5s ease 0s;
 }
 
 .header-area .main-nav {
