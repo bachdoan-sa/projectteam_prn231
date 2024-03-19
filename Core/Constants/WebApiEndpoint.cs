@@ -44,6 +44,7 @@ namespace WebApp.Core.Constants
             public const string GetOrchidAuction = BaseEndpoint + "/get-item/{id}";
             public const string GetOrchidAuctions = BaseEndpoint + "/get-items";
             public const string CreateAuctionByOwner = BaseEndpoint + "/CreateAuctionByOwner";
+            public const string GetAuctionStateByStatusPending = BaseEndpoint + "/GetAuctionStateByStatusPending";
         }
         public static class DealHanger
         {

@@ -91,5 +91,12 @@ namespace WebApp.Controller
         {
             return Ok(await _stateService.CreateAuctionByOwner(model));
         }
+        [Route(WebApiEndpoint.AuctionState.GetAuctionStateByStatusPending)]
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Repository.Entities.AuctionState>>> GetAuctionStateByStatusPending()
+        {
+            var auctionStates = await _stateService.GetAuctionStateByStatusPending();
+            return Ok(auctionStates);
+        }
     }
 }

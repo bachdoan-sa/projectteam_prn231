@@ -1,0 +1,59 @@
+﻿@page
+@model WebAppRazorpage.Areas.Admin.Pages.AuctionState.Index1Model
+@{
+    Layout = "_AdminLayout";
+}
+<div class="table-responsive m-t-10">
+    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Position</th>
+                <th>StartingPrice</th>
+                <th>ExpectedPrice</th>
+                <th>MinRaise</th>
+                <th>MaxRaise</th>
+                <th>AuctionStateStatus</th>
+                <th>FinalPrice</th>
+                <th>OrchidId</th>
+                <th>Orchid</th>
+                <th>AuctionEventId</th>
+                <th>AuctionEvent</th>
+                @* <th>Status</th> *@
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.AuctionState)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Position</td>
+                    <td>@item.StartingPrice</td>
+                    <td>@item.ExpectedPrice</td>
+                    <td>@item.MinRaise</td>
+                    <td>@item.MaxRaise</td>
+                    <td>@item.AuctionStateStatus</td>
+                    <td>@item.FinalPrice</td>
+                    <td>@item.OrchidId</td>
+                    <td>@item.Orchid</td>
+                    <td>@item.AuctionEventId</td>
+                    <td>@item.AuctionEvent</td>
+
+                    @* <td>
+                        @if (item.DeleteTime != null)
+                        {
+                            <span class="text-danger badge badge-danger text-uppercase fs-6">Deleted</span>
+                        }
+                        else
+                        {
+                            <span class="text-success badge badge-sucess text-uppercase fs-6">Available</span>
+                        }
+                    </td> *@
+                    <td>
+                        <a href="#" class="btn btn-primary">Change status</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -154,6 +154,14 @@ namespace WebApp.Service.Services
             
             return Task.FromResult(auctionState.Id);
         }
+
+        public Task<List<AuctionStateModel>> GetAuctionStateByStatusPending()
+        { 
+            var listEntities = _auctionStateRepository.Get(_ => _.AuctionStateStatus.Equals("Pending")).ToListAsync().Result;
+        var result = _mapper.Map<List<AuctionStateModel>>(listEntities);
+            return Task.FromResult(result);
+        }
     }
-    
 }
+
+
