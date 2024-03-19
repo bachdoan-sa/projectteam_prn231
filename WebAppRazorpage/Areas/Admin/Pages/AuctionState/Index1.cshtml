@@ -3,6 +3,14 @@
 @{
     Layout = "_AdminLayout";
 }
+
+@if (!string.IsNullOrEmpty(TempData["SuccessMessage"] as string))
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
 <div class="table-responsive m-t-10">
     <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
         <thead>
@@ -18,8 +26,6 @@
                 <th>OrchidId</th>
                 <th>Orchid</th>
                 <th>AuctionEventId</th>
-                <th>AuctionEvent</th>
-                @* <th>Status</th> *@
             </tr>
         </thead>
         <tbody>
@@ -37,23 +43,28 @@
                     <td>@item.OrchidId</td>
                     <td>@item.Orchid</td>
                     <td>@item.AuctionEventId</td>
-                    <td>@item.AuctionEvent</td>
 
-                    @* <td>
-                        @if (item.DeleteTime != null)
-                        {
-                            <span class="text-danger badge badge-danger text-uppercase fs-6">Deleted</span>
-                        }
-                        else
-                        {
-                            <span class="text-success badge badge-sucess text-uppercase fs-6">Available</span>
-                        }
-                    </td> *@
                     <td>
-                        <a href="#" class="btn btn-primary">Change status</a>
+                        <form method="post" asp-page-handler="ChangeStatus">
+                            <input value="@item.Id" hidden asp-for="ChangeItemId" />
+                            <button class="btn btn-primary change-status" type="submit"> Change status</button>
+                        </form>
                     </td>
+                    
+
+                  
                 </tr>
             }
         </tbody>
     </table>
 </div>
+
+
+
+
+
+
+
+
+
+                           

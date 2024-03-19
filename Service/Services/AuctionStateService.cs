@@ -1,4 +1,5 @@
-﻿using Invedia.DI.Attributes;
+﻿using AngleSharp.Dom;
+using Invedia.DI.Attributes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -160,6 +161,31 @@ namespace WebApp.Service.Services
             var listEntities = _auctionStateRepository.Get(_ => _.AuctionStateStatus.Equals("Pending")).ToListAsync().Result;
         var result = _mapper.Map<List<AuctionStateModel>>(listEntities);
             return Task.FromResult(result);
+        }
+
+        public  Task<string> ChangeAuctionStatus(string auctionId)
+        {
+            var auction = _auctionStateRepository.Get(_ => _.Id.Equals(auctionId)).FirstOrDefault();
+            if (auction == null)
+            {
+                return Task.FromResult("Not Found Auction Need Update");
+            }
+
+            var auction2 = _auctionEventRepository.Get(_ => _.Id.Equals(auction.AuctionEventId)).FirstOrDefault();
+            if (auction2 == null)
+            {
+                return Task.FromResult("Not Found AuctionEvent Need Update");
+            }
+
+
+            auction.AuctionStateStatus = "Active";
+            auction.LastUpdated = DateTime.Now;
+            auction2.AuctionStatus = "Active";
+
+            _auctionStateRepository.Update(auction);
+            _auctionEventRepository.Update(auction2);
+            UnitOfWork.SaveChange();
+            return Task.FromResult(auction.Id);
         }
     }
 }

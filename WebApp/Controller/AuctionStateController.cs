@@ -48,7 +48,7 @@ namespace WebApp.Controller
         }
         [Route(WebApiEndpoint.AuctionState.UpdateAuctionState)]
         [HttpPut]
-        public async Task<IActionResult> UpdateAuctionState( AuctionStateModel auctionStateModel)
+        public async Task<IActionResult> UpdateAuctionState(AuctionStateModel auctionStateModel)
         {
             if (!ModelState.IsValid)
             {
@@ -56,7 +56,7 @@ namespace WebApp.Controller
             }
 
             var flag = await _stateService.UpdateAuctionState(auctionStateModel);
-            if(flag == null) 
+            if (flag == null)
             {
                 return NotFound();
             }
@@ -97,6 +97,21 @@ namespace WebApp.Controller
         {
             var auctionStates = await _stateService.GetAuctionStateByStatusPending();
             return Ok(auctionStates);
+        }
+
+        [Route(WebApiEndpoint.AuctionState.ChangeAuctionStatus)]
+        [HttpPut]
+        public async Task<IActionResult> ChangeAuctionStatus(string id)
+        {
+            var result = await _stateService.ChangeAuctionStatus(id);
+            if (result == "Not Found Auction Need Update")
+            {
+                return NotFound(result);
+            }
+            else
+            {
+                return Ok(result);
+            }
         }
     }
 }
