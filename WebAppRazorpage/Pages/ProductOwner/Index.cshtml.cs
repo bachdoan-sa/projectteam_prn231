@@ -59,7 +59,7 @@ namespace WebAppRazorpage.Pages.ProductOwner
         public void OnGet()
         {
 
-            var task = client.GetAsync("https://localhost:7253/api/OrchidCategories");
+            var task = client.GetAsync(WebAppEndpoint.OrchidCategory.GetAllOrchidCategory);
             HttpResponseMessage result = task.Result;
             if (result.IsSuccessStatusCode)
             {
@@ -68,7 +68,7 @@ namespace WebAppRazorpage.Pages.ProductOwner
                 Categories = OrchidCategoryModel.FromJson(jsonString);
             }
 
-            var task1 = client.GetAsync("https://localhost:7253/api/Mutation");
+            var task1 = client.GetAsync(WebAppEndpoint.Mutation.GetAllMutation);
             HttpResponseMessage result1 = task1.Result;
             if (result1.IsSuccessStatusCode)
             {
@@ -78,7 +78,7 @@ namespace WebAppRazorpage.Pages.ProductOwner
             }
         }
 
-        public void OnPost()
+        public IActionResult OnPost()
         {
             string json = JsonConvert.SerializeObject(new 
             {
@@ -88,7 +88,7 @@ namespace WebAppRazorpage.Pages.ProductOwner
                 shape = Shape,
                 size = Size,
                 price = Price,
-                productOwnerId = "1",
+                productOwnerId = "e34576b8e31e4a5882adaa42f91a344c",
                 orchidCategoryId = CategoryId,
                 mutationId = MutationId,
                 description = Description,
@@ -106,7 +106,7 @@ namespace WebAppRazorpage.Pages.ProductOwner
                 Task<string> readString = result.Content.ReadAsStringAsync();
                 ReponseMessage = readString.Result;
             }
-            Redirect("~/ProductOwner/OrchidList");
+            return Redirect("/ProductOwner/OrchidList");
         }
     }
 }
