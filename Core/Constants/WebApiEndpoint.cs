@@ -73,6 +73,11 @@ namespace WebApp.Core.Constants
         }
         public static class OrchidCategory
         {
+            private const string BaseEndpoint = "~/" + AreaName + "/" + nameof(OrchidCategory);
+            public const string GetAllOrchidCategory = BaseEndpoint + "/get-all";
+            public const string AddOrchidCategory = BaseEndpoint + "/add";
+            public const string UpdateOrchidCategory = BaseEndpoint + "/update";
+            public const string GetOrchidCategory = BaseEndpoint + "/get-single/{id}";
 
         }
         public static class OrchidMutation
