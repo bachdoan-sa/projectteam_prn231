@@ -19,6 +19,7 @@ using WebApp.Core.Models.AccountModels;
 using WebApp.Core.Constants;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using AngleSharp.Dom;
 
 namespace WebApp.Service.Services
 {
@@ -28,12 +29,14 @@ namespace WebApp.Service.Services
         private readonly IConfiguration _configuration;
         private readonly IAccountRepository _accountRepository;
         private readonly IRoleRepository _roleRepository;
+        private readonly IWalletRepository _walletRepository;
 
         public AccountService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _configuration = serviceProvider.GetRequiredService<IConfiguration>();
             _accountRepository = serviceProvider.GetRequiredService<IAccountRepository>();
             _roleRepository = serviceProvider.GetRequiredService<IRoleRepository>();
+            _walletRepository = serviceProvider.GetRequiredService<IWalletRepository>();
         }
 
         //Code below to test Method Hash and Salt password by using HMACSHA512
@@ -76,6 +79,13 @@ namespace WebApp.Service.Services
 
             //Step-3 Add to Database, save changes and return JWT.
             _accountRepository.Add(account);
+
+            var wallet = new Wallet();
+            wallet.AccountId = account.Id;
+            wallet.WalletType = "main";
+            wallet.Balance = "0";
+            _walletRepository.Add(wallet);
+
             UnitOfWork.SaveChange();
 
             return Task.FromResult(CreateBearerToken(account, UserRole.CUSTOMER));
@@ -166,6 +176,13 @@ namespace WebApp.Service.Services
             entity.Birthdate = account.Birthdate;
             entity.RoleId = account.RoleId;
             _accountRepository.Add(entity);
+
+            var wallet = new Wallet();
+            wallet.AccountId = entity.Id;
+            wallet.WalletType = "main";
+            wallet.Balance = "0";
+            _walletRepository.Add(wallet);
+
             UnitOfWork.SaveChange();
 
             return Task.FromResult(entity.Id);
