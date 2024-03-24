@@ -24,5 +24,6 @@ namespace WebApp.Service.IServices
         public Task<string> GetWhoYouAre();
         public Task<string> GetLogUserRole();
         public Task<string> UpdateAccount(AccountModel updatedAccount);
+        public Task<Account> GetAccountByLogId();
     }
 }

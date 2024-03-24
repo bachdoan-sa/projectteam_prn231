@@ -4,8 +4,10 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using WebApp.Core.Constants;
 using WebApp.Core.Models.OrderModels;
 using WebApp.Repository.Base;
 using WebApp.Repository.Base.Interface;
@@ -72,10 +74,21 @@ namespace WebApp.Service.Services
             return Task.FromResult(existingOrder.Id);
         }
 
-        public Task<List<Order?>> GetOrderByCustomerId(string id)
+        public Task<List<Order?>> GetOrderByCustomerId()
         {
-            var order = _repository.Get(order => order.CustomerId == id).ToListAsync();
+            string customerId = GetSidLogged();
+            var order = _repository.Get(order => order.CustomerId == customerId).ToListAsync();
             return order;
+        }
+
+        private string GetSidLogged()
+        {
+            var sid = _http.HttpContext?.User.FindFirst(ClaimTypes.Sid)?.Value;
+            if (sid == null)
+            {
+                throw new Exception(ErrorCode.NotFound);
+            }
+            return sid;
         }
     }
 }
