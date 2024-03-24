@@ -10,7 +10,11 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+    <style>
+        form {
+            display: inline-block
+        }
+    </style>
 </head>
 <body class="w3-light-grey">
 
@@ -18,10 +22,18 @@
         <div class="container">
             <div class="w3-section  w3-padding-16">
                 <span class="w3-margin-right">Filter:</span>
+                <form method="get">
                 <button class="w3-button w3-black">ALL</button>
+                </form>
+                <form asp-page-handler="#" method="post">
                 <button class="w3-button w3-white"><i class="fa fa-diamond w3-margin-right"></i>Bắt Đầu Gần Đây Nhất</button>
+                </form>
+                <form asp-page-handler="AmountPerson" method="post"> 
                 <button class="w3-button w3-white w3-hide-small"><i class="fa fa-photo w3-margin-right"></i>Nhiều Người Tham Gia Nhất</button>
+                </form>
+                <form asp-page-handler="#" method="post">
                 <button class="w3-button w3-white w3-hide-small"><i class="fa fa-map-pin w3-margin-right"></i>Gía Cao Nhất</button>
+                </form>
 
             </div>
 
@@ -45,7 +57,7 @@
                                 <span>@product.StartingPrice</span>
                                 <h4>@product.Orchid.Name</h4>
                                 <span>Status:@product.AuctionEvent.AuctionStatus</span>
-                                <a href="/Auction/OrchidAuctionDetail"><i class="fa ">Join</i></a>
+                                <a href="/Auction/OrchidAuctionDetail/@product.Id"><i class="fa ">Join</i></a>
                         </div>
                     </div>
                 </div>
