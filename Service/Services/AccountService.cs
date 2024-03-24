@@ -155,6 +155,40 @@ namespace WebApp.Service.Services
 
             return Task.FromResult(entity.Id);
         }
+
+        public Task<string> UpdateAccount(AccountModel updatedAccount)
+        {
+            var existingAccount = GetAccountById(updatedAccount.Id).Result;
+
+            if (existingAccount == null)
+            {
+                // Handle the case where the account with the given ID doesn't exist.
+                return Task.FromResult("Account not found");
+            }
+
+            // Update the properties of the existing account with the new values.
+            existingAccount.UserName = updatedAccount.UserName;
+            existingAccount.Email = updatedAccount.Email;
+            existingAccount.Phone = updatedAccount.Phone;
+            existingAccount.Address = updatedAccount.Address;
+            existingAccount.Birthdate = updatedAccount.Birthdate;
+            existingAccount.RoleId = updatedAccount.RoleId;
+
+            // If the password is being updated, hash the new password and update the password-related properties.
+            if (!string.IsNullOrEmpty(updatedAccount.Password))
+            {
+                var passwordHash = CreatePasswordHash(updatedAccount.Password, out byte[] passwordSalt);
+                existingAccount.PasswordHash = Convert.ToBase64String(passwordHash);
+                existingAccount.PasswordSalt = Convert.ToBase64String(passwordSalt);
+            }
+
+            _accountRepository.Update(existingAccount);
+            UnitOfWork.SaveChange();
+
+            return Task.FromResult(updatedAccount.Id);
+        }
+
+
         #region Private Methods
         private byte[] CreatePasswordHash(string password, out byte[] passwordSalt)
         {

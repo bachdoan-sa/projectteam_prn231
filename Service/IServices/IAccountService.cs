@@ -22,5 +22,6 @@ namespace WebApp.Service.IServices
         public Task<string> LoginAccount(AccountLoginModel model);
         public Task<string> CreateAccount(AccountModel account);
         public Task<string> GetWhoYouAre();
+        public Task<string> UpdateAccount(AccountModel updatedAccount);
     }
 }
