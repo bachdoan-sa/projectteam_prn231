@@ -121,7 +121,7 @@ namespace WebApp.Service.Services
             } // 1.1 Kiểm tra số dư có chi đủ cho các cuộc đấu giá đang hoạt động hiện tại
             else if (double.Parse(userWallet?.Balance ?? "0") < (request.Currency + allBalance))
             {
-                return Task.FromResult("Số dư không đủ để đấu giá, hãy kiểm tra lại danh sách đấu giá bạn đang tham gia");
+                return Task.FromResult("Số dư không đủ để đấu giá, hãy kiểm tra lại danh sách đấu giá bạn đang tham gia")   ;
             }
 
 
