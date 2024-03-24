@@ -38,17 +38,24 @@ namespace WebApp.Core.Constants
             private const string BaseEndpoint = "~/" + AreaName + "/" + nameof(AuctionState);
 
             public const string GetAllAuctionState = BaseEndpoint + "/get-all";
+            public const string GetAuctionState = BaseEndpoint + "/get-single/{id}";
             public const string AddAuctionState = BaseEndpoint + "/add";
 			public const string UpdateAuctionState = BaseEndpoint + "/update";
 			public const string DeleteAuctionState = BaseEndpoint + "/delete" + "/{id}";
             public const string GetOrchidAuction = BaseEndpoint + "/get-item/{id}";
             public const string GetOrchidAuctions = BaseEndpoint + "/get-items";
             public const string CreateAuctionByOwner = BaseEndpoint + "/CreateAuctionByOwner";
+            public const string GetAuctionStateByStatusPending = BaseEndpoint + "/GetAuctionStateByStatusPending";
+            public const string ChangeAuctionStatus = BaseEndpoint + "/ChangeAuctionStatus/{id}";
+            
         }
         public static class DealHanger
         {
             private const string BaseEndpoint = "~/" + AreaName + "/" + nameof(DealHanger);
             public const string RaisePrice = BaseEndpoint + "/raise-price";
+            public const string Post = BaseEndpoint + "/add";
+            public const string Update = BaseEndpoint + "/update";
+            public const string GetDealHanger = BaseEndpoint + "/get-single/{id}";
         }
         public static class Mutation
         {
@@ -66,6 +73,11 @@ namespace WebApp.Core.Constants
         }
         public static class OrchidCategory
         {
+            private const string BaseEndpoint = "~/" + AreaName + "/" + nameof(OrchidCategory);
+            public const string GetAllOrchidCategory = BaseEndpoint + "/get-all";
+            public const string AddOrchidCategory = BaseEndpoint + "/add";
+            public const string UpdateOrchidCategory = BaseEndpoint + "/update";
+            public const string GetOrchidCategory = BaseEndpoint + "/get-single/{id}";
 
         }
         public static class OrchidMutation

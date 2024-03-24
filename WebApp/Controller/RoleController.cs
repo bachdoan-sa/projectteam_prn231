@@ -40,5 +40,34 @@ namespace WebApp.Controller
             }
             return Ok(test);
         }
+        [Route(WebApiEndpoint.Role.GetRole)]
+        [HttpGet]
+        public async Task<IActionResult> Get(string id)
+        {
+            var role = await _roleService.GetRoleById(id);
+            if (role == null)
+            {
+                return NotFound();
+            }
+            return Ok(role);
+        }
+        [Route(WebApiEndpoint.Role.UpdateRole)]
+        [HttpPut]
+        public async Task<IActionResult> Update( RoleModel role)
+        {
+            try
+            {
+                var updatedRole = await _roleService.UpdateRole(role);
+                if (updatedRole == null)
+                {
+                    return NotFound();
+                }
+                return Ok(updatedRole);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "An error occurred while updating the role.");
+            }
+        }
     }
 }

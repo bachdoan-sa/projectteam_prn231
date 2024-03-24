@@ -14,8 +14,4 @@
     <PackageReference Include="Invedia.DI" Version="2021.7.22.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="EnumCore\" />
-  </ItemGroup>
-
 </Project>

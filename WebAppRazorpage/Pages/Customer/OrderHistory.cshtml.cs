@@ -14,7 +14,7 @@ namespace WebAppRazorpage.Pages.Customer
 
         public void OnGet(int customerId)
         {
-            var task = client.GetAsync($"https://localhost:7253/api/Order/Customer{customerId}");
+            var task = client.GetAsync($"https://localhost:7253/api/Order/Customer/{customerId}");
             HttpResponseMessage result = task.Result;
             List<OrderModel> listOrder = new List<OrderModel>();
             if (result.IsSuccessStatusCode)

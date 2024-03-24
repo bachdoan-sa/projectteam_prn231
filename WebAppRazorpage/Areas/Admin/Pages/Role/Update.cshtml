@@ -1,5 +1,18 @@
-﻿@page
+﻿@page "{id}"
 @model WebAppRazorpage.Areas.Admin.Pages.Role.UpdateModel
 @{
     Layout = "_AdminLayout";
 }
+<h1>Update Role</h1>
+
+<form method="post">
+    <input type="hidden" asp-for="Model.Id" />
+
+    <div class="form-group">
+        <label asp-for="Model.RoleName"></label>
+        <input asp-for="Model.RoleName" class="form-control" />
+        <span asp-validation-for="Model.RoleName" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update Role</button>
+</form>

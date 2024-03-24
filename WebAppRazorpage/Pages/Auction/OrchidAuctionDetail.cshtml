@@ -113,7 +113,7 @@
                 <div style="margin-top: 40px">
                     <h3>Đấu giá ngay:</h3>
                     <form method="post" asp-page-handler="RaisePrice">
-                        <input hidden asp-for="AuctionState" />
+                        <input hidden asp-for="AuctionState.Id" />
                         <input asp-for="RisePrice" type="number" class="form-control" id="1" aria-describedby="quantity" placeholder="@lastDeal" min="@lastDeal" style="width:400px">
                         <button type="submit"><i class="fa"></i> SUBMIT</button>
                     </form>

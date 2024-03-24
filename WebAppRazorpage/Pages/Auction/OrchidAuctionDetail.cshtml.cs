@@ -19,9 +19,13 @@ namespace WebAppRazorpage.Pages.Auction
         {
 
             string auctionStateId = id;
-            /*            var accessToken = HttpContext.Session.GetString("JwToken");
-                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            */
+            /* var accessToken = HttpContext.Session.GetString("JwToken");
+             if(accessToken == null)
+             {
+                 
+             }
+             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+ */
             if (!string.IsNullOrEmpty(auctionStateId))
             {
                 string url = WebAppEndpoint.AuctionState.GetOrchidAuction + '/' + auctionStateId;
@@ -36,30 +40,36 @@ namespace WebAppRazorpage.Pages.Auction
                     return Page();
                 }
             }
-            if(AuctionState == null)
+            if (AuctionState == null)
             {
                 return Redirect("/Auction/Auctions");
             }
             return Page();
 
         }
-        public IActionResult OnPostRaisePrice() {
+        public IActionResult OnPostRaisePrice(string id)
+        {
+
             var accessToken = HttpContext.Session.GetString("JwToken");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
+            if (accessToken == null)
+            {
+                return Redirect("/SignIn");
+            }
             if (RisePrice > 0)
             {
-                string json = JsonConvert.SerializeObject(new DealHangerModel
+                string json = JsonConvert.SerializeObject(new
                 {
-                    AuctionStateId = AuctionState.Id,
-                    Currency = RisePrice ?? 0
-
+                    dealStatus = "",
+                    auctionStateId = AuctionState.Id,
+                    customerId = "",
+                    currency = RisePrice ?? 0
                 });
 
                 string url = WebAppEndpoint.DealHanger.RaisePrice;
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 var task = client.PostAsync(url, content);
-               
+
                 HttpResponseMessage result = task.Result;
 
                 if (result.IsSuccessStatusCode)
@@ -70,7 +80,7 @@ namespace WebAppRazorpage.Pages.Auction
                     return OnGet(AuctionState.Id);
                 }
             }
-            return OnGet(AuctionState.Id);
+            return Redirect("/Auction/OrchidAuctionDetail/" + id);
         }
     }
 }

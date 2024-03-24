@@ -1,5 +1,17 @@
-﻿@page
+﻿@page "{id}"
 @model WebAppRazorpage.Areas.Admin.Pages.OrchidCategory.UpdateModel
 @{
     Layout = "_AdminLayout";
 }
+<h1>Update Orchid Category</h1>
+
+<form method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label>Category Name</label>
+        <input type="text" class="form-control" asp-for="CategoryName" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update Orchid Category</button>
+</form>

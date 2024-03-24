@@ -12,5 +12,8 @@ namespace WebApp.Service.IServices
     {
         public Task<List<Role>> GetRoles();
         public Task<string> AddRole(RoleModel model);
+
+        public Task<Role> GetRoleById(string id);
+        public Task<string> UpdateRole(RoleModel role);
     }
 }

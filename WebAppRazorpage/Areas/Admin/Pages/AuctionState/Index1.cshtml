@@ -1,0 +1,70 @@
+﻿@page
+@model WebAppRazorpage.Areas.Admin.Pages.AuctionState.Index1Model
+@{
+    Layout = "_AdminLayout";
+}
+
+@if (!string.IsNullOrEmpty(TempData["SuccessMessage"] as string))
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<div class="table-responsive m-t-10">
+    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Position</th>
+                <th>StartingPrice</th>
+                <th>ExpectedPrice</th>
+                <th>MinRaise</th>
+                <th>MaxRaise</th>
+                <th>AuctionStateStatus</th>
+                <th>FinalPrice</th>
+                <th>OrchidId</th>
+                <th>Orchid</th>
+                <th>AuctionEventId</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.AuctionState)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Position</td>
+                    <td>@item.StartingPrice</td>
+                    <td>@item.ExpectedPrice</td>
+                    <td>@item.MinRaise</td>
+                    <td>@item.MaxRaise</td>
+                    <td>@item.AuctionStateStatus</td>
+                    <td>@item.FinalPrice</td>
+                    <td>@item.OrchidId</td>
+                    <td>@item.Orchid</td>
+                    <td>@item.AuctionEventId</td>
+
+                    <td>
+                        <form method="post" asp-page-handler="ChangeStatus">
+                            <input value="@item.Id" hidden asp-for="ChangeItemId" />
+                            <button class="btn btn-primary change-status" type="submit"> Change status</button>
+                        </form>
+                    </td>
+                    
+
+                  
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
+
+
+
+
+                           

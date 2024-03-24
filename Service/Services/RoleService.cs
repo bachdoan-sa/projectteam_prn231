@@ -1,4 +1,5 @@
 ﻿using Invedia.DI.Attributes;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,28 @@ namespace WebApp.Service.Services
         public Task<List<Role>> GetRoles()
         {
             return Task.FromResult(_roleRepository.Get().ToList());
+        }
+
+        public  Task<Role> GetRoleById(string id)
+        {
+            return _roleRepository.Get(role => role.Id == id).FirstOrDefaultAsync();
+        }
+
+        public  Task<string> UpdateRole(RoleModel role)
+        {
+            // Check if the role exists
+            var existingRole =  _roleRepository.Get(_ => _.Id.Equals(role.Id)).FirstOrDefault();
+            if (existingRole != null)
+            {
+                // Update the properties of the existing role
+                existingRole.RoleName = role.RoleName;
+                existingRole.LastUpdated = DateTimeOffset.UtcNow;
+
+                _roleRepository.Update(existingRole);
+                UnitOfWork.SaveChange();
+            }
+
+            return Task.FromResult(existingRole.Id);
         }
     }
 }

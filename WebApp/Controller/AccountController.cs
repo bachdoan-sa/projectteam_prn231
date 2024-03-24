@@ -98,6 +98,15 @@ namespace WebApp.Controller
             var list = await _accountService.CreateAccount(model);
             return Ok(list);
         }
+
+        [Authorize]
+        [Route(WebApiEndpoint.Account.UpdateAccount)]
+        [HttpPut]
+        public async Task<IActionResult> UpdateAccount([FromBody] AccountModel updatedAccount)
+        {
+            var result = await _accountService.UpdateAccount(updatedAccount);
+            return Ok(result);
+        }
         /*
         // PUT api/<AccountController>/5
         [HttpPut("{id}")]
