@@ -88,7 +88,7 @@
     <link rel="stylesheet" href="~/css/owl.css">
     <link rel="stylesheet" href="~/css/animate.css">
     <title>@ViewData["Title"] - WebAppRazorpage</title>
-
+    @RenderSection("head", required: false)
 
 </head>
 <body>
@@ -98,13 +98,13 @@
         <div class="w3-row  w3-black">
             <div class="w3-half">
                 <div class="w3-col s4">
-                    <a href="#" class="w3-button w3-block w3-black">HOME</a>
+                    <a href="/Index" class="w3-button w3-block w3-black">HOME</a>
                 </div>
                 <div class="w3-col s4">
                     <a href="#about" class="w3-button w3-block w3-black">ABOUT</a>
                 </div>
                 <div class="w3-col s4">
-                    <a href="#menu" class="w3-button w3-block w3-black">MENU</a>
+                    <a href="/Auction/Auctions" class="w3-button w3-block w3-black">Auction</a>
                 </div>
             </div>
             @*
@@ -119,11 +119,11 @@
                 <div class="w3-half w3-right">
 
                 <div class="w3-col s6">
-                    <a href="#where" class="w3-button w3-block w3-black">Sign Up</a>
+                    <a href="/SignUp" class="w3-button w3-block w3-black">Sign Up</a>
                 </div>
 
                 <div class="w3-col s6">
-                    <a href="#where" class="w3-button w3-block w3-black">Sign In</a>
+                    <a href="/SignIn" class="w3-button w3-block w3-black">Sign In</a>
                 </div>
 
                 </div>
@@ -147,6 +147,6 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
 
-    @await RenderSectionAsync("Scripts", required: false)
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

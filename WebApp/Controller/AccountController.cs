@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using WebApp.Core.Constants;
 using WebApp.Core.Models.AccountModels;
 using WebApp.Service.IServices;
+using WebApp.Service.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -68,6 +69,18 @@ namespace WebApp.Controller
             {
                 return BadRequest(ex.Message);
             }
+        }
+        [Route(WebApiEndpoint.Account.GetUserRole)]
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetUserRole()
+        {
+            var role = await _accountService.GetLogUserRole();
+            if (role == null)
+            {
+                return NotFound();
+            }
+            return Ok(role);
         }
         // GET: api/<AccountController>
         [Authorize(Roles = UserRole.ADMIN)]

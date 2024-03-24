@@ -98,7 +98,7 @@ namespace WebApp.Service.Services
             }
             else
             {
-                var user = _accountRepository.Get(_ => _.UserName == loginModel.UserName,false,_=>_.Role).FirstOrDefault();
+                var user = _accountRepository.Get(_ => _.UserName == loginModel.UserName, false, _ => _.Role).FirstOrDefault();
                 if (user != null)
                 {
                     var check = VerifyPasswordHash(loginModel.Password,
@@ -119,7 +119,7 @@ namespace WebApp.Service.Services
                 false là có lấy những đối tượng bị xóa luôn ko
                 _=>_.Orchids là bao gồm các bảng nào 'include options'
              */
-            var list = _accountRepository.Get().Include(_=>_.Role).ToListAsync().Result;
+            var list = _accountRepository.Get().Include(_ => _.Role).ToListAsync().Result;
             var result = _mapper.Map<List<AccountModel>>(list);
             return Task.FromResult(result);
         }
@@ -137,6 +137,21 @@ namespace WebApp.Service.Services
         public Task<string> GetWhoYouAre()
         {
             return Task.FromResult(GetSidLogged());
+        }
+        public Task<string> GetLogUserRole()
+        {
+            var id = GetSidLogged();
+            string AdminId = _configuration.GetValue<string>("AdminAccount:Id");
+            if (id.Equals(AdminId))
+            {
+                return Task.FromResult("ADMIN");
+            }         
+            var role = _accountRepository.Get(_ => _.Id == id, false, _ => _.Role).Select(_ => _.Role.RoleName).FirstOrDefault();
+            if (role == null)
+            {
+                throw new Exception("No Role");
+            }
+            return Task.FromResult(role);
         }
         public Task<string> CreateAccount(AccountModel account)
         {
@@ -202,13 +217,13 @@ namespace WebApp.Service.Services
         private string GetSidLogged()
         {
             var sid = _http.HttpContext?.User.FindFirst(ClaimTypes.Sid)?.Value;
-             if (sid == null)
+            if (sid == null)
             {
                 throw new Exception(ErrorCode.NotFound);
             }
             return sid;
         }
-       
+
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
@@ -251,7 +266,7 @@ namespace WebApp.Service.Services
                 };
             //get JWT key valude in appsettings
             var JwtKey = Encoding.UTF8.GetBytes(_configuration.GetValue<string>("Jwt:Key"));
-            if(JwtKey == null)
+            if (JwtKey == null)
             {
                 throw new ArgumentNullException(nameof(JwtKey));
             }
