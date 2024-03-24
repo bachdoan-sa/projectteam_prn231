@@ -58,7 +58,7 @@ namespace WebApp.API.Controllers
             return Ok();
         }
 
-        [HttpGet("Owner{id}")]
+        [HttpGet("Owner/{id}")]
         public async Task<ActionResult<List<OrchidModel>>> GetOrchidsByProductOwnerId(string id)
         {
             var orchids = await _orchidsService.GetOrchidByProductOwnerId(id);

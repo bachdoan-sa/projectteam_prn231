@@ -33,11 +33,11 @@ namespace WebAppRazorpage.Pages.ProductOwner
         public double? FinalPrice { get; set; }
         [BindProperty]
         public string ReponseMessage { get; set; }
-        public void OnPost()
+        public void OnPost(string id)
         {
             string json = JsonConvert.SerializeObject(new
             {
-                orchidId = "a" ,
+                orchidId = id ,
                 BeginDateTime = BeginDateTime,
                 EndDateTime = EndDateTime,
                 StartingPrice = StartingPrice,

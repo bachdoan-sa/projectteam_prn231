@@ -13,7 +13,8 @@ namespace WebAppRazorpage.Pages.ProductOwner
         public List<OrchidModel> ListOrchid { get; set; }
         public void OnGet()
         {
-            var task = client.GetAsync("https://localhost:7253/api/Orchid/Owner{1}");
+            string ownerId = "1";
+            var task = client.GetAsync("https://localhost:7253/api/Orchids/Owner/e08249799f7b4798ad18f91a7a1117ed");
             HttpResponseMessage result = task.Result;
             List<OrchidModel> listOrchid = new List<OrchidModel>();
             if (result.IsSuccessStatusCode)
