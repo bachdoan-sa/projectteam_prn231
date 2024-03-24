@@ -19,6 +19,13 @@ namespace WebAppRazorpage.Pages.Auction
         {
 
             string auctionStateId = id;
+            /* var accessToken = HttpContext.Session.GetString("JwToken");
+             if(accessToken == null)
+             {
+                 
+             }
+             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+ */
             if (!string.IsNullOrEmpty(auctionStateId))
             {
                 string url = WebAppEndpoint.AuctionState.GetOrchidAuction + '/' + auctionStateId;
@@ -51,10 +58,12 @@ namespace WebAppRazorpage.Pages.Auction
             }
             if (RisePrice > 0)
             {
-                string json = JsonConvert.SerializeObject(new DealHangerModel
+                string json = JsonConvert.SerializeObject(new
                 {
-                    AuctionStateId = AuctionState.Id,
-                    Currency = RisePrice ?? 0
+                    dealStatus = "",
+                    auctionStateId = AuctionState.Id,
+                    customerId = "",
+                    currency = RisePrice ?? 0
                 });
 
                 string url = WebAppEndpoint.DealHanger.RaisePrice;
