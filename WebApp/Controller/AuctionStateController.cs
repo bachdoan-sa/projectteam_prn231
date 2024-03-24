@@ -20,13 +20,14 @@ namespace WebApp.Controller
         }
         [Route(WebApiEndpoint.AuctionState.GetAllAuctionState)]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Repository.Entities.AuctionState>>> GetAllAuctionStates()
+        public async Task<ActionResult<IEnumerable<AuctionStateModel>>> GetAllAuctionStates()
         {
             var auctionStates = await _stateService.GetAllAuctionStates();
             return Ok(auctionStates);
         }
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Repository.Entities.AuctionState>> GetAuctionStateById(string id)
+        [Route(WebApiEndpoint.AuctionState.GetAuctionState)]
+        [HttpGet]
+        public async Task<IActionResult> GetAuctionStateById(string id)
         {
             var auctionState = await _stateService.GetAuctionStateById(id);
             if (auctionState == null)

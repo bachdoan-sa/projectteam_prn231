@@ -1,5 +1,66 @@
-﻿@page
+﻿@page "{id}"
 @model WebAppRazorpage.Areas.Admin.Pages.AuctionState.UpdateModel
 @{
     Layout = "_AdminLayout";
 }
+<h1>Update Auction State</h1>
+
+<form method="post">
+    <input type="hidden" asp-for="Model.Id" />
+
+    <div class="form-group">
+        <label asp-for="Model.Position"></label>
+        <input asp-for="Model.Position" class="form-control" />
+        <span asp-validation-for="Model.Position" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Model.StartingPrice"></label>
+        <input asp-for="Model.StartingPrice" class="form-control" />
+        <span asp-validation-for="Model.StartingPrice" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Model.ExpectedPrice"></label>
+        <input asp-for="Model.ExpectedPrice" class="form-control" />
+        <span asp-validation-for="Model.ExpectedPrice" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Model.MinRaise"></label>
+        <input asp-for="Model.MinRaise" class="form-control" />
+        <span asp-validation-for="Model.MinRaise" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Model.MaxRaise"></label>
+        <input asp-for="Model.MaxRaise" class="form-control" />
+        <span asp-validation-for="Model.MaxRaise" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Model.AuctionStateStatus"></label>
+        <input asp-for="Model.AuctionStateStatus" class="form-control" />
+        <span asp-validation-for="Model.AuctionStateStatus" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Model.FinalPrice"></label>
+        <input asp-for="Model.FinalPrice" class="form-control" />
+        <span asp-validation-for="Model.FinalPrice" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Model.OrchidId"></label>
+        <input asp-for="Model.OrchidId" class="form-control" />
+        <span asp-validation-for="Model.OrchidId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Model.AuctionEventId"></label>
+        <input asp-for="Model.AuctionEventId" class="form-control" />
+        <span asp-validation-for="Model.AuctionEventId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update Auction State</button>
+</form>

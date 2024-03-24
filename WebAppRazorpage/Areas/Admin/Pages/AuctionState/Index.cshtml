@@ -3,3 +3,83 @@
 @{
     Layout = "_AdminLayout";
 }
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-content-center">
+                <!--Title-->
+                <div class="">
+                    <h3 class="m-0">Auction Event Manager</h3>
+                </div>
+
+                <!--Create-->
+                <div class="">
+                    <a href="/Admin/AuctionState/Create" class="btn btn-success">Create Auction State</a>
+                </div>
+
+            </div>
+            <div class="card-body">
+
+                <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6>
+                <div class="table-responsive m-t-10">
+                    @if (Model.AuctionStates.Any())
+                    {
+                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Position</th>
+                                <th>Starting Price</th>
+                                <th>Expected Price</th>
+                                <th>Min Raise</th>
+                                <th>Max Raise</th>
+                                <th>Status</th>
+                                <th>Final Price</th>
+                                <th>OrchidId</th>
+                                <th>AuctionEventId</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var auctionState in Model.AuctionStates)
+                            {
+                                <tr>
+                                    <td>@auctionState.Id</td>
+                                    <td>@auctionState.Position</td>
+                                    <td>@auctionState.StartingPrice</td>
+                                    <td>@auctionState.ExpectedPrice</td>
+                                    <td>@auctionState.MinRaise</td>
+                                    <td>@auctionState.MaxRaise</td>
+                                    <td>@auctionState.AuctionStateStatus</td>
+                                    <td>@auctionState.FinalPrice</td>
+                                    <td>@auctionState.OrchidId</td>
+                                    <td>@auctionState.AuctionEventId</td>
+                                    <td>
+                                        <a href="/Admin/AuctionState/Update/@auctionState.Id" class="btn btn-primary">Update</a>
+                                        <a href="#" class="btn btn-danger">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    }
+                    else
+                    {
+                        <p>No auction states found.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script src="~/admin/assets/js/lib/datatables/datatables.min.js"></script>
+    <script src="~/admin/assets/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="~/admin/assets/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+    <script src="~/admin/assets/js/lib/datatables/cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="~/admin/assets/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="~/admin/assets/js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="~/admin/assets/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+    <script src="~/admin/assets/js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+    <script src="~/admin/assets/js/lib/datatables/datatables-init.js"></script>
+}

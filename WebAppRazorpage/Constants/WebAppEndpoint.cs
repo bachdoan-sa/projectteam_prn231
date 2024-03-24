@@ -40,7 +40,7 @@ namespace WebAppRazorpage.Constants
             private const string BaseEndpoint = Host + "/" + AreaName + "/" + nameof(AuctionState);
 
             public const string GetAllAuctionState = BaseEndpoint + "/get-all";
-            public const string GetAuctionState = BaseEndpoint + "/get-single/{id}";
+            public const string GetAuctionState = BaseEndpoint + "/get-single";
             public const string AddAuctionState = BaseEndpoint + "/add";
             public const string UpdateAuctionState = BaseEndpoint + "/update";
             public const string DeleteAuctionState = BaseEndpoint + "/delete" + "/{id}";
@@ -55,6 +55,9 @@ namespace WebAppRazorpage.Constants
             private const string BaseEndpoint = Host + "/" + AreaName + "/" + nameof(DealHanger);
             public const string RaisePrice = BaseEndpoint + "/raise-price";
             public const string GetAllDealHanger = BaseEndpoint;
+            public const string Post = BaseEndpoint + "/add";
+            public const string Update = BaseEndpoint + "/update";
+            public const string GetDealHanger = BaseEndpoint + "/get-single";
         }
         public static class Mutation
         {
@@ -78,7 +81,10 @@ namespace WebAppRazorpage.Constants
         public static class OrchidCategory
         {
             private const string BaseEndpoint = Host + "/" + AreaName + "/" + nameof(OrchidCategory);
-            public const string GetAllOrchidCategory = BaseEndpoint;
+            public const string GetAllOrchidCategory = BaseEndpoint + "/get-all";
+            public const string AddOrchidCategory = BaseEndpoint + "/add";
+            public const string GetOrchidCategory = BaseEndpoint + "/get-single";
+            public const string UpdateOrchidCategory = BaseEndpoint + "/update";
 
         }
         public static class OrchidMutation
@@ -108,7 +114,7 @@ namespace WebAppRazorpage.Constants
             private const string BaseEndpoint = Host + "/" + AreaName + "/" + nameof(Role);
 
             public const string GetAllRole = BaseEndpoint + "/get-all";
-            public const string GetRole = BaseEndpoint + "/get-single/{id}";
+            public const string GetRole = BaseEndpoint + "/get-single";
             public const string AddRole = BaseEndpoint + "/add";
             public const string UpdateRole = BaseEndpoint + "/update";
             public const string DeleteRole = BaseEndpoint + "/delete" + "/{id}";

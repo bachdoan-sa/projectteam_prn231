@@ -1,0 +1,15 @@
+
+.show-countdown-custom {
+    display: flex !important;
+    flex-direction: column;
+    margin: 5px;
+    align-items: center;
+    justify-content: center;
+}
+
+.countdown-num {
+    font-size: 50px;
+}
+
+
+

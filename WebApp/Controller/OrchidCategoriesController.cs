@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebApp.Core.Constants;
 using WebApp.Repository.Entities;
 using WebApp.Service.IServices;
 
@@ -15,6 +16,7 @@ namespace WebApp.Controller
             _orchidCategoriesService = orchidCategoriesService;
         }
 
+        [Route(WebApiEndpoint.OrchidCategory.GetAllOrchidCategory)]
         [HttpGet]
         public async Task<IActionResult> GetAllOrchidCategories()
         {
@@ -22,7 +24,8 @@ namespace WebApp.Controller
             return Ok(categories);
         }
 
-        [HttpGet("{id}")]
+        [Route(WebApiEndpoint.OrchidCategory.GetOrchidCategory)]
+        [HttpGet]
         public async Task<IActionResult> GetOrchidCategoryById(string id)
         {
             var category = await _orchidCategoriesService.GetOrchidCategoryById(id);
@@ -33,6 +36,7 @@ namespace WebApp.Controller
             return Ok(category);
         }
 
+        [Route(WebApiEndpoint.OrchidCategory.AddOrchidCategory)]
         [HttpPost]
         public async Task<IActionResult> AddOrchidCategory(OrchidCategory orchidCategory)
         {
@@ -40,14 +44,11 @@ namespace WebApp.Controller
             return CreatedAtAction(nameof(GetOrchidCategoryById), new { id = result.Id }, result);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateOrchidCategory(string id, OrchidCategory orchidCategory)
+        [Route(WebApiEndpoint.OrchidCategory.UpdateOrchidCategory)]
+        [HttpPut]
+        public async Task<IActionResult> UpdateOrchidCategory( OrchidCategory orchidCategory)
         {
-            if (id != orchidCategory.Id)
-            {
-                return BadRequest();
-            }
-
+            
             await _orchidCategoriesService.UpdateOrchidCategory(orchidCategory);
             return Ok(orchidCategory);
         }
