@@ -98,6 +98,10 @@ namespace WebAppRazorpage.Constants
             private const string BaseEndpoint = Host + "/" + AreaName + "/" + nameof(OrderDetail);
 
             public const string GetAllOrderDetail = BaseEndpoint;
+            public const string GetOrderDetail = BaseEndpoint + "/get-single/{id}";
+            public const string AddOrderDetail = BaseEndpoint + "/add";
+            public const string UpdateOrderDetail = BaseEndpoint + "/update";
+            public const string DeleteOrderDetail = BaseEndpoint + "/delete" + "/{id}";
         }
         public static class Role
         {
