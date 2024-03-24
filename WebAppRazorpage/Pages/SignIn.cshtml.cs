@@ -15,7 +15,10 @@ namespace WebAppRazorpage.Pages
         public string Username { get; set; }
         [BindProperty]
         public string Password { get; set; }
-        
+        public void OnGet()
+        {
+            HttpContext.Session.Remove("JwToken");
+        }
         public IActionResult OnPost()
         {
             string json = JsonConvert.SerializeObject(new
