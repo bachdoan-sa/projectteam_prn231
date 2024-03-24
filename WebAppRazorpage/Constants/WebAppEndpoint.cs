@@ -55,6 +55,9 @@ namespace WebAppRazorpage.Constants
             private const string BaseEndpoint = Host + "/" + AreaName + "/" + nameof(DealHanger);
             public const string RaisePrice = BaseEndpoint + "/raise-price";
             public const string GetAllDealHanger = BaseEndpoint;
+            public const string Post = BaseEndpoint + "/add";
+            public const string Update = BaseEndpoint + "/update";
+            public const string GetDealHanger = BaseEndpoint + "/get-single";
         }
         public static class Mutation
         {

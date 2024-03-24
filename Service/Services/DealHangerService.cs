@@ -66,6 +66,8 @@ namespace WebApp.Service.Services
             var existingDealHanger = _repository.GetSingle(x => x.Id == dealHanger.Id);
             if (existingDealHanger != null)
             {
+                existingDealHanger.AuctionStateId = dealHanger.AuctionStateId;
+                existingDealHanger.CustomerId = dealHanger.CustomerId;
                 existingDealHanger.DealStatus = dealHanger.DealStatus;
                 existingDealHanger.Currency = dealHanger.Currency;
 

@@ -24,7 +24,8 @@ namespace WebApp.Controller
 
             return Ok(list);
         }
-        [HttpGet("{id}")]
+        [Route(WebApiEndpoint.DealHanger.GetDealHanger)]
+        [HttpGet]
         public async Task<IActionResult> GetById(string id)
         {
             var dealHanger = await _iDealHangerService.GetDealHangerById(id);
@@ -34,22 +35,17 @@ namespace WebApp.Controller
             }
             return Ok(dealHanger);
         }
-
+        [Route(WebApiEndpoint.DealHanger.Post)]
         [HttpPost]
         public async Task<IActionResult> Post(DealHangerModel dealHanger)
         {
             var createdDealHangerId = await _iDealHangerService.CreateDealHanger(dealHanger);
             return CreatedAtAction(nameof(GetById), new { id = createdDealHangerId }, new { Id = createdDealHangerId });
         }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(string id, DealHanger dealHanger)
+        [Route(WebApiEndpoint.DealHanger.Update)]
+        [HttpPut]
+        public async Task<IActionResult> Put(DealHanger dealHanger)
         {
-            if (id != dealHanger.Id)
-            {
-                return BadRequest();
-            }
-
             var result = await _iDealHangerService.UpdateDealHanger(dealHanger);
             if (result == null)
             {
