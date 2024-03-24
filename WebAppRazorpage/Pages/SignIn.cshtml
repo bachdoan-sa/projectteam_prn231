@@ -1,26 +1,82 @@
 ﻿@page
 @model WebAppRazorpage.Pages.SignInModel
 @{
+    Layout = "_Layout";
     ViewData["Title"] = "Login";
     var errorMessage = ViewData["ErrorMessage"] as string ?? "";
 }
 
-<h1>Login</h1>
+<!DOCTYPE html>
+<html lang="en">
 
-<form method="post">
-    <div>
-        <label asp-for="Username">Username:</label>
-        <input asp-for="Username" type="text" id="username" name="username" />
-        <span asp-validation-for="Username"></span>
-    </div>
-    <div>
-        <label asp-for="Password">Password:</label>
-        <input asp-for="Password" type="password" id="password" name="password" />
-        <span asp-validation-for="Password"></span>
-    </div>
-    <input class="btn btn-primary" value="Sign In" type="submit" />
-</form>
-<p readonly style="color:red">@errorMessage</p>
-<div>
-    <a asp-page="./SignUp">SignUp Here</a> | <a asp-page="./ForgotPassword">Forgot Password</a>
+
+@section head{
+    <!-- Bootstrap Core CSS -->
+    <link href="~/admin/assets/css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="~/admin/assets/css/helper.css" rel="stylesheet">
+    <link href="~/admin/assets/css/style.css" rel="stylesheet">
+}
+
+<!-- Preloader - style you can find in spinners.css -->
+<div class="preloader">
+    <svg class="circular" viewBox="25 25 50 50">
+        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+    </svg>
 </div>
+<!-- Main wrapper  -->
+
+<div class="unix-login">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="login-content card">
+                    <div class="login-form">
+                        <h4>Login</h4>
+                        <form method="post">
+                            <div class="form-group">
+                                <label>UserName</label>
+                                <input type="text" class="form-control" placeholder="UserName" asp-for="Username">
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input type="password" class="form-control" placeholder="Password" asp-for="Password">
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"> Remember Me
+                                </label>
+                                <label class="pull-right">
+                                    <a href="#">Forgotten Password?</a>
+                                </label>
+
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-30">Sign in</button>
+                            <div class="register-link m-t-15 text-center">
+                                <p>Don't have account ? <a href="~/SignUp"> Sign Up Here</a></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <!-- End Wrapper -->
+    <!-- All Jquery -->
+    <script src="~/admin/assets/js/lib/jquery/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="~/admin/assets/js/lib/bootstrap/js/popper.min.js"></script>
+    <script src="~/admin/assets/js/lib/bootstrap/js/bootstrap.min.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="~/admin/assets/js/jquery.slimscroll.js"></script>
+    <!--Menu sidebar -->
+    <script src="~/admin/assets/js/sidebarmenu.js"></script>
+    <!--stickey kit -->
+    <script src="~/admin/assets/js/lib/sticky-kit-master/dist/sticky-kit.min.js"></script>
+    <!--Custom JavaScript -->
+    <script src="~/admin/assets/js/custom.min.js"></script>
+    }

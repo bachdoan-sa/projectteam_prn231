@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using System.Text;
 using WebAppRazorpage.Constants;
 
@@ -24,18 +25,27 @@ namespace WebAppRazorpage.Pages
             });
             string token;
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var task = client.PostAsync(WebAppEndpoint.Account.SignInAccount, content);
-            HttpResponseMessage result = task.Result;
-            if (result.IsSuccessStatusCode)
+            var taskSignIn = client.PostAsync(WebAppEndpoint.Account.SignInAccount, content); 
+            HttpResponseMessage resultSignIn = taskSignIn.Result;
+            if (resultSignIn.IsSuccessStatusCode)
             {
-                Task<string> readString = result.Content.ReadAsStringAsync();
+                Task<string> readString = resultSignIn.Content.ReadAsStringAsync();
                 token = readString.Result;
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                var taskGetRole = client.GetAsync(WebAppEndpoint.Account.GetUserRole);
+                HttpResponseMessage resultRole = taskGetRole.Result;
+                var roleName = resultRole.Content.ReadAsStringAsync().Result;
                 HttpContext.Session.SetString("JwToken", token);
+                if (roleName.ToUpper().Equals("ADMIN"))
+                {
+                    return Redirect("~/Admin/");
+                }
+
                 return Redirect("~/Index");
             }
             else
             {
-                Task<string> readString = result.Content.ReadAsStringAsync();
+                Task<string> readString = resultSignIn.Content.ReadAsStringAsync();
                 ViewData["ErrorMessage"] = readString.Result;
                 return Page();
             }
