@@ -1,4 +1,5 @@
-﻿using EnumsNET;
+﻿using AngleSharp.Dom;
+using EnumsNET;
 using Invedia.DI.Attributes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,8 +7,10 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using WebApp.Core.Constants;
 using WebApp.Core.EnumCore;
 using WebApp.Core.Models.DeadHangerModels;
 using WebApp.Repository.Base;
@@ -79,15 +82,18 @@ namespace WebApp.Service.Services
             return Task.FromResult(existingDealHanger.Id);
         }
 
-        public async Task<string> StartAuction(DealHangerModel request)
+        public Task<string> StartAuction(DealHangerModel request)
         {
-            var userWallet = await _walletrepository.Get(wallet => wallet.AccountId == request.CustomerId).FirstOrDefaultAsync();
-            var listDeal = await _repository.Get(dealHanger => dealHanger.AuctionStateId == request.AuctionStateId).ToListAsync();
+            request.CustomerId = GetSidLogged();
+            //Lấy thông tin: Ví của người dùng. Danh sách Deal trong Buổi đấu giá với Id buổi.
+            var userWallet =  _walletrepository.Get(wallet => wallet.AccountId == request.CustomerId).FirstOrDefault();
+            var auctionListDeal =  _repository.Get(dealHanger => dealHanger.AuctionStateId == request.AuctionStateId).ToList();
+            // Lấy giá tiền cao nhất của buổi đấu giá đó.
             double CurrentValue = 0;
-            var a = await _auctionStaterepository.Get(a => a.Id == request.AuctionStateId).FirstOrDefaultAsync();
-            if (!listDeal.IsNullOrEmpty())
+            var a =  _auctionStaterepository.Get(a => a.Id == request.AuctionStateId).FirstOrDefault();
+            if (!auctionListDeal.IsNullOrEmpty())
             {
-                CurrentValue = listDeal.Select(x => x.Currency).Max();
+                CurrentValue = auctionListDeal.Select(x => x.Currency).Max();
             }
             else
             {
@@ -96,25 +102,45 @@ namespace WebApp.Service.Services
                     CurrentValue = a.StartingPrice ?? 0;
                 }
             }
-            // kiểm tra số dư trong tài khoản 
-            if (double.Parse(userWallet.Balance) < request.Currency)
+            // Kiểm tra xem User có các deal khác ĐANG đấu giá song song -> Nếu giá trị hơn tổng số tài sản thì không cho phép.
+            var userlistDeal =  _repository.Get(dealHanger => dealHanger.CustomerId == request.CustomerId)
+               .Where(_ => _.DealStatus == DealStatusEnum.OnRace.AsString()).Select(_ => _.Currency)
+               .ToList();
+            double allBalance = 0;
+            if (!userlistDeal.IsNullOrEmpty())
             {
-                return "Số dư không đủ để đấu giá";
+                foreach (var money in userlistDeal)
+                {
+                    allBalance = allBalance + money;
+                }
             }
-            // kiểm tra min + giá sẵn có
+            // 1 kiểm tra số dư trong tài khoản 
+            if (double.Parse(userWallet?.Balance ?? "0") < request.Currency)
+            {
+                return Task.FromResult("Số dư không đủ để đấu giá");
+            } // 1.1 Kiểm tra số dư có chi đủ cho các cuộc đấu giá đang hoạt động hiện tại
+            else if (double.Parse(userWallet?.Balance ?? "0") < (request.Currency + allBalance))
+            {
+                return Task.FromResult("Số dư không đủ để đấu giá, hãy kiểm tra lại danh sách đấu giá bạn đang tham gia)";
+            }
+
+
+            // 2 kiểm tra min + giá sẵn có
             if (request.Currency < (CurrentValue + (a.MinRaise ?? 0)))
             {
-                return "Số tiền ra giá phải lớn hơn Giá hiện tại cộng giá tăng tối thiểu";
+                return Task.FromResult("Số tiền ra giá phải lớn hơn Giá hiện tại cộng giá tăng tối thiểu");
             }
-            //kiểm tra max + giá sẵn có
+            // 3 kiểm tra max + giá sẵn có
             if (a.MaxRaise != null)
             {
                 if (request.Currency > CurrentValue + a.MaxRaise)
                 {
-                    return "Số tiền ra giá phải nhỏ hơn Giá hiện tại cộng giá tăng tối đa";
+                    return Task.FromResult("Số tiền ra giá phải nhỏ hơn Giá hiện tại cộng giá tăng tối đa");
                 }
             }
-            foreach(var item in listDeal)
+
+            // 4 Chuyển dealhanger onRace của Listdeal từ trước thành offRace
+            foreach (var item in auctionListDeal.Where(_ => _.DealStatus == DealStatusEnum.OnRace.AsString()))
             {
                 if (item != null)
                 {
@@ -122,17 +148,18 @@ namespace WebApp.Service.Services
                     _repository.Update(item);
                 }
             }
-            var dealHanger = new DealHangerModel
+            // 5 Tạo mới DealHanger và lưu vào database
+            var dealHanger = new DealHanger
             {
                 DealStatus = DealStatusEnum.OnRace.AsString(),
                 Currency = request.Currency,
                 CustomerId = request.CustomerId,
                 AuctionStateId = request.AuctionStateId,
             };
+            _repository.Add(dealHanger);
+            UnitOfWork.SaveChange();
 
-            var createdDealHangerId = await CreateDealHanger(dealHanger);
-
-            return $"Đấu giá thành công. DealHangerId: {createdDealHangerId}";
+            return Task.FromResult($"Đấu giá thành công. DealHangerId: {dealHanger.Id}");
         }
 
         public Task<List<DealHangerHistoryModel>> GetByCustomerId(string id)
@@ -142,6 +169,16 @@ namespace WebApp.Service.Services
                                         .ToListAsync().Result;
             var result = _mapper.Map<List<DealHangerHistoryModel>>(dealHanger);
             return Task.FromResult(result);
+        }
+
+        private string GetSidLogged()
+        {
+            var sid = _http.HttpContext?.User.FindFirst(ClaimTypes.Sid)?.Value;
+            if (sid == null)
+            {
+                throw new Exception(ErrorCode.NotFound);
+            }
+            return sid;
         }
     }
 }
