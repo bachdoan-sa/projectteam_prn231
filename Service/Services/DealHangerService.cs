@@ -72,6 +72,7 @@ namespace WebApp.Service.Services
                 existingDealHanger.Currency = dealHanger.Currency;
 
                 _repository.Update(existingDealHanger);
+                UnitOfWork.SaveChange();
 
             }
             return Task.FromResult(existingDealHanger.Id);

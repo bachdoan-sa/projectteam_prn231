@@ -107,7 +107,7 @@ namespace WebAppRazorpage.Constants
             private const string BaseEndpoint = Host + "/" + AreaName + "/" + nameof(Role);
 
             public const string GetAllRole = BaseEndpoint + "/get-all";
-            public const string GetRole = BaseEndpoint + "/get-single/{id}";
+            public const string GetRole = BaseEndpoint + "/get-single";
             public const string AddRole = BaseEndpoint + "/add";
             public const string UpdateRole = BaseEndpoint + "/update";
             public const string DeleteRole = BaseEndpoint + "/delete" + "/{id}";
