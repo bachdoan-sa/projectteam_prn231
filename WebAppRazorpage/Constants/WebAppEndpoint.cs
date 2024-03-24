@@ -20,7 +20,7 @@ namespace WebAppRazorpage.Constants
             public const string SignInAccount = BaseEndpoint + "/signin";
 
             public const string GetAllAccount = BaseEndpoint + "/get-all";
-            public const string GetAccount = BaseEndpoint + "/get-single/{id}";        
+            public const string GetAccount = BaseEndpoint + "/get-single";        
             public const string AddAccount = BaseEndpoint + "/add";
             public const string UpdateAccount = BaseEndpoint + "/update";
             public const string DeleteAccount = BaseEndpoint + "/delete" + "/{id}";

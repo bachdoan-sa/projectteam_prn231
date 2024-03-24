@@ -3,3 +3,37 @@
 @{
     Layout = "_AdminLayout";
 }
+<h2>Register</h2>
+
+<form method="post">
+    <div>
+        <label asp-for="Username">Username:</label>
+        <input asp-for="Username" type="text" id="username" />
+    </div>
+    <div>
+        <label asp-for="Password">Password:</label>
+        <input asp-for="Password" type="password" id="password" />
+    </div>
+    
+    <div>
+        <label asp-for="Email">Email:</label>
+        <input asp-for="Email" type="email" id="email" />
+    </div>
+    <div>
+        <label asp-for="Phone">Phone:</label>
+        <input asp-for="Phone" type="text" id="phone" />
+    </div>
+    <div>
+        <label asp-for="Address">Address:</label>
+        <input asp-for="Address" type="text" id="address" />
+    </div>
+    <div>
+        <label asp-for="Birthday">Birthday:</label>
+        <input asp-for="Birthday" type="date" id="birthday" />
+    </div>
+    <div>
+        <label asp-for="RoleId">Role:</label>
+        <input asp-for="RoleId" type="text" id="roleId" />
+    </div>
+    <input class="btn btn-primary" value="Sign Up" type="submit" />
+</form>
