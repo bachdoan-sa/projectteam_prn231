@@ -1,4 +1,5 @@
-﻿using Invedia.DI.Attributes;
+﻿using EnumsNET;
+using Invedia.DI.Attributes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebApp.Core.EnumCore;
 using WebApp.Core.Models.DeadHangerModels;
 using WebApp.Repository.Base;
 using WebApp.Repository.Entities;
@@ -72,7 +74,7 @@ namespace WebApp.Service.Services
                 existingDealHanger.Currency = dealHanger.Currency;
 
                 _repository.Update(existingDealHanger);
-
+                UnitOfWork.SaveChange();
             }
             return Task.FromResult(existingDealHanger.Id);
         }
@@ -112,9 +114,17 @@ namespace WebApp.Service.Services
                     return "Số tiền ra giá phải nhỏ hơn Giá hiện tại cộng giá tăng tối đa";
                 }
             }
+            foreach(var item in listDeal)
+            {
+                if (item != null)
+                {
+                    item.DealStatus = DealStatusEnum.OffRace.AsString();
+                    _repository.Update(item);
+                }
+            }
             var dealHanger = new DealHangerModel
             {
-                DealStatus = "Active",
+                DealStatus = DealStatusEnum.OnRace.AsString(),
                 Currency = request.Currency,
                 CustomerId = request.CustomerId,
                 AuctionStateId = request.AuctionStateId,
