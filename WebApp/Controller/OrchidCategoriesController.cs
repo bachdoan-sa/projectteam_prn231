@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebApp.Core.Constants;
 using WebApp.Repository.Entities;
 using WebApp.Service.IServices;
@@ -35,7 +36,7 @@ namespace WebApp.Controller
             }
             return Ok(category);
         }
-
+        [Authorize(Roles = UserRole.ADMIN)]
         [Route(WebApiEndpoint.OrchidCategory.AddOrchidCategory)]
         [HttpPost]
         public async Task<IActionResult> AddOrchidCategory(OrchidCategory orchidCategory)
@@ -43,7 +44,7 @@ namespace WebApp.Controller
              var result = await _orchidCategoriesService.AddOrchidCategory(orchidCategory);
             return CreatedAtAction(nameof(GetOrchidCategoryById), new { id = result.Id }, result);
         }
-
+        [Authorize(Roles = UserRole.ADMIN)]
         [Route(WebApiEndpoint.OrchidCategory.UpdateOrchidCategory)]
         [HttpPut]
         public async Task<IActionResult> UpdateOrchidCategory( OrchidCategory orchidCategory)

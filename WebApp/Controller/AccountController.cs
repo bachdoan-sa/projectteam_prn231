@@ -103,7 +103,7 @@ namespace WebApp.Controller
             return Ok(acc);
         }
         // POST api/<AccountController>
-        [Authorize]
+        [Authorize(Roles = UserRole.ADMIN)]
         [Route(WebApiEndpoint.Account.AddAccount)]
         [HttpPost]
         public async Task<IActionResult> AddAccount(AccountModel model)
@@ -112,7 +112,7 @@ namespace WebApp.Controller
             return Ok(list);
         }
 
-        [Authorize]
+        [Authorize(Roles = UserRole.ADMIN)]
         [Route(WebApiEndpoint.Account.UpdateAccount)]
         [HttpPut]
         public async Task<IActionResult> UpdateAccount([FromBody] AccountModel updatedAccount)

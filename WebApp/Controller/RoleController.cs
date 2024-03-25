@@ -29,10 +29,12 @@ namespace WebApp.Controller
             }
             return Ok(test);
         }
+        [Authorize(Roles = UserRole.ADMIN)]
         [Route(WebApiEndpoint.Role.AddRole)]
         [HttpPost]
         public async Task<IActionResult> CreateRole(RoleModel model)
         {
+            throw new NotImplementedException();
             var test = await _roleService.AddRole(model);
             if (test == null)
             {
@@ -40,6 +42,7 @@ namespace WebApp.Controller
             }
             return Ok(test);
         }
+
         [Route(WebApiEndpoint.Role.GetRole)]
         [HttpGet]
         public async Task<IActionResult> Get(string id)
@@ -51,12 +54,15 @@ namespace WebApp.Controller
             }
             return Ok(role);
         }
+        [Authorize(Roles = UserRole.ADMIN)]
         [Route(WebApiEndpoint.Role.UpdateRole)]
         [HttpPut]
         public async Task<IActionResult> Update( RoleModel role)
         {
             try
             {
+                throw new NotImplementedException();
+
                 var updatedRole = await _roleService.UpdateRole(role);
                 if (updatedRole == null)
                 {

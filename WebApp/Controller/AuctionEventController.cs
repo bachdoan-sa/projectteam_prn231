@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using WebApp.Core.Constants;
 using WebApp.Core.Models.AuctionEventModels;
 using WebApp.Repository.Entities;
@@ -44,7 +46,7 @@ namespace WebApp.Controller
             return Ok(a);
         }
 
-
+        [Authorize(Roles = UserRole.ADMIN)]
         [Route(WebApiEndpoint.AuctionEvent.UpdateAuctionEvent)]
         [HttpPut]
         public async Task<IActionResult> UpdateAuctionEvent(AuctionEventModel model)

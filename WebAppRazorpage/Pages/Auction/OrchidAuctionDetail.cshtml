@@ -3,7 +3,7 @@
 @{
     Layout = "_Layout";
     ViewData["Title"] = "ProductDetail";
-    var errorMessage = ViewData["RaiseErrorMessage"] as string ?? "";
+    var errorMessage = TempData["RaiseErrorMessage"] as string ?? "";
     var auction = Model.AuctionState;
     if (auction == null || auction.AuctionEvent == null)
     {
