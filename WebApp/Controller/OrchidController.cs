@@ -40,6 +40,7 @@ namespace WebApp.API.Controllers
             return Ok(orchid);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult> AddOrchid(OrchidModel orchid)
         {
