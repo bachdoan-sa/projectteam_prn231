@@ -71,7 +71,9 @@
 </html>
 *@
 
-
+@{
+    var user = Context.Request.HttpContext.Session.GetString("JwToken");
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -94,45 +96,49 @@
 <body>
     <!-- Navbar -->
     <div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="w3-top">
-        <div class="w3-row  w3-black">
-            <div class="w3-half">
-                <div class="w3-col s4">
-                    <a href="/Index" class="w3-button w3-block w3-black">HOME</a>
+        <div class="w3-top">
+            <div class="w3-row  w3-black">
+                <div class="w3-half">
+                    <div class="w3-col s4">
+                        <a href="/Index" class="w3-button w3-block w3-black">HOME</a>
+                    </div>
+                    <div class="w3-col s4">
+                        <a href="#about" class="w3-button w3-block w3-black">ABOUT</a>
+                    </div>
+                    <div class="w3-col s4">
+                        <a href="/Auction/Auctions" class="w3-button w3-block w3-black">Auction</a>
+                    </div>
                 </div>
-                <div class="w3-col s4">
-                    <a href="#about" class="w3-button w3-block w3-black">ABOUT</a>
+                @*
+                ======================================================================
+                *@
+                <div class="w3-half">
+
+                    <div class="w3-half">
+                    </div>
+
+                    <div class="w3-half w3-right">
+                        @if (!string.IsNullOrEmpty( user))
+                        {
+                            <div class="w3-col s6">
+                                <a href="" class="w3-button w3-block w3-black">WellCome</a>
+                            </div>
+                        }else{
+                        <div class="w3-col s6">
+                            <a href="/SignUp" class="w3-button w3-block w3-black">Sign Up</a>
+                        </div>
+
+                        <div class="w3-col s6">
+                            <a href="/SignIn" class="w3-button w3-block w3-black">Sign In</a>
+                        </div>
+                        }
+                    </div>
+
                 </div>
-                <div class="w3-col s4">
-                    <a href="/Auction/Auctions" class="w3-button w3-block w3-black">Auction</a>
-                </div>
+
             </div>
-            @*
-            ======================================================================
-            *@         
-            <div class="w3-half">
-
-                <div class ="w3-half">
-
-                </div>
-
-                <div class="w3-half w3-right">
-
-                <div class="w3-col s6">
-                    <a href="/SignUp" class="w3-button w3-block w3-black">Sign Up</a>
-                </div>
-
-                <div class="w3-col s6">
-                    <a href="/SignIn" class="w3-button w3-block w3-black">Sign In</a>
-                </div>
-
-                </div>
-
-            </div>
-
         </div>
-    </div>
- 
+
     </div>
 
 

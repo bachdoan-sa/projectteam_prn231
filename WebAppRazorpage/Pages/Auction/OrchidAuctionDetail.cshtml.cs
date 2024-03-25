@@ -84,6 +84,7 @@ namespace WebAppRazorpage.Pages.Auction
                     Task<string> readString = result.Content.ReadAsStringAsync();
                     string jsonString = readString.Result;
                     ReponseMessage = jsonString;
+                    ViewData["RaiseErrorMessage"] = readString.Result;
                     return Redirect("/Auction/OrchidAuctionDetail/" + id);
                 }
             

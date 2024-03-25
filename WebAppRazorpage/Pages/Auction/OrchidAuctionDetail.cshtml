@@ -3,7 +3,7 @@
 @{
     Layout = "_Layout";
     ViewData["Title"] = "ProductDetail";
-
+    var errorMessage = ViewData["RaiseErrorMessage"] as string ?? "";
     var auction = Model.AuctionState;
     if (auction == null || auction.AuctionEvent == null)
     {
@@ -119,14 +119,16 @@
                             <input asp-for="RisePrice" type="number" class="form-control" id="1" aria-describedby="quantity" placeholder="@lastDeal" min="@lastDeal" style="width:400px">
                             <button type="submit"><i class="fa"></i> SUBMIT</button>
                         </form>
-                    }else
+
+                    }
+                    else
                     {
                         <p readonly style="color:red">Đấu giá không khả dụng.</p>
                     }
-                    @if (!string.IsNullOrEmpty(Model.ReponseMessage))
-                    {
-                        <p readonly style="color:red">@Model.ReponseMessage</p>
-                    }
+
+
+                    <p readonly style="color:red">@errorMessage</p>
+
 
                 </div>
 
@@ -235,7 +237,7 @@
         </div>
     </div>
 </div>
-@section Scripts{
+@section Scripts {
     <script>
         let countdownDate;
 
