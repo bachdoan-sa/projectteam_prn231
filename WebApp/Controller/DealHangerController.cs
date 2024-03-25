@@ -36,6 +36,7 @@ namespace WebApp.Controller
             }
             return Ok(dealHanger);
         }
+        [Authorize(Roles = UserRole.ADMIN)]
         [Route(WebApiEndpoint.DealHanger.Post)]
         [HttpPost]
         public async Task<IActionResult> Post(DealHangerModel dealHanger)
@@ -54,6 +55,7 @@ namespace WebApp.Controller
             }
             return Ok(result);
         }
+        [Authorize]
         [Route(WebApiEndpoint.DealHanger.RaisePrice)]
         [HttpPost]
         public async Task<IActionResult> StartAuction(DealHangerModel request)

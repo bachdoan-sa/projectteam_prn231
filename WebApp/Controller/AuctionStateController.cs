@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using WebApp.Core.Constants;
 using WebApp.Core.Models.AuctionStateModels;
 using WebApp.Repository.Entities;
@@ -63,6 +65,7 @@ namespace WebApp.Controller
             }
             return Ok(flag);
         }
+        [Authorize(Roles = UserRole.ADMIN)]
         [Route(WebApiEndpoint.AuctionState.DeleteAuctionState)]
         [HttpDelete]
         public async Task<IActionResult> DeleteAuctionState(string id)
@@ -99,7 +102,7 @@ namespace WebApp.Controller
             var auctionStates = await _stateService.GetAuctionStateByStatusPending();
             return Ok(auctionStates);
         }
-
+        [Authorize(Roles = UserRole.ADMIN)]
         [Route(WebApiEndpoint.AuctionState.ChangeAuctionStatus)]
         [HttpPut]
         public async Task<IActionResult> ChangeAuctionStatus(string id)
