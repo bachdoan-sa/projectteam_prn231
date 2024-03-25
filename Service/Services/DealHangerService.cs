@@ -171,9 +171,10 @@ namespace WebApp.Service.Services
             return Task.FromResult($"Đấu giá thành công. DealHangerId: {dealHanger.Id}");
         }
 
-        public Task<List<DealHangerHistoryModel>> GetByCustomerId(string id)
+        public Task<List<DealHangerHistoryModel>> GetByCustomerId()
         {
-            var dealHanger = _repository.Get(dealHanger => dealHanger.CustomerId == id)
+            string customerId = GetSidLogged();
+            var dealHanger = _repository.Get(dealHanger => dealHanger.CustomerId == customerId)
                                         .Include(dealHanger => dealHanger.AuctionState)
                                         .ToListAsync().Result;
             var result = _mapper.Map<List<DealHangerHistoryModel>>(dealHanger);

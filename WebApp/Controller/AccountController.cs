@@ -120,6 +120,15 @@ namespace WebApp.Controller
             var result = await _accountService.UpdateAccount(updatedAccount);
             return Ok(result);
         }
+
+        
+        [Authorize]
+        [HttpGet("/api/Account/Customer")]
+        public async Task<IActionResult> GetSingleCustomer()
+        {
+            var acc = await _accountService.GetAccountByLogId();
+            return Ok(acc);
+        }
         /*
         // PUT api/<AccountController>/5
         [HttpPut("{id}")]

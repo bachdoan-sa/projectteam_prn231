@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebApp.Core.Constants;
 using WebApp.Core.Models.DeadHangerModels;
 using WebApp.Repository.Entities;
@@ -68,11 +69,11 @@ namespace WebApp.Controller
             }
 
         }
-
-        [HttpGet("Customer{id}")]
-        public async Task<IActionResult> GetByCustomerId(string id)
+        [Authorize]
+        [HttpGet("Customer")]
+        public async Task<IActionResult> GetByCustomerId()
         {
-            var dealHanger = await _iDealHangerService.GetByCustomerId(id);
+            var dealHanger = await _iDealHangerService.GetByCustomerId();
             if (dealHanger == null)
             {
                 return NotFound();

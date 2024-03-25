@@ -15,11 +15,11 @@ namespace WebAppRazorpage.Pages.Customer
         public AccountModel? Customer { get; set; }
 
 
-        public IActionResult OnGet(string customerId)
+        public IActionResult OnGet()
         {
-            //var accessToken = HttpContext.Session.GetString("JwToken");
-            //_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            HttpResponseMessage result = _client.GetAsync($"https://localhost:7253/api/Account/get-single/{customerId}").Result;
+            var accessToken = HttpContext.Session.GetString("JwToken");
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            HttpResponseMessage result = _client.GetAsync($"https://localhost:7253/api/Account/Customer").Result;
 
             if (result.IsSuccessStatusCode)
             {

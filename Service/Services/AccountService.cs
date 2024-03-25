@@ -220,6 +220,17 @@ namespace WebApp.Service.Services
             return Task.FromResult(updatedAccount.Id);
         }
 
+        public Task<Account> GetAccountByLogId()
+        {
+            string id = GetSidLogged();
+            var account = _accountRepository.Get(_ => _.Id == id).FirstOrDefault();
+            if (account == null)
+            {
+                throw new Exception("404");
+            }
+            return Task.FromResult(account);
+        }
+
 
         #region Private Methods
         private byte[] CreatePasswordHash(string password, out byte[] passwordSalt)
