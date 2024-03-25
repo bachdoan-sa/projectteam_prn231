@@ -28,23 +28,19 @@ namespace WebAppRazorpage.Pages.ProductOwner
 
         [BindProperty]
         public DateTimeOffset EndDateTime { get; set; }
-
-        [BindProperty]
-        public double? FinalPrice { get; set; }
         [BindProperty]
         public string ReponseMessage { get; set; }
-        public void OnPost()
+        public IActionResult OnPost(string id)
         {
             string json = JsonConvert.SerializeObject(new
             {
-                orchidId = "a" ,
+                orchidId = id ,
                 BeginDateTime = BeginDateTime,
                 EndDateTime = EndDateTime,
                 StartingPrice = StartingPrice,
                 ExpectedPrice = ExpectedPrice,
                 MinRaise = MinRaise,
-                MaxRaise = MaxRaise,
-                FinalPrice = FinalPrice
+                MaxRaise = MaxRaise
 
             }); ;
 
@@ -56,7 +52,7 @@ namespace WebAppRazorpage.Pages.ProductOwner
                 Task<string> readString = result.Content.ReadAsStringAsync();
                 ReponseMessage = readString.Result;
             }
-            Redirect("~/ProductOwner/Profile");
+            return Redirect("~/ProductOwner/Profile");
         }
     }
 }

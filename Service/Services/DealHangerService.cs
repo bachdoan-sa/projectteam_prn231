@@ -84,6 +84,15 @@ namespace WebApp.Service.Services
 
         public Task<string> StartAuction(DealHangerModel request)
         {
+            var autionState = _auctionStaterepository.Get(_ => _.Id == request.AuctionStateId).FirstOrDefault();
+            if (autionState == null)
+            {
+                throw new Exception("Dau gia khong ton tai");
+            }
+            if(autionState.AuctionStateStatus != AuctionStateEnum.Active.AsString())
+            {
+                throw new Exception("Đấu giá không mở");
+            }
             request.CustomerId = GetSidLogged();
             //Lấy thông tin: Ví của người dùng. Danh sách Deal trong Buổi đấu giá với Id buổi.
             var userWallet =  _walletrepository.Get(wallet => wallet.AccountId == request.CustomerId).FirstOrDefault();
@@ -117,25 +126,25 @@ namespace WebApp.Service.Services
             // 1 kiểm tra số dư trong tài khoản 
             if (double.Parse(userWallet?.Balance ?? "0") < request.Currency)
             {
-                return Task.FromResult("Số dư không đủ để đấu giá");
+                throw new Exception("Số dư không đủ để đấu giá");
             } // 1.1 Kiểm tra số dư có chi đủ cho các cuộc đấu giá đang hoạt động hiện tại
             else if (double.Parse(userWallet?.Balance ?? "0") < (request.Currency + allBalance))
             {
-                return Task.FromResult("Số dư không đủ để đấu giá, hãy kiểm tra lại danh sách đấu giá bạn đang tham gia");
+                throw new Exception("Số dư không đủ để đấu giá, hãy kiểm tra lại danh sách đấu giá bạn đang tham gia")   ;
             }
 
 
             // 2 kiểm tra min + giá sẵn có
             if (request.Currency < (CurrentValue + (a.MinRaise ?? 0)))
             {
-                return Task.FromResult("Số tiền ra giá phải lớn hơn Giá hiện tại cộng giá tăng tối thiểu");
+                throw new Exception("Số tiền ra giá phải lớn hơn Giá hiện tại cộng giá tăng tối thiểu");
             }
             // 3 kiểm tra max + giá sẵn có
             if (a.MaxRaise != null)
             {
                 if (request.Currency > CurrentValue + a.MaxRaise)
                 {
-                    return Task.FromResult("Số tiền ra giá phải nhỏ hơn Giá hiện tại cộng giá tăng tối đa");
+                    throw new Exception("Số tiền ra giá phải nhỏ hơn Giá hiện tại cộng giá tăng tối đa");
                 }
             }
 
@@ -162,9 +171,10 @@ namespace WebApp.Service.Services
             return Task.FromResult($"Đấu giá thành công. DealHangerId: {dealHanger.Id}");
         }
 
-        public Task<List<DealHangerHistoryModel>> GetByCustomerId(string id)
+        public Task<List<DealHangerHistoryModel>> GetByCustomerId()
         {
-            var dealHanger = _repository.Get(dealHanger => dealHanger.CustomerId == id)
+            string customerId = GetSidLogged();
+            var dealHanger = _repository.Get(dealHanger => dealHanger.CustomerId == customerId)
                                         .Include(dealHanger => dealHanger.AuctionState)
                                         .ToListAsync().Result;
             var result = _mapper.Map<List<DealHangerHistoryModel>>(dealHanger);

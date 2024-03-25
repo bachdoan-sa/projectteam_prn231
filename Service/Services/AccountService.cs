@@ -19,6 +19,7 @@ using WebApp.Core.Models.AccountModels;
 using WebApp.Core.Constants;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using AngleSharp.Dom;
 
 namespace WebApp.Service.Services
 {
@@ -28,12 +29,14 @@ namespace WebApp.Service.Services
         private readonly IConfiguration _configuration;
         private readonly IAccountRepository _accountRepository;
         private readonly IRoleRepository _roleRepository;
+        private readonly IWalletRepository _walletRepository;
 
         public AccountService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _configuration = serviceProvider.GetRequiredService<IConfiguration>();
             _accountRepository = serviceProvider.GetRequiredService<IAccountRepository>();
             _roleRepository = serviceProvider.GetRequiredService<IRoleRepository>();
+            _walletRepository = serviceProvider.GetRequiredService<IWalletRepository>();
         }
 
         //Code below to test Method Hash and Salt password by using HMACSHA512
@@ -76,6 +79,13 @@ namespace WebApp.Service.Services
 
             //Step-3 Add to Database, save changes and return JWT.
             _accountRepository.Add(account);
+
+            var wallet = new Wallet();
+            wallet.AccountId = account.Id;
+            wallet.WalletType = "main";
+            wallet.Balance = "0";
+            _walletRepository.Add(wallet);
+
             UnitOfWork.SaveChange();
 
             return Task.FromResult(CreateBearerToken(account, UserRole.CUSTOMER));
@@ -98,7 +108,7 @@ namespace WebApp.Service.Services
             }
             else
             {
-                var user = _accountRepository.Get(_ => _.UserName == loginModel.UserName,false,_=>_.Role).FirstOrDefault();
+                var user = _accountRepository.Get(_ => _.UserName == loginModel.UserName, false, _ => _.Role).FirstOrDefault();
                 if (user != null)
                 {
                     var check = VerifyPasswordHash(loginModel.Password,
@@ -119,7 +129,7 @@ namespace WebApp.Service.Services
                 false là có lấy những đối tượng bị xóa luôn ko
                 _=>_.Orchids là bao gồm các bảng nào 'include options'
              */
-            var list = _accountRepository.Get().Include(_=>_.Role).ToListAsync().Result;
+            var list = _accountRepository.Get().Include(_ => _.Role).ToListAsync().Result;
             var result = _mapper.Map<List<AccountModel>>(list);
             return Task.FromResult(result);
         }
@@ -138,6 +148,21 @@ namespace WebApp.Service.Services
         {
             return Task.FromResult(GetSidLogged());
         }
+        public Task<string> GetLogUserRole()
+        {
+            var id = GetSidLogged();
+            string AdminId = _configuration.GetValue<string>("AdminAccount:Id");
+            if (id.Equals(AdminId))
+            {
+                return Task.FromResult("ADMIN");
+            }         
+            var role = _accountRepository.Get(_ => _.Id == id, false, _ => _.Role).Select(_ => _.Role.RoleName).FirstOrDefault();
+            if (role == null)
+            {
+                throw new Exception("No Role");
+            }
+            return Task.FromResult(role);
+        }
         public Task<string> CreateAccount(AccountModel account)
         {
             var passwordHash = CreatePasswordHash(account.Password, out byte[] passwordSalt);
@@ -151,6 +176,13 @@ namespace WebApp.Service.Services
             entity.Birthdate = account.Birthdate;
             entity.RoleId = account.RoleId;
             _accountRepository.Add(entity);
+
+            var wallet = new Wallet();
+            wallet.AccountId = entity.Id;
+            wallet.WalletType = "main";
+            wallet.Balance = "0";
+            _walletRepository.Add(wallet);
+
             UnitOfWork.SaveChange();
 
             return Task.FromResult(entity.Id);
@@ -188,6 +220,17 @@ namespace WebApp.Service.Services
             return Task.FromResult(updatedAccount.Id);
         }
 
+        public Task<Account> GetAccountByLogId()
+        {
+            string id = GetSidLogged();
+            var account = _accountRepository.Get(_ => _.Id == id).FirstOrDefault();
+            if (account == null)
+            {
+                throw new Exception("404");
+            }
+            return Task.FromResult(account);
+        }
+
 
         #region Private Methods
         private byte[] CreatePasswordHash(string password, out byte[] passwordSalt)
@@ -202,13 +245,13 @@ namespace WebApp.Service.Services
         private string GetSidLogged()
         {
             var sid = _http.HttpContext?.User.FindFirst(ClaimTypes.Sid)?.Value;
-             if (sid == null)
+            if (sid == null)
             {
                 throw new Exception(ErrorCode.NotFound);
             }
             return sid;
         }
-       
+
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
@@ -251,7 +294,7 @@ namespace WebApp.Service.Services
                 };
             //get JWT key valude in appsettings
             var JwtKey = Encoding.UTF8.GetBytes(_configuration.GetValue<string>("Jwt:Key"));
-            if(JwtKey == null)
+            if (JwtKey == null)
             {
                 throw new ArgumentNullException(nameof(JwtKey));
             }

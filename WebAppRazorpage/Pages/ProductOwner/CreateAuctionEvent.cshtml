@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{id}"
 @model WebAppRazorpage.Pages.ProductOwner.CreateAuctionEventModel
 @{
     Layout = "_ProductOwnerLayout";
@@ -38,11 +38,7 @@
             <input asp-for="EndDateTime" type="datetime-local" class="form-control" placeholder="Nhập thời gian">
             <span asp-validation-for="EndDateTime" class="text-danger"></span>
         </div>
-        <div class="form-group">
-            <label asp-for="FinalPrice">Giá cuối cùng:</label>
-            <input asp-for="FinalPrice" class="form-control" placeholder="Nhập giá cuối cùng">
-            <span asp-validation-for="FinalPrice" class="text-danger"></span>
-        </div>
+        
         <button type="submit" class="btn btn-primary">SUBMIT</button>
     </form>
 </div>

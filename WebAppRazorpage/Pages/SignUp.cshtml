@@ -2,38 +2,84 @@
 @model WebAppRazorpage.Pages.SignUpModel
 @{
     ViewData["Title"] = "Register";
+    Layout = "_Layout";
 }
+@section head{
+    <!-- Bootstrap Core CSS -->
+    <link href="~/admin/assets/css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="~/admin/assets/css/helper.css" rel="stylesheet">
+    <link href="~/admin/assets/css/style.css" rel="stylesheet">
+}
+<!-- Main wrapper  -->
 
-<h2>Register</h2>
+    <div class="unix-login">
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="login-content card">
+                        <div class="login-form">
+                            <h4>Register</h4>
+                            <form method="post">
+                                <div class="form-group">
+                                    <label asp-for="Username">Username</label>
+                                    <input type="text" class="form-control" asp-for="Username" placeholder="User Name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Email">Email address</label>
+                                    <input type="email" class="form-control" asp-for="Email" placeholder="Email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Password">Password</label>
+                                    <input type="password" class="form-control" asp-for="Password" placeholder="Password" required>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="PasswordConfirm">Password Confirm</label>
+                                    <input type="password" class="form-control" asp-for="PasswordConfirm" placeholder="Confirm Password" required>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Phone">Phone</label>
+                                    <input type="number" class="form-control" asp-for="Phone" placeholder="Phone" required>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Address">Address</label>
+                                    <input type="text" class="form-control" asp-for="Address" placeholder="Address" required>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Birthday">Birthday</label>
+                                    <input type="date" class="form-control" asp-for="Birthday" placeholder="Address" required>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"> Agree the terms and policy
+                                    </label>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-flat m-b-30 m-t-30">Sign Up</button>
+                                <div class="register-link m-t-15 text-center">
+                                    <p>Already have account ? <a href="~/SignIn"> Sign in</a></p>
+                                </div>
+                            </form>
 
-<form method="post">
-    <div>
-        <label asp-for="Username">Username:</label>
-        <input asp-for="Username" type="text" id="username"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
-        <label asp-for="Password">Password:</label>
-        <input asp-for="Password" type="password" id="password"/>
-    </div>
-    <div>
-        <label asp-for="PasswordConfirm">Password Confirm:</label>
-        <input asp-for="PasswordConfirm" type="password" id="passwordConfirm"/>
-    </div>
-    <div>
-        <label asp-for="Email">Email:</label>
-        <input asp-for="Email" type="email" id="email"/>
-    </div>
-    <div>
-        <label asp-for="Phone">Phone:</label>
-        <input asp-for="Phone" type="text" id="phone"/>
-    </div>
-    <div>
-        <label asp-for="Address">Address:</label>
-        <input asp-for="Address" type="text" id="address"/>
-    </div>
-    <div>
-        <label asp-for="Birthday">Birthday:</label>
-        <input asp-for="Birthday" type="date" id="birthday"/>
-    </div>
-    <input class="btn btn-primary" value="Sign Up" type="submit" />
-</form>
+
+@section Scripts{
+    <!-- End Wrapper -->
+    <!-- All Jquery -->
+    <script src="~/admin/assets/js/lib/jquery/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="~/admin/assets/js/lib/bootstrap/js/popper.min.js"></script>
+    <script src="~/admin/assets/js/lib/bootstrap/js/bootstrap.min.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="~/admin/assets/js/jquery.slimscroll.js"></script>
+    <!--Menu sidebar -->
+    <script src="~/admin/assets/js/sidebarmenu.js"></script>
+    <!--stickey kit -->
+    <script src="~/admin/assets/js/lib/sticky-kit-master/dist/sticky-kit.min.js"></script>
+    <!--Custom JavaScript -->
+    <script src="~/admin/assets/js/custom.min.js"></script>
+}
