@@ -88,7 +88,7 @@ namespace WebAppRazorpage.Pages.ProductOwner
                 shape = Shape,
                 size = Size,
                 price = Price,
-                productOwnerId = "e34576b8e31e4a5882adaa42f91a344c",
+                productOwnerId = "",
                 orchidCategoryId = CategoryId,
                 mutationId = MutationId,
                 description = Description,

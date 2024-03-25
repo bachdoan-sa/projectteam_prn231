@@ -49,7 +49,7 @@ namespace WebApp.Service.Services
             orchid.Price = model.Price;
             orchid.OrchidStatus = "Active";
             orchid.OrchidCategoryId = model.OrchidCategoryId;
-            orchid.ProductOwnerId = model.ProductOwnerId;
+            orchid.ProductOwnerId = GetSidLogged();
 
             var mutan = new OrchidMutation();
             mutan.Shape = model.Shape;
@@ -64,7 +64,7 @@ namespace WebApp.Service.Services
             return Task.FromResult(orchid.Id);
         }
 
-
+ 
         public Task UpdateOrchid(Orchid orchid)
         {
             var existingOrchids = _orchidsRepository.GetSingle(x => x.Id == orchid.Id);
