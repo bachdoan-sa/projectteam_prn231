@@ -1,4 +1,5 @@
 ﻿using AngleSharp.Dom;
+using EnumsNET;
 using Invedia.DI.Attributes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebApp.Core.EnumCore;
 using WebApp.Core.Models.AuctionEventModels;
 using WebApp.Core.Models.AuctionStateModels;
 using WebApp.Repository.Base;
@@ -136,7 +138,7 @@ namespace WebApp.Service.Services
                 ExpectedPrice = auctionRequest.ExpectedPrice,
                 MinRaise = auctionRequest.MinRaise,
                 MaxRaise = auctionRequest.MaxRaise,
-                AuctionStateStatus = "HoldOn",
+                AuctionStateStatus = AuctionStateEnum.Pending.AsString(),
                 FinalPrice = auctionRequest.FinalPrice,
                 AuctionEventId = auctionEvent.Id,
                 OrchidId = auctionRequest.orchidId
@@ -178,9 +180,9 @@ namespace WebApp.Service.Services
             }
 
 
-            auction.AuctionStateStatus = "Active";
+            auction.AuctionStateStatus = AuctionStateEnum.Active.AsString();
             auction.LastUpdated = DateTime.Now;
-            auction2.AuctionStatus = "Active";
+            auction2.AuctionStatus = AuctionEventEnum.Active.AsString();
 
             _auctionStateRepository.Update(auction);
             _auctionEventRepository.Update(auction2);

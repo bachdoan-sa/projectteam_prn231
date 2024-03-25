@@ -45,7 +45,7 @@
 
 
             <div class="row trending-box">
-                @foreach (var product in Model.ListStateAuction.Where(_ => !_.AuctionStateStatus.Equals("Pending")))
+                @foreach (var product in Model.ListStateAuction.Where(_ => _.AuctionStateStatus.Equals("Active")))
                 {
                     <div class="col-lg-3 col-md-6 align-self-center mb-30 trending-items col-md-6">
                         <div class="item">
