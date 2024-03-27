@@ -27,7 +27,7 @@ namespace WebApp.Service.Services
             var wallet = _repository.Get(wallet => wallet.AccountId == id).FirstOrDefaultAsync();
             return wallet;
         }
-        public Task<string> UpdateWalletByAccountId(string id, decimal ballance)
+        public Task<string> UpdateWalletByAccountId(string id, double ballance)
         {
             var wallet = _repository.Get(wallet => wallet.AccountId == id).FirstOrDefaultAsync().Result;
             if (wallet == null)
@@ -35,7 +35,7 @@ namespace WebApp.Service.Services
                 
                 return Task.FromResult("Wallet not found");
             }
-            wallet.Balance = ballance.ToString();
+            wallet.Balance = ballance;
             _repository.Update(wallet);
             UnitOfWork.SaveChange();
             return Task.FromResult(wallet.Id);

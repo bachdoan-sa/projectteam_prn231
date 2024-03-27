@@ -77,7 +77,7 @@ namespace WebApp.Service.Services
                 existingOrchids.OrchidStatus = orchid.OrchidStatus;
 
                 _orchidsRepository.Update(existingOrchids);
-
+                UnitOfWork.SaveChange();
             }
             return Task.FromResult(existingOrchids.Id);
         }

@@ -47,7 +47,9 @@ namespace WebApp.Core.Constants
             public const string CreateAuctionByOwner = BaseEndpoint + "/CreateAuctionByOwner";
             public const string GetAuctionStateByStatusPending = BaseEndpoint + "/GetAuctionStateByStatusPending";
             public const string ChangeAuctionStatus = BaseEndpoint + "/ChangeAuctionStatus/{id}";
-            
+            public const string GetAuctionStateEnds = BaseEndpoint + "/AuctionStateEnds";
+            public const string EndAuction = BaseEndpoint + "/EndAuction/{id}";
+
         }
         public static class DealHanger
         {
