@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Net.Http.Headers;
 using WebAppRazorpage.ApiModel;
 using WebAppRazorpage.Constants;
 
@@ -12,9 +13,11 @@ namespace WebAppRazorpage.Pages.Customer
 
         public List<OrderModel> ListOrder { get; set; }
 
-        public void OnGet(int customerId)
+        public void OnGet()
         {
-            var task = client.GetAsync($"https://localhost:7253/api/Order/Customer/{customerId}");
+            var accessToken = HttpContext.Session.GetString("JwToken");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            var task = client.GetAsync($"https://localhost:7253/api/Order/Customer");
             HttpResponseMessage result = task.Result;
             List<OrderModel> listOrder = new List<OrderModel>();
             if (result.IsSuccessStatusCode)

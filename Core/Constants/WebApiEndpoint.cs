@@ -16,7 +16,7 @@ namespace WebApp.Core.Constants
 
             public const string SignUpAccount = BaseEndpoint + "/signup";
             public const string SignInAccount = BaseEndpoint + "/signin";
-
+            public const string GetUserRole = BaseEndpoint + "/get-user-role";
             public const string GetAllAccount = BaseEndpoint + "/get-all";
             public const string GetAccount = BaseEndpoint + "/get-single/{id}";        
             public const string AddAccount = BaseEndpoint + "/add";

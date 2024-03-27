@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Net.Http.Headers;
 using WebAppRazorpage.ApiModel;
 
 namespace WebAppRazorpage.Pages.Customer
@@ -11,9 +12,11 @@ namespace WebAppRazorpage.Pages.Customer
 
         public List<DealHangerModel> ListDealhanger { get; set; }
 
-        public void OnGet(int Id)
+        public void OnGet()
         {
-            var task = client.GetAsync($"https://localhost:7253/api/DealHanger/Customer{Id}");
+            var accessToken = HttpContext.Session.GetString("JwToken");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            var task = client.GetAsync($"https://localhost:7253/api/DealHanger/Customer");
             HttpResponseMessage result = task.Result;
             List<DealHangerModel> listDealhanger = new List<DealHangerModel>();
             if (result.IsSuccessStatusCode)

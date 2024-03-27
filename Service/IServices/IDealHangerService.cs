@@ -15,6 +15,6 @@ namespace WebApp.Service.IServices
         public Task<string> CreateDealHanger(DealHangerModel dealHanger);
         public Task<string> UpdateDealHanger(DealHanger dealHanger);
         public Task<string> StartAuction(DealHangerModel request);
-        public Task<List<DealHangerHistoryModel>> GetByCustomerId(string id);
+        public Task<List<DealHangerHistoryModel>> GetByCustomerId();
     }
 }

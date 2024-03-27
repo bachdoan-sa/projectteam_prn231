@@ -20,7 +20,7 @@ namespace WebApp.Service.IServices
         Task<Orchid> GetOrchidById(string id);
         Task<string> AddOrchid(OrchidModel model);
         Task UpdateOrchid(Orchid orchid);
-        Task<List<OrchidModel>> GetOrchidByProductOwnerId(string id);
+        Task<List<OrchidModel>> GetOrchidByProductOwnerId();
         
     }
 }

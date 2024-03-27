@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -39,6 +40,7 @@ namespace WebApp.API.Controllers
             return Ok(orchid);
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult> AddOrchid(OrchidModel orchid)
         {
@@ -57,11 +59,11 @@ namespace WebApp.API.Controllers
             await _orchidsService.UpdateOrchid(orchid);
             return Ok();
         }
-
-        [HttpGet("Owner{id}")]
-        public async Task<ActionResult<List<OrchidModel>>> GetOrchidsByProductOwnerId(string id)
+        [Authorize]
+        [HttpGet("Owner")]
+        public async Task<ActionResult<List<OrchidModel>>> GetOrchidsByProductOwnerId()
         {
-            var orchids = await _orchidsService.GetOrchidByProductOwnerId(id);
+            var orchids = await _orchidsService.GetOrchidByProductOwnerId();
             if (orchids == null)
             {
                 return NotFound();

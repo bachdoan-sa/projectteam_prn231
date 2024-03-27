@@ -13,7 +13,9 @@ namespace WebAppRazorpage.Pages.ProductOwner
         public List<OrchidModel> ListOrchid { get; set; }
         public void OnGet()
         {
-            var task = client.GetAsync("https://localhost:7253/api/Orchid/Owner{1}");
+            var accessToken = HttpContext.Session.GetString("JwToken");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            var task = client.GetAsync("https://localhost:7253/api/Orchids/Owner");
             HttpResponseMessage result = task.Result;
             List<OrchidModel> listOrchid = new List<OrchidModel>();
             if (result.IsSuccessStatusCode)

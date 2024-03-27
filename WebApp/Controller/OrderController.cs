@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApp.Core.Models.OrderModels;
 using WebApp.Repository.Entities;
@@ -64,10 +65,11 @@ namespace WebApp.Controller
             return Ok(result);
         }
 
-        [HttpGet("Customer/{id}")]
-        public async Task<IActionResult> GetByCustomerId(string id)
+        [Authorize]
+        [HttpGet("Customer")]
+        public async Task<IActionResult> GetByCustomerId()
         {
-            var order = await _iOrderService.GetOrderByCustomerId(id);
+            var order = await _iOrderService.GetOrderByCustomerId();
             if (order == null)
             {
                 return NotFound();

@@ -25,7 +25,7 @@ namespace WebAppRazorpage.Pages
         public string Address { get; set; }
         [BindProperty]
         public DateTimeOffset Birthday { get; set; }
-        public void OnPost()
+        public IActionResult OnPost()
         {
             string json = JsonConvert.SerializeObject(new
             {
@@ -44,7 +44,10 @@ namespace WebAppRazorpage.Pages
             if (result.IsSuccessStatusCode)
             {
                 Task<string> readString = result.Content.ReadAsStringAsync();
+                ViewData["ErrorMessage"] = "Create Account Successfully. Please login!";
+                return Redirect("/SignIn");
             }
+            return Page();
         }
     }
 }

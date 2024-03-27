@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using WebApp.Core.Constants;
@@ -37,6 +38,7 @@ namespace WebApp.Controller
             }
             return Ok(mutation);
         }
+        [Authorize(Roles = UserRole.ADMIN)]
         [Route(WebApiEndpoint.Mutation.AddMutation)]
         [HttpPost]
         public async Task<ActionResult> CreateMutation(MutationModel model)
@@ -44,6 +46,7 @@ namespace WebApp.Controller
             var newMutation = await _mutationService.CreateMutaion(model); 
             return Ok(newMutation);
         }
+        [Authorize(Roles = UserRole.ADMIN)]
         [Route(WebApiEndpoint.Mutation.UpdateMutation)]
         [HttpPut]
         public async Task<ActionResult> UpdateMutation(MutationModel mutation)
@@ -59,11 +62,12 @@ namespace WebApp.Controller
             }
             return Ok(flag);
         }
+        [Authorize(Roles = UserRole.ADMIN)]
         [Route(WebApiEndpoint.Mutation.DeleteMutation)]
         [HttpDelete]
         public async Task<IActionResult> DeleteMutation(string id) 
         {
-            var flag = _mutationService.DeleteMutaion(id);
+            var flag = await _mutationService.DeleteMutaion(id);
             return Ok(flag);
         }
 

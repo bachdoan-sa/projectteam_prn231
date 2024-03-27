@@ -3,7 +3,7 @@
 @{
     Layout = "_Layout";
     ViewData["Title"] = "ProductDetail";
-
+    var errorMessage = TempData["RaiseErrorMessage"] as string ?? "";
     var auction = Model.AuctionState;
     if (auction == null || auction.AuctionEvent == null)
     {
@@ -87,36 +87,49 @@
                             </li>
                         </ul>
                     </div>
-                        <span> Thời gian đếm ngược bắt đầu trả giá:</span>
+                    <span> Thời gian đếm ngược bắt đầu trả giá:</span>
                     <div class="countdown mt-4" id="countdown">
-                            <br />
-                            <div class="show-countdown-custom">
-                                <span class="countdown-num" id="days">00</span>
-                                <span>Days</span>
-                            </div>
-                            <div class="show-countdown-custom">
-                                <span class="countdown-num" id="hours">00</span>
-                                <span>Hours</span>
-                            </div>
-                            <div class="show-countdown-custom">
-                                <span class="countdown-num" id="minutes">00</span>
-                                <span>Minutes</span>
-                            </div>
-                            <div class="show-countdown-custom">
-                                <span class="countdown-num" id="seconds">00</span>
-                                <span>Seconds</span>
-                            </div>
-
+                        <br />
+                        <div class="show-countdown-custom">
+                            <span class="countdown-num" id="days">00</span>
+                            <span>Days</span>
                         </div>
+                        <div class="show-countdown-custom">
+                            <span class="countdown-num" id="hours">00</span>
+                            <span>Hours</span>
+                        </div>
+                        <div class="show-countdown-custom">
+                            <span class="countdown-num" id="minutes">00</span>
+                            <span>Minutes</span>
+                        </div>
+                        <div class="show-countdown-custom">
+                            <span class="countdown-num" id="seconds">00</span>
+                            <span>Seconds</span>
+                        </div>
+
+                    </div>
                 </div>
 
                 <div style="margin-top: 40px">
-                    <h3>Đấu giá ngay:</h3>
-                    <form method="post" asp-page-handler="RaisePrice">
-                        <input hidden asp-for="AuctionState.Id" />
-                        <input asp-for="RisePrice" type="number" class="form-control" id="1" aria-describedby="quantity" placeholder="@lastDeal" min="@lastDeal" style="width:400px">
-                        <button type="submit"><i class="fa"></i> SUBMIT</button>
-                    </form>
+                    @if (Model.AuctionState.AuctionStateStatus.Equals("Active"))
+                    {
+                        <h3>Đấu giá ngay:</h3>
+                        <form method="post" asp-page-handler="RaisePrice">
+                            <input hidden asp-for="AuctionState.Id" />
+                            <input asp-for="RisePrice" type="number" class="form-control" id="1" aria-describedby="quantity" placeholder="@lastDeal" min="@lastDeal" style="width:400px">
+                            <button type="submit"><i class="fa"></i> SUBMIT</button>
+                        </form>
+
+                    }
+                    else
+                    {
+                        <p readonly style="color:red">Đấu giá không khả dụng.</p>
+                    }
+
+
+                    <p readonly style="color:red">@errorMessage</p>
+
+
                 </div>
 
             </div>
@@ -131,7 +144,7 @@
                     <tr>
                         <th>Giá</th>
                         <th>User</th>
-                        <th>Trạng thái cuộc đấu giá</th>
+                        <th>Trạng thái đợt tăng </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -224,7 +237,7 @@
         </div>
     </div>
 </div>
-@section Scripts{
+@section Scripts {
     <script>
         let countdownDate;
 

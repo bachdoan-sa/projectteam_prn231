@@ -4,8 +4,10 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using WebApp.Core.Constants;
 using WebApp.Core.Models.RoleModels;
 using WebApp.Repository.Entities;
 using WebApp.Repository.Repositories;
@@ -46,7 +48,6 @@ namespace WebApp.Service.Services
         {
             return _roleRepository.Get(role => role.Id == id).FirstOrDefaultAsync();
         }
-
         public  Task<string> UpdateRole(RoleModel role)
         {
             // Check if the role exists

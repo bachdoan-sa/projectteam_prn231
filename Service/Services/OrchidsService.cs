@@ -12,6 +12,8 @@ using WebApp.Core.Models.OrchidModels;
 using WebApp.Repository.Base;
 using WebApp.Repository.Repositories;
 using Microsoft.Extensions.DependencyInjection;
+using System.Security.Claims;
+using WebApp.Core.Constants;
 
 namespace WebApp.Service.Services
 {
@@ -47,7 +49,7 @@ namespace WebApp.Service.Services
             orchid.Price = model.Price;
             orchid.OrchidStatus = "Active";
             orchid.OrchidCategoryId = model.OrchidCategoryId;
-            orchid.ProductOwnerId = model.ProductOwnerId;
+            orchid.ProductOwnerId = GetSidLogged();
 
             var mutan = new OrchidMutation();
             mutan.Shape = model.Shape;
@@ -62,7 +64,7 @@ namespace WebApp.Service.Services
             return Task.FromResult(orchid.Id);
         }
 
-
+ 
         public Task UpdateOrchid(Orchid orchid)
         {
             var existingOrchids = _orchidsRepository.GetSingle(x => x.Id == orchid.Id);
@@ -80,20 +82,34 @@ namespace WebApp.Service.Services
             return Task.FromResult(existingOrchids.Id);
         }
 
-        public async Task<List<OrchidModel>> GetOrchidByProductOwnerId(string id)
+        public async Task<List<OrchidModel>> GetOrchidByProductOwnerId()
         {
-            var orchids = await _orchidsRepository.Get(orchid => orchid.ProductOwnerId == id).ToListAsync();
+            string productOwnerId = GetSidLogged();
+            var orchids = await _orchidsRepository.Get(orchid => orchid.ProductOwnerId == productOwnerId).ToListAsync();
             var orchidModels = orchids.Select(orchid => new OrchidModel
             {
+                Id = orchid.Id,
                 Name = orchid.Name,
                 Description = orchid.Description,
                 Price = orchid.Price,
                 OrchidStatus = orchid.OrchidStatus,
                 OrchidCategoryId = orchid.OrchidCategoryId,
-                ProductOwnerId = id
+                ProductOwnerId = productOwnerId,
+                CreatedTime = orchid.CreatedTime,
+                LastUpdated = orchid.LastUpdated
             }).ToList();
 
             return orchidModels;
+        }
+
+        private string GetSidLogged()
+        {
+            var sid = _http.HttpContext?.User.FindFirst(ClaimTypes.Sid)?.Value;
+            if (sid == null)
+            {
+                throw new Exception(ErrorCode.NotFound);
+            }
+            return sid;
         }
     }
 }

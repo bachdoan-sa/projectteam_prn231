@@ -23,16 +23,16 @@
             <div class="w3-section  w3-padding-16">
                 <span class="w3-margin-right">Filter:</span>
                 <form method="get">
-                <button class="w3-button w3-black">ALL</button>
+                    <button class="w3-button w3-black">ALL</button>
                 </form>
                 <form asp-page-handler="#" method="post">
-                <button class="w3-button w3-white"><i class="fa fa-diamond w3-margin-right"></i>Bắt Đầu Gần Đây Nhất</button>
+                    <button class="w3-button w3-white"><i class="fa fa-diamond w3-margin-right"></i>Bắt Đầu Gần Đây Nhất</button>
                 </form>
-                <form asp-page-handler="AmountPerson" method="post"> 
-                <button class="w3-button w3-white w3-hide-small"><i class="fa fa-photo w3-margin-right"></i>Nhiều Người Tham Gia Nhất</button>
+                <form asp-page-handler="AmountPerson" method="post">
+                    <button class="w3-button w3-white w3-hide-small"><i class="fa fa-photo w3-margin-right"></i>Nhiều Người Tham Gia Nhất</button>
                 </form>
                 <form asp-page-handler="#" method="post">
-                <button class="w3-button w3-white w3-hide-small"><i class="fa fa-map-pin w3-margin-right"></i>Gía Cao Nhất</button>
+                    <button class="w3-button w3-white w3-hide-small"><i class="fa fa-map-pin w3-margin-right"></i>Gía Cao Nhất</button>
                 </form>
 
             </div>
@@ -44,24 +44,24 @@
             </div>
 
 
-            <div class="row trending-box" >
-                 @foreach (var product in Model.ListStateAuction)
+            <div class="row trending-box">
+                @foreach (var product in Model.ListStateAuction.Where(_ => _.AuctionStateStatus.Equals("Active")))
                 {
                     <div class="col-lg-3 col-md-6 align-self-center mb-30 trending-items col-md-6">
-                    <div class="item">
-                        <div class="thumb">
-                            <a href="/Auction/OrchidAuctionDetail"><img src="~/images/hoa.jpeg" alt=""></a>
-                        </div>
-                        <div class="down-content" style="background-color: white">
-                            <span class="category">starting price:</span>
+                        <div class="item">
+                            <div class="thumb">
+                                <a href="/Auction/OrchidAuctionDetail/@product.Id"><img src="~/images/hoa.jpeg" alt=""></a>
+                            </div>
+                            <div class="down-content" style="background-color: white">
+                                <span class="category">starting price:</span>
                                 <span>@product.StartingPrice</span>
                                 <h4>@product.Orchid.Name</h4>
                                 <span>Status:@product.AuctionEvent.AuctionStatus</span>
                                 <a href="/Auction/OrchidAuctionDetail/@product.Id"><i class="fa ">Join</i></a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                 }
+                }
             </div>
 
         </div>
@@ -75,21 +75,23 @@
 
 
         <div class="row trending-box">
-            @*  @foreach (var product in Model.Products)
-            { *@
-            <div class="col-lg-3 col-md-6 align-self-center mb-30 trending-items col-md-6">
-                <div class="item">
-                    <div class="thumb">
-                        <a href="/Auction/OrchidAuctionDetail"><img src="~/images/hoa.jpeg" alt=""></a>
-                    </div>
-                    <div class="down-content">
-                        <span class="category">starting price:</span>
-                        <span>StartingPrice</span>
-                        <h4>Name</h4>
-                    </div>
-                </div>
-            </div>
-            @* } *@
+            @foreach (var product in Model.ListStateAuction.Where(_ => _.AuctionStateStatus.Equals("Finish")))
+            {
+                        <div class="col-lg-3 col-md-6 align-self-center mb-30 trending-items col-md-6">
+                            <div class="item">
+                                <div class="thumb">
+                                    <a href="/Auction/OrchidAuctionDetail/@product.Id"><img src="~/images/hoa.jpeg" alt=""></a>
+                                </div>
+                                <div class="down-content" style="background-color: white">
+                                    <span class="category">starting price:</span>
+                                    <span>@product.StartingPrice</span>
+                                    <h4>@product.Orchid.Name</h4>
+                                    <span>Status:@product.AuctionEvent.AuctionStatus</span>
+                                    <a href="/Auction/OrchidAuctionDetail/@product.Id"><i class="fa ">Join</i></a>
+                                </div>
+                            </div>
+                        </div>
+            }
         </div>
 
     </div>
