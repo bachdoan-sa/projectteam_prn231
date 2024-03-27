@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
+using System.Text;
 using WebAppRazorpage.ApiModel;
 using WebAppRazorpage.Constants;
 
@@ -12,6 +14,9 @@ namespace WebAppRazorpage.Areas.Admin.Pages.AuctionState
 
         [BindProperty]
         public List<AuctionStateModel> AuctionStates { get; set; }
+        [BindProperty]
+        public string auctionStateId { get; set; }
+
         [TempData]
         public string SuccessMessage { get; set; }
 
@@ -35,6 +40,26 @@ namespace WebAppRazorpage.Areas.Admin.Pages.AuctionState
                 TempData["SuccessMessage"] = SuccessMessage;
             }
             return Page();
+        }
+
+        public IActionResult OnPostEndAuction()
+        {
+            string json = JsonConvert.SerializeObject(new
+            {
+
+            });
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var task = client.PostAsync($"https://localhost:7253/api/AuctionState/EndAuction/{auctionStateId}", content);
+            HttpResponseMessage result = task.Result;
+            if (result.IsSuccessStatusCode)
+            {
+                SuccessMessage = "End auction ,create order successfully";
+            }
+            else
+            {
+                SuccessMessage = "Error !!!!";
+            }
+            return RedirectToPage();
         }
     }
 }

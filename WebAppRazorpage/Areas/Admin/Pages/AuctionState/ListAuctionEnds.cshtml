@@ -27,6 +27,7 @@
                     <th>Begin Date Time</th>
                     <th>End Date Time</th>
                     <th>Auction Status</th>
+                    <th>End Auction</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,6 +44,14 @@
                         <td>@(auctionState.AuctionEvent?.BeginDateTime)</td>
                         <td>@(auctionState.AuctionEvent?.EndDateTime)</td>
                         <td>@(auctionState.AuctionEvent?.AuctionStatus)</td>
+                        
+                        <td>
+                            <form method="post" asp-page-handler="EndAuction">
+                                <input value="@auctionState.Id" hidden asp-for="auctionStateId" />
+                                <button class="btn btn-primary " type="submit"> End Auction</button>
+                            </form>
+                        </td>
+                        
                     </tr>
                 }
             </tbody>
