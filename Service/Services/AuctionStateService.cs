@@ -204,7 +204,7 @@ namespace WebApp.Service.Services
         {
             var currentDateTime = DateTime.UtcNow;
             var listEntities = await _auctionStateRepository.Get(null, false, _ => _.Orchid, _ => _.AuctionEvent)
-                .Where(a => a.AuctionStateStatus == "Active" &&
+                .Where(a => a.AuctionStateStatus == AuctionStateEnum.Active.AsString() &&
                             a.AuctionEvent.EndDateTime <= currentDateTime)
                 .ToListAsync();
 
@@ -220,7 +220,7 @@ namespace WebApp.Service.Services
             var auctionState = await _auctionStateRepository.Get(a => a.Id == auctionId).FirstOrDefaultAsync();
             if (auctionState != null)
             {
-                auctionState.AuctionStateStatus = "done";
+                auctionState.AuctionStateStatus = AuctionStateEnum.Finish.AsString();
             }
             else
             {
@@ -230,7 +230,7 @@ namespace WebApp.Service.Services
             var auctionEvent = await _auctionEventRepository.Get(a => a.Id == auctionState.AuctionEventId).FirstOrDefaultAsync();
             if (auctionEvent != null)
             {
-                auctionEvent.AuctionStatus = "done";
+                auctionEvent.AuctionStatus = AuctionEventEnum.Done.AsString();
                 _auctionEventRepository.Update(auctionEvent);
             }
             else
@@ -251,7 +251,7 @@ namespace WebApp.Service.Services
                 _auctionStateRepository.Update(auctionState);
 
                 // Update DealHanger
-                maxCurrencyDealHanger.DealStatus = "win";
+                maxCurrencyDealHanger.DealStatus = DealStatusEnum.Win.AsString();
                 _dealHangerRepository.Update(maxCurrencyDealHanger);
 
                 // Update Wallet
@@ -272,7 +272,7 @@ namespace WebApp.Service.Services
                 if (orchid != null)
                 {
                     // Update OrchidStatus to "Sold"
-                    orchid.OrchidStatus = "Sold";
+                    orchid.OrchidStatus = OrchidStatusEnum.Sold.AsString();
                     _orchidsRepository.Update(orchid);
                 }
                 else
@@ -285,7 +285,7 @@ namespace WebApp.Service.Services
                 {
                     Id = Guid.NewGuid().ToString(), 
                     Total = maxCurrencyDealHanger.Currency, 
-                    OrderStatus = "Pending", 
+                    OrderStatus = OrderStatusEnum.Pending.AsString(), 
                     CustomerId = maxCurrencyDealHanger.CustomerId, 
                     CreatedTime = DateTimeOffset.Now,
                     LastUpdated = DateTimeOffset.Now
@@ -296,7 +296,7 @@ namespace WebApp.Service.Services
                 // Create OrderDetail
                 var orderDetail = new OrderDetail
                 {
-                    OrderDetailStatus = "Pending",
+                    OrderDetailStatus = OrderDetailStatusEnum.Pending.AsString(),
                     Cost = maxCurrencyDealHanger.Currency, 
                     OrderId = order.Id, 
                     OrchidId = auctionState.OrchidId, 
