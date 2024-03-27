@@ -1,0 +1,58 @@
+﻿@page
+@model WebAppRazorpage.Areas.Admin.Pages.AuctionState.ListAuctionEndsModel
+@{
+    Layout = "_AdminLayout";
+}
+
+@if (!string.IsNullOrEmpty(TempData["SuccessMessage"] as string))
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<div class="table-responsive m-t-10">
+    @if (Model.AuctionStates != null && Model.AuctionStates.Any())
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Starting Price</th>
+                    <th>Expected Price</th>
+                    <th>Min Raise</th>
+                    <th>Max Raise</th>
+                    <th>Auction State Status</th>
+                    <th>Final Price</th>
+                    <th>Begin Date Time</th>
+                    <th>End Date Time</th>
+                    <th>Auction Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var auctionState in Model.AuctionStates)
+                {
+                    <tr>
+                        <td>@auctionState.Id</td>
+                        <td>@auctionState.StartingPrice</td>
+                        <td>@auctionState.ExpectedPrice</td>
+                        <td>@auctionState.MinRaise</td>
+                        <td>@auctionState.MaxRaise</td>
+                        <td>@auctionState.AuctionStateStatus</td>
+                        <td>@auctionState.FinalPrice</td>
+                        <td>@(auctionState.AuctionEvent?.BeginDateTime)</td>
+                        <td>@(auctionState.AuctionEvent?.EndDateTime)</td>
+                        <td>@(auctionState.AuctionEvent?.AuctionStatus)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No auction states found.</p>
+    }
+</div>
+
+
+

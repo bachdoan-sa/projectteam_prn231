@@ -12,7 +12,7 @@ namespace WebApp.Repository.Entities
     public class Wallet : BaseEntityModel
     {
         public string WalletType { get; set; }
-        public string Balance { get; set; }
+        public double Balance { get; set; }
         [Required]
         public string AccountId { get; set; }
         [ForeignKey(nameof(AccountId))]

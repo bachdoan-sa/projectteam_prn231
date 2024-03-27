@@ -25,10 +25,20 @@ namespace WebApp.Service.Services
     {
         private readonly IAuctionStateRepository _auctionStateRepository;
         private readonly IAuctionEventRepository _auctionEventRepository;
+        private readonly IDealHangerRepository _dealHangerRepository;
+        private readonly IWalletRepository _walletrepository;
+        private readonly IOrderDetailRepository _orderDetailRepository;
+        private readonly IOrderRepository _orderrepository;
+        private readonly IOrchidsRepository _orchidsRepository;
         public AuctionStateService(IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _auctionStateRepository = serviceProvider.GetRequiredService<IAuctionStateRepository>();
             _auctionEventRepository = serviceProvider.GetRequiredService<IAuctionEventRepository>();
+            _dealHangerRepository = serviceProvider.GetRequiredService<IDealHangerRepository>();
+            _walletrepository = serviceProvider.GetRequiredService<IWalletRepository>();
+            _orderDetailRepository = serviceProvider.GetRequiredService<IOrderDetailRepository>();
+            _orderrepository = serviceProvider.GetRequiredService<IOrderRepository>();
+            _orchidsRepository = serviceProvider.GetRequiredService<IOrchidsRepository>();
         }
         public Task<List<AuctionStateModel>> GetAllAuctionStates()
         {
@@ -70,25 +80,25 @@ namespace WebApp.Service.Services
             {
                 return Task.FromResult("Not Found Auction Need Update");
             }
-           
-                entity.Position = auctionState.Position;
-                entity.StartingPrice = auctionState.StartingPrice;
-                entity.ExpectedPrice = auctionState.ExpectedPrice;
-                entity.MinRaise = auctionState.MinRaise;
-                entity.MaxRaise = auctionState.MaxRaise;
-                entity.AuctionStateStatus = auctionState.AuctionStateStatus;
-                entity.FinalPrice = auctionState.FinalPrice;
-                entity.OrchidId = auctionState.OrchidId;
-                entity.AuctionEventId = auctionState.AuctionEventId;
 
-                _auctionStateRepository.Update(entity);
-                UnitOfWork.SaveChange();
+            entity.Position = auctionState.Position;
+            entity.StartingPrice = auctionState.StartingPrice;
+            entity.ExpectedPrice = auctionState.ExpectedPrice;
+            entity.MinRaise = auctionState.MinRaise;
+            entity.MaxRaise = auctionState.MaxRaise;
+            entity.AuctionStateStatus = auctionState.AuctionStateStatus;
+            entity.FinalPrice = auctionState.FinalPrice;
+            entity.OrchidId = auctionState.OrchidId;
+            entity.AuctionEventId = auctionState.AuctionEventId;
+
+            _auctionStateRepository.Update(entity);
+            UnitOfWork.SaveChange();
             return Task.FromResult(entity.Id);
         }
         public Task<string> DeleteAuctionState(string id)
         {
             var entity = _auctionStateRepository.Get(_ => _.Id.Equals(id)).FirstOrDefault();
-            if(entity == null)
+            if (entity == null)
             {
                 return Task.FromResult("Not Found Auction State Need Delete");
             }
@@ -112,23 +122,23 @@ namespace WebApp.Service.Services
 
         public Task<OrchidAuctionModel> GetOrchidAuction(string id)
         {
-            var entity = _auctionStateRepository.Get(_ => _.Id == id, false, _ => _.Orchid, _ => _.AuctionEvent, _ => _.DealHangers,_=>_.DealHangers).FirstOrDefault();
+            var entity = _auctionStateRepository.Get(_ => _.Id == id, false, _ => _.Orchid, _ => _.AuctionEvent, _ => _.DealHangers, _ => _.DealHangers).FirstOrDefault();
             var result = _mapper.Map<OrchidAuctionModel>(entity);
             return Task.FromResult(result);
         }
-        
+
 
         public Task<string> CreateAuctionByOwner(AuctionRequestModel auctionRequest)
         {
-            
-                // Create a new AuctionEvent
-                var auctionEvent = new AuctionEvent
-                {
-                    BeginDateTime = auctionRequest.BeginDateTime,
-                    EndDateTime = auctionRequest.EndDateTime,
-                    AuctionStatus = "Pending",
-                    // Set other properties accordingly
-                };
+
+            // Create a new AuctionEvent
+            var auctionEvent = new AuctionEvent
+            {
+                BeginDateTime = auctionRequest.BeginDateTime,
+                EndDateTime = auctionRequest.EndDateTime,
+                AuctionStatus = "Pending",
+                // Set other properties accordingly
+            };
 
             // Create a new AuctionState for the Orchid
             var auctionState = new AuctionState
@@ -145,27 +155,27 @@ namespace WebApp.Service.Services
                 // Set other properties accordingly
             };
 
-                // Associate AuctionState with Orchid
-               
+            // Associate AuctionState with Orchid
 
-                 _auctionEventRepository.Add(auctionEvent);
-                 _auctionStateRepository.Add(auctionState);
 
-                // Save changes asynchronously
-                UnitOfWork.SaveChange();
-            
-            
+            _auctionEventRepository.Add(auctionEvent);
+            _auctionStateRepository.Add(auctionState);
+
+            // Save changes asynchronously
+            UnitOfWork.SaveChange();
+
+
             return Task.FromResult(auctionState.Id);
         }
 
         public Task<List<AuctionStateModel>> GetAuctionStateByStatusPending()
-        { 
+        {
             var listEntities = _auctionStateRepository.Get(_ => _.AuctionStateStatus.Equals("Pending")).ToListAsync().Result;
-        var result = _mapper.Map<List<AuctionStateModel>>(listEntities);
+            var result = _mapper.Map<List<AuctionStateModel>>(listEntities);
             return Task.FromResult(result);
         }
 
-        public  Task<string> ChangeAuctionStatus(string auctionId)
+        public Task<string> ChangeAuctionStatus(string auctionId)
         {
             var auction = _auctionStateRepository.Get(_ => _.Id.Equals(auctionId)).FirstOrDefault();
             if (auction == null)
@@ -189,7 +199,123 @@ namespace WebApp.Service.Services
             UnitOfWork.SaveChange();
             return Task.FromResult(auction.Id);
         }
+
+        public async Task<List<AuctionStateModel>> GetAuctionStateEnds()
+        {
+            var currentDateTime = DateTime.UtcNow;
+            var listEntities = await _auctionStateRepository.Get(null, false, _ => _.Orchid, _ => _.AuctionEvent)
+                .Where(a => a.AuctionStateStatus == "Active" &&
+                            a.AuctionEvent.EndDateTime <= currentDateTime)
+                .ToListAsync();
+
+            var result = _mapper.Map<List<AuctionStateModel>>(listEntities);
+            return result;
+        }
+
+
+        public async Task EndAuction(string auctionId)
+        {
+
+            // Update AuctionState
+            var auctionState = await _auctionStateRepository.Get(a => a.Id == auctionId).FirstOrDefaultAsync();
+            if (auctionState != null)
+            {
+                auctionState.AuctionStateStatus = "done";
+            }
+            else
+            {
+                throw new Exception("AuctionState not found");
+            }
+            // Update AuctionEvent
+            var auctionEvent = await _auctionEventRepository.Get(a => a.Id == auctionState.AuctionEventId).FirstOrDefaultAsync();
+            if (auctionEvent != null)
+            {
+                auctionEvent.AuctionStatus = "done";
+                _auctionEventRepository.Update(auctionEvent);
+            }
+            else
+            {
+                throw new Exception("AuctionEvent not found");
+            }
+
+           
+
+            // Update FinalPrice in AuctionState based on the maximum Currency in DealHanger
+            var maxCurrencyDealHanger = await _dealHangerRepository.Get(d => d.AuctionStateId == auctionId)
+                .OrderByDescending(d => d.Currency)
+                .FirstOrDefaultAsync();
+            if (maxCurrencyDealHanger != null)
+            {
+                // Update FinalPrice of AuctionState
+                auctionState.FinalPrice = maxCurrencyDealHanger.Currency;
+                _auctionStateRepository.Update(auctionState);
+
+                // Update DealHanger
+                maxCurrencyDealHanger.DealStatus = "win";
+                _dealHangerRepository.Update(maxCurrencyDealHanger);
+
+                // Update Wallet
+                var wallet = await _walletrepository.Get(w => w.AccountId == maxCurrencyDealHanger.CustomerId).FirstOrDefaultAsync();
+                if (wallet != null)
+                {
+
+                    wallet.Balance -= maxCurrencyDealHanger.Currency;
+                    _walletrepository.Update(wallet);
+                }
+                else
+                {
+                    throw new Exception("Wallet not found");
+                }
+
+                // Find Orchid by OrchidId
+                var orchid = await _orchidsRepository.Get(q => q.Id == auctionState.OrchidId).FirstOrDefaultAsync();
+                if (orchid != null)
+                {
+                    // Update OrchidStatus to "Sold"
+                    orchid.OrchidStatus = "Sold";
+                    _orchidsRepository.Update(orchid);
+                }
+                else
+                {
+                    throw new Exception("Orchid not found");
+                }
+
+                // Create Order and OrderDetail
+                var order = new Order
+                {
+                    Id = Guid.NewGuid().ToString(), 
+                    Total = maxCurrencyDealHanger.Currency, 
+                    OrderStatus = "Pending", 
+                    CustomerId = maxCurrencyDealHanger.CustomerId, 
+                    CreatedTime = DateTimeOffset.Now,
+                    LastUpdated = DateTimeOffset.Now
+                };
+
+                _orderrepository.Add(order);
+
+                // Create OrderDetail
+                var orderDetail = new OrderDetail
+                {
+                    OrderDetailStatus = "Pending",
+                    Cost = maxCurrencyDealHanger.Currency, 
+                    OrderId = order.Id, 
+                    OrchidId = auctionState.OrchidId, 
+                    CreatedTime = DateTimeOffset.Now,
+                    LastUpdated = DateTimeOffset.Now
+                };
+                
+                _orderDetailRepository.Add(orderDetail);
+
+                UnitOfWork.SaveChange();
+            }
+            else
+            {
+                throw new Exception("No DealHanger found for the auction");
+            }
+        }
     }
+
 }
+
 
 

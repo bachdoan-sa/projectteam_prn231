@@ -117,5 +117,28 @@ namespace WebApp.Controller
                 return Ok(result);
             }
         }
+
+        [Route(WebApiEndpoint.AuctionState.GetAuctionStateEnds)]
+        [HttpGet]
+        public async Task<ActionResult<List<AuctionStateModel>>> GetAuctionStateEnds()
+        {
+            var activeAuctionStates = await _stateService.GetAuctionStateEnds();
+            return Ok(activeAuctionStates);
+        }
+
+        [Route(WebApiEndpoint.AuctionState.EndAuction)]
+        [HttpPost]
+        public async Task<IActionResult> EndAuction(string id)
+        {
+            try
+            {
+                await _stateService.EndAuction(id);
+                return Ok("Auction ended successfully.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while ending the auction: {ex.Message}");
+            }
+        }
     }
 }

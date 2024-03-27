@@ -49,6 +49,7 @@ namespace WebAppRazorpage.Constants
             public const string GetOrchidAuctions = BaseEndpoint + "/get-items";
             public const string CreateAuctionByOwner = BaseEndpoint + "/CreateAuctionByOwner";
             public const string GetAuctionStateByStatusPending = BaseEndpoint + "/GetAuctionStateByStatusPending";
+            public const string GetAuctionStateEnds = BaseEndpoint + "/AuctionStateEnds";
         }
         public static class DealHanger
         {

@@ -83,7 +83,7 @@ namespace WebApp.Service.Services
             var wallet = new Wallet();
             wallet.AccountId = account.Id;
             wallet.WalletType = "main";
-            wallet.Balance = "0";
+            wallet.Balance = 0;
             _walletRepository.Add(wallet);
 
             UnitOfWork.SaveChange();
@@ -180,7 +180,7 @@ namespace WebApp.Service.Services
             var wallet = new Wallet();
             wallet.AccountId = entity.Id;
             wallet.WalletType = "main";
-            wallet.Balance = "0";
+            wallet.Balance = 0;
             _walletRepository.Add(wallet);
 
             UnitOfWork.SaveChange();
