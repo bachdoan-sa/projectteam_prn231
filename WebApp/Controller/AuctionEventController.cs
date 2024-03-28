@@ -38,6 +38,7 @@ namespace WebApp.Controller
             }
             return Ok(auctionEvent);
         }
+        [Authorize(Roles = "PRODUCTOWER")]
         [Route(WebApiEndpoint.AuctionEvent.AddAuctionEvent)]
         [HttpPost]
         public async Task<IActionResult> CreateAuctionEvent(AuctionEventModel model)
@@ -63,6 +64,7 @@ namespace WebApp.Controller
             return Ok(flag);
         }
 
+        [Authorize(Roles = UserRole.ADMIN)]
         [Route(WebApiEndpoint.AuctionEvent.DeleteAuctionEvent)]
         [HttpDelete]
         public async Task<IActionResult> DeleteAuctionEvent(string id)

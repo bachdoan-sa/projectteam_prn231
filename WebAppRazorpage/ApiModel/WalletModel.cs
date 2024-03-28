@@ -23,7 +23,7 @@ namespace WebAppRazorpage.ApiModel
         public string WalletType { get; set; }
 
         [JsonProperty("balance")]
-        public string Balance { get; set; }
+        public double Balance { get; set; }
 
         [JsonProperty("accountId")]
         public string AccountId { get; set; }

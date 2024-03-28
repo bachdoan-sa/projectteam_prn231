@@ -41,6 +41,7 @@ namespace WebAppRazorpage.Pages
                 HttpContext.Session.SetString("JwToken", token);
                 if (roleName.ToUpper().Equals("ADMIN"))
                 {
+                    HttpContext.Session.SetString("IsAdJwToken", "true");
                     return Redirect("~/Admin/");
                 }
 

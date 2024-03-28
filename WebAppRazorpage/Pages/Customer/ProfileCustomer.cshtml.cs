@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Net.Http.Headers;
 using WebAppRazorpage.ApiModel;
 using WebAppRazorpage.Constants;
+using static System.Net.WebRequestMethods;
 
 namespace WebAppRazorpage.Pages.Customer
 {
@@ -17,6 +18,11 @@ namespace WebAppRazorpage.Pages.Customer
 
         public IActionResult OnGet()
         {
+            var isAdmin = HttpContext.Session.GetString("IsAdJwToken");
+            if (isAdmin != null && isAdmin.Equals("true"))
+            {
+                return Redirect("/Admin/Index");
+            }
             var accessToken = HttpContext.Session.GetString("JwToken");
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             HttpResponseMessage result = _client.GetAsync($"https://localhost:7253/api/Account/Customer").Result;

@@ -44,6 +44,7 @@ namespace WebApp.Controller
             var createdDealHangerId = await _iDealHangerService.CreateDealHanger(dealHanger);
             return CreatedAtAction(nameof(GetById), new { id = createdDealHangerId }, new { Id = createdDealHangerId });
         }
+        [Authorize(Roles = UserRole.ADMIN)]
         [Route(WebApiEndpoint.DealHanger.Update)]
         [HttpPut]
         public async Task<IActionResult> Put(DealHanger dealHanger)
@@ -55,7 +56,7 @@ namespace WebApp.Controller
             }
             return Ok(result);
         }
-        [Authorize]
+        [Authorize(Roles = "CUSTOMER,PRODUCTOWER")]
         [Route(WebApiEndpoint.DealHanger.RaisePrice)]
         [HttpPost]
         public async Task<IActionResult> StartAuction(DealHangerModel request)
@@ -71,7 +72,7 @@ namespace WebApp.Controller
             }
 
         }
-        [Authorize]
+        [Authorize(Roles = "CUSTOMER,PRODUCTOWER")]
         [HttpGet("Customer")]
         public async Task<IActionResult> GetByCustomerId()
         {

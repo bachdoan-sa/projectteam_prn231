@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
@@ -49,7 +49,12 @@ namespace WebAppRazorpage.Pages.Auction
         }
         public IActionResult OnPostRaisePrice(string id)
         {
-
+            var isAdmin = HttpContext.Session.GetString("IsAdJwToken");
+            if (isAdmin != null && isAdmin.Equals("true"))
+            {
+                TempData["RaiseErrorMessage"] = "Admin không có quyền tham gia đấu giá";
+                return Redirect("/Auction/OrchidAuctionDetail/" + id);
+            }
             var accessToken = HttpContext.Session.GetString("JwToken");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             if (accessToken == null)

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
+using WebAppRazorpage.ApiModel;
 using WebAppRazorpage.Constants;
 
 namespace WebAppRazorpage.Pages.Customer
@@ -16,7 +17,7 @@ namespace WebAppRazorpage.Pages.Customer
 
         public async Task<IActionResult> OnPostAsync()
         {
-            string json = JsonConvert.SerializeObject(new
+            string json = JsonConvert.SerializeObject(new WalletModel
             {
                 Balance = Balance
             });

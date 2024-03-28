@@ -49,6 +49,7 @@ namespace WebApp.Controller
             var flag = await _stateService.CreateAuctionState(auctionStateModel);
             return Ok(flag);
         }
+        [Authorize]
         [Route(WebApiEndpoint.AuctionState.UpdateAuctionState)]
         [HttpPut]
         public async Task<IActionResult> UpdateAuctionState(AuctionStateModel auctionStateModel)
@@ -88,7 +89,7 @@ namespace WebApp.Controller
 
             return Ok(await _stateService.GetOrchidAuction(id));
         }
-
+        [Authorize(Roles = "PRODUCTOWER")]
         [Route(WebApiEndpoint.AuctionState.CreateAuctionByOwner)]
         [HttpPost]
         public async Task<ActionResult> CreateAuctionByOwner(AuctionRequestModel model)
@@ -125,7 +126,7 @@ namespace WebApp.Controller
             var activeAuctionStates = await _stateService.GetAuctionStateEnds();
             return Ok(activeAuctionStates);
         }
-
+        [Authorize]
         [Route(WebApiEndpoint.AuctionState.EndAuction)]
         [HttpPost]
         public async Task<IActionResult> EndAuction(string id)

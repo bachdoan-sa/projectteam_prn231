@@ -13,8 +13,13 @@ namespace WebAppRazorpage.Pages.Customer
 
         public List<OrderModel> ListOrder { get; set; }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            var isAdmin = HttpContext.Session.GetString("IsAdJwToken");
+            if (isAdmin != null && isAdmin.Equals("true"))
+            {
+                return Redirect("/Admin/Index");
+            }
             var accessToken = HttpContext.Session.GetString("JwToken");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
             var task = client.GetAsync($"https://localhost:7253/api/Order/Customer");
@@ -27,6 +32,7 @@ namespace WebAppRazorpage.Pages.Customer
                 listOrder = OrderModel.FromJson(jsonString);
             }
             ListOrder = listOrder;
+            return Page();
         }
     }
 }

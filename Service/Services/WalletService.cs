@@ -38,7 +38,7 @@ namespace WebApp.Service.Services
                 
                 return Task.FromResult("Wallet not found");
             }
-            wallet.Balance = ballance;
+            wallet.Balance = wallet.Balance + ballance;
             _repository.Update(wallet);
             UnitOfWork.SaveChange();
             return Task.FromResult(wallet.Id);
