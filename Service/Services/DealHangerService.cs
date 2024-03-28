@@ -84,14 +84,19 @@ namespace WebApp.Service.Services
 
         public Task<string> StartAuction(DealHangerModel request)
         {
-            var autionState = _auctionStaterepository.Get(_ => _.Id == request.AuctionStateId).FirstOrDefault();
-            if (autionState == null)
+            var nowdate = DateTime.Now;
+            var autionState = _auctionStaterepository.Get(_ => _.Id == request.AuctionStateId,false,_=>_.AuctionEvent).FirstOrDefault();
+            if (autionState == null || autionState.AuctionEvent == null)
             {
                 throw new Exception("Dau gia khong ton tai");
             }
             if(autionState.AuctionStateStatus != AuctionStateEnum.Active.AsString())
             {
                 throw new Exception("Đấu giá không mở");
+            }
+            if (autionState.AuctionEvent.EndDateTime < nowdate)
+            {
+                throw new Exception("Đấu giá đã đóng");
             }
             request.CustomerId = GetSidLogged();
             //Lấy thông tin: Ví của người dùng. Danh sách Deal trong Buổi đấu giá với Id buổi.
