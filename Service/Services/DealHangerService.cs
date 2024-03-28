@@ -84,6 +84,7 @@ namespace WebApp.Service.Services
 
         public Task<string> StartAuction(DealHangerModel request)
         {
+            // Lấy thông tin về buổi đấu giá, kiểm tra trạng thái và thời gian
             var nowdate = DateTime.Now;
             var autionState = _auctionStaterepository.Get(_ => _.Id == request.AuctionStateId,false,_=>_.AuctionEvent).FirstOrDefault();
             if (autionState == null || autionState.AuctionEvent == null)
