@@ -41,10 +41,14 @@ namespace WebAppRazorpage.Pages
                 HttpContext.Session.SetString("JwToken", token);
                 if (roleName.ToUpper().Equals("ADMIN"))
                 {
-                    HttpContext.Session.SetString("IsAdJwToken", "true");
+                    HttpContext.Session.SetString("IsAdJwTokenTr", "true");
                     return Redirect("~/Admin/");
                 }
-
+                if (roleName.ToUpper().Equals("PRODUCTOWNER"))
+                {
+                    HttpContext.Session.SetString("IsPOJwToken", "true");
+                    return Redirect("~/ProductOnwer/Index");
+                }
                 return Redirect("~/Index");
             }
             else

@@ -73,6 +73,12 @@
 
 @{
     var user = Context.Request.HttpContext.Session.GetString("JwToken");
+    var isPo = Context.Request.HttpContext.Session.GetString("IsPOJwToken");
+    var link = "/Customer/ProfileCustomer";
+    if (isPo != null && isPo.Equals("true"))
+    {
+        link = "/ProductOnwer/Index";
+    }
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -121,7 +127,7 @@
                         @if (!string.IsNullOrEmpty( user))
                         {
                             <div class="w3-col s6">
-                                <a href="" class="w3-button w3-block w3-black">WellCome</a>
+                                <a href="@link" class="w3-button w3-block w3-black">WellCome</a>
                             </div>
                         }else{
                         <div class="w3-col s6">
