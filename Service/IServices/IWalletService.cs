@@ -11,5 +11,6 @@ namespace WebApp.Service.IServices
     {
 
         public Task<Wallet> GetWalletByAccountId(string id);
+        Task<string> UpdateWalletByAccountId(double ballance);
     }
 }

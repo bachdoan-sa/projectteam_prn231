@@ -1,0 +1,14 @@
+﻿@page
+@model WebAppRazorpage.Pages.Customer.CustomerWalletModel
+@{
+}
+<h1>Update Wallet Balance</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label for="balance">New Balance:</label>
+        <input type="number" class="form-control" id="balance" name="balance" asp-for="Balance">
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>
+}

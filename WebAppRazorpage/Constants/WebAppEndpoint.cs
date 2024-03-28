@@ -126,7 +126,10 @@ namespace WebAppRazorpage.Constants
         }
         public static class Wallet
         {
+            private const string BaseEndpoint = Host + "/" + AreaName + "/" + nameof(Wallet);
+            public const string UpdateWallet = BaseEndpoint + "/update";
 
+           
         }
     }
 }

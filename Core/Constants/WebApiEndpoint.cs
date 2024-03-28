@@ -110,7 +110,9 @@ namespace WebApp.Core.Constants
         }
         public static class Wallet
         {
+            private const string BaseEndpoint = "~/" + AreaName + "/" + nameof(Wallet);
 
+            public const string UpdateWalletByAccountId = BaseEndpoint + "/update";
         }
     }
 }

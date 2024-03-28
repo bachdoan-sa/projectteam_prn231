@@ -4,8 +4,10 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using WebApp.Core.Constants;
 using WebApp.Repository.Entities;
 using WebApp.Repository.Repositories.IRepositories;
 using WebApp.Service.IServices;
@@ -27,8 +29,9 @@ namespace WebApp.Service.Services
             var wallet = _repository.Get(wallet => wallet.AccountId == id).FirstOrDefaultAsync();
             return wallet;
         }
-        public Task<string> UpdateWalletByAccountId(string id, double ballance)
+        public Task<string> UpdateWalletByAccountId(double ballance)
         {
+            string id = GetSidLogged();
             var wallet = _repository.Get(wallet => wallet.AccountId == id).FirstOrDefaultAsync().Result;
             if (wallet == null)
             {
@@ -41,5 +44,15 @@ namespace WebApp.Service.Services
             return Task.FromResult(wallet.Id);
 
         }
+        private string GetSidLogged()
+        {
+            var sid = _http.HttpContext?.User.FindFirst(ClaimTypes.Sid)?.Value;
+            if (sid == null)
+            {
+                throw new Exception(ErrorCode.NotFound);
+            }
+            return sid;
+        }
     }
+
 }
